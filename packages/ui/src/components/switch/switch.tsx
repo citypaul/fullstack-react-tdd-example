@@ -5,5 +5,11 @@ type SwitchProps = {
 };
 
 export const Switch = (props: SwitchProps) => (
-  <input type="checkbox" role="switch" className="toggle toggle-success" />
+  <input
+    type="checkbox"
+    role="switch"
+    className="toggle toggle-success"
+    checked={props.on}
+    onChange={() => {}}
+  />
 );
