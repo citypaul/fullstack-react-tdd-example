@@ -5,9 +5,6 @@ import { Switch } from ".";
 
 export default {
   title: "Shared Library/Switch",
-  args: {
-    on: false,
-  },
   component: Switch,
 } as ComponentMeta<typeof Switch>;
 
