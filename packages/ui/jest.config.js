@@ -8,4 +8,12 @@ module.exports = {
     "<rootDir>/node_modules/",
     "<rootDir>/lib/",
   ],
+  transform: {
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        diagnostics: false,
+      },
+    ],
+  },
 };
