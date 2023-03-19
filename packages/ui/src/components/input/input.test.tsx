@@ -62,4 +62,14 @@ describe("Input", () => {
     const input = getByLabelText(expectedLabel);
     expect(input).toHaveClass("text-red-500");
   });
+
+  it("can render an input type", () => {
+    const expectedLabel = "Name";
+    const { getByLabelText } = render(
+      <Input id="name" label={expectedLabel} type="email" />
+    );
+
+    const input = getByLabelText(expectedLabel);
+    expect(input).toHaveAttribute("type", "email");
+  });
 });
