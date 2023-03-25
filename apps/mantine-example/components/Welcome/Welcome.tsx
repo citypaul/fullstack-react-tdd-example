@@ -12,13 +12,31 @@ export function Welcome() {
           Example
         </Text>
       </Title>
-      <Text color="dimmed" align="center" size="lg" sx={{ maxWidth: 580 }} mx="auto" mt="xl">
-        This starter Next.js project includes a minimal setup for server side rendering, if you want
-        to learn more on Mantine + Next.js integration follow{' '}
+      <Text color="dimmed" size="lg" sx={{ maxWidth: 900 }} mx="auto" mt="xl">
+        React's compositional power allows us to build accessible, reusable components with ease.
+        Here we will take a look at the {`<Modal />`} from the Mantine React UI library. This
+        component adheres to the W3C's accessibility guidelines, ensuring compatibility with screen
+        readers and providing an inclusive user experience.
         <Anchor href="https://mantine.dev/guides/next/" size="lg">
           this guide
         </Anchor>
-        . To get started edit index.tsx file.
+      </Text>
+      <Text color="dimmed" size="lg" sx={{ maxWidth: 900 }} mx="auto" mt="xl">
+        By reusing the Mantine {`<Modal />`}, we benefit from its built-in accessibility features,
+        such as focus lock, without having to implement them ourselves. As a consumer of this
+        library, we can easily rearrange child components inside the modal without modifying the
+        component's API.{' '}
+      </Text>
+      <Text color="dimmed" size="lg" sx={{ maxWidth: 900 }} mx="auto" mt="xl">
+        To demonstrate the advantages of accessible modals, we have prepared two buttons on this
+        page. The first button will open a modal with a focus lock, adhering to the accessibility
+        guidelines, while the second button will open a modal without it. You will be able to see
+        the subtle differences between the two and appreciate the importance of accessibility in UI
+        components.{' '}
+      </Text>
+      <Text color="dimmed" size="lg" sx={{ maxWidth: 900 }} mx="auto" mt="xl">
+        For more information on accessible modals and the guidelines we are following, please refer
+        to the W3C ARIA Guidelines for Accessible Modals.
       </Text>
     </>
   );

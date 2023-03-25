@@ -1,5 +1,6 @@
-import { Button } from '@mantine/core';
+import { Button, Text, Timeline } from '@mantine/core';
 import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
+import { InaccessibleModalExample } from '../components/InaccessibleModalExample/InaccessibleModalExample';
 import { ModalExample } from '../components/ModalExample/ModalExample';
 import { Welcome } from '../components/Welcome/Welcome';
 
@@ -7,9 +8,14 @@ export default function HomePage() {
   return (
     <>
       <Welcome />
-      <ColorSchemeToggle />
-      <Button>Hello there!</Button>
-      <ModalExample />
+      <Timeline>
+        <Timeline.Item title="Inaccessible Modal component">
+          <InaccessibleModalExample />
+        </Timeline.Item>
+        <Timeline.Item>
+          <Text>Modal component</Text>
+        </Timeline.Item>
+      </Timeline>
     </>
   );
 }
