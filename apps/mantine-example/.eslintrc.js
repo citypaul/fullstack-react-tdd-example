@@ -18,4 +18,5 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
   },
+  workingDirectories: ['apps/mantine-example'],
 };
