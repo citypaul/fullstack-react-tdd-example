@@ -7,7 +7,7 @@ export const InaccessibleModalExample = () => {
   return (
     <>
       <Group position="center">
-        <Button onClick={toggle}>Toggle dialog</Button>
+        <Button onClick={toggle}>Toggle Inaccessible Modal</Button>
       </Group>
 
       <Dialog opened={opened} withCloseButton onClose={close} size="lg" radius="md">
