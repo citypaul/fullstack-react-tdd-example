@@ -1,12 +1,13 @@
 import { Button } from "fullstack-react-tdd-example-ui";
 import React from "react";
+import { FormExample } from "./components/FormExample";
 
 export const App = () => {
   return (
-    <div>
+    <div className="container mx-auto p-4">
       <main>
         <h1>App main entry point</h1>
-        <Button>Hello World</Button>
+        <FormExample />
       </main>
     </div>
   );

@@ -24,6 +24,7 @@ describe("Input", () => {
     expect(input).not.toHaveClass("input-secondary");
     expect(input).not.toBeInvalid();
     expect(input).not.toHaveClass("input-error");
+    expect(input).toHaveAttribute("type", "text");
   });
 
   it("can render a secondary variant", () => {
