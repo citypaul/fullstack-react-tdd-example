@@ -9,9 +9,6 @@ const CardComponent = ({ children }: { children: React.ReactNode }) => (
   <div className="card w-96 bg-base-100 shadow-xl">{children}</div>
 );
 
-CardComponent.Header = ({ children }: { children: React.ReactNode }) => (
-  <div className="card-header">{children}</div>
-);
 CardComponent.Title = ({ children }: { children: React.ReactNode }) => (
   <h2 className="card-title">{children}</h2>
 );

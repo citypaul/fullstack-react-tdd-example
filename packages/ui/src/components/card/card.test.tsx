@@ -7,10 +7,9 @@ describe("Card component", () => {
   it("renders the Card component and its children", () => {
     render(
       <Card>
-        <Card.Header>
-          <Card.Title>Title</Card.Title>
-          <Card.Image src="image.png" alt="alt-text" />
-        </Card.Header>
+        <Card.Title>Title</Card.Title>
+        <Card.Image src="image.png" alt="alt-text" />
+
         <Card.Body>
           <p>Body content</p>
         </Card.Body>

@@ -11,14 +11,14 @@ export default {
   component: Card,
 } as ComponentMeta<typeof Card>;
 
-const Template: ComponentStory<typeof Card> = () => (
+export const CardWithImage: ComponentStory<typeof Card> = () => (
   <Card>
     <Card.Image src={image} alt="shoe" />
 
     <Card.Body>
-      <Card.Header>
-        <Card.Title>Card Title</Card.Title>
-      </Card.Header>
+      <Card.Title>
+        Card Title <span className="badge badge-secondary">New!</span>
+      </Card.Title>
 
       <p>If a dog chews shoes whose shoes does he choose?</p>
 
@@ -34,4 +34,35 @@ const Template: ComponentStory<typeof Card> = () => (
   </Card>
 );
 
-export const Primary = Template.bind({});
+export const WithBottomImage: ComponentStory<typeof Card> = () => (
+  <Card>
+    <Card.Body>
+      <Card.Title>
+        Card Title <span className="badge badge-secondary">New!</span>
+      </Card.Title>
+
+      <p>If a dog chews shoes whose shoes does he choose?</p>
+
+      <Card.Actions>
+        <button className="btn btn-primary">Buy Now</button>
+      </Card.Actions>
+    </Card.Body>
+    <Card.Image src={image} alt="shoe" />
+  </Card>
+);
+
+export const CardWithNoImage: ComponentStory<typeof Card> = () => (
+  <Card>
+    <Card.Body>
+      <Card.Title>
+        Card Title <span className="badge badge-secondary">New!</span>
+      </Card.Title>
+
+      <p>If a dog chews shoes whose shoes does he choose?</p>
+
+      <Card.Actions>
+        <button className="btn btn-primary">Buy Now</button>
+      </Card.Actions>
+    </Card.Body>
+  </Card>
+);
