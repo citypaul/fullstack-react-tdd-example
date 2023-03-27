@@ -6,6 +6,8 @@ The feature should allow users to search for products by name.
 
 Products will be displayed in a list. Each product will have a name, an image, a price, and a description.
 
+![product search](../wireframes/product-search.png)
+
 The product data will be provided by a Product REST API that we will consume in our BFF service. This product API represents a domain level service that is responsible for fetching product data from a database.
 
 In reality, multiple front ends for different applications could be consuming this product API. For example, a mobile app, a web app, and a desktop app.
