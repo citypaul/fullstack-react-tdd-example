@@ -1,6 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Product } from "fullstack-react-tdd-example-types";
 import React from "react";
-import { Product, ProductCard } from "./ProductCard";
+import { ProductCard } from "./ProductCard";
 
 export default {
   title: "Our App Components/ProductCard",

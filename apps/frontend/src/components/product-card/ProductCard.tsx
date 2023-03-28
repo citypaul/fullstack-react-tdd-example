@@ -1,24 +1,6 @@
+import { Product } from "fullstack-react-tdd-example-types";
 import { Badge, Card } from "fullstack-react-tdd-example-ui";
 import React from "react";
-
-type Price = {
-  currency: "£" | "$" | "€";
-  value: number;
-};
-
-type Image = {
-  src: string;
-  alt: string;
-};
-
-export type Product = {
-  id: string;
-  title: string;
-  description: string;
-  image: Image;
-  price: Price;
-  tags: string[];
-};
 
 export type ProductCardProps = {
   onClick: (productId: Product["id"]) => void;
