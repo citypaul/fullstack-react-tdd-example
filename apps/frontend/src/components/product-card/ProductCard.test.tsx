@@ -11,7 +11,9 @@ describe("ProductCard", () => {
 
     render(
       <ProductCard
+        onClick={() => {}}
         product={{
+          id: "1",
           title,
           description,
           image: {
