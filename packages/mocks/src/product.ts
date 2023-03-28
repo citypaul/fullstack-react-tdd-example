@@ -5,13 +5,13 @@ export const createMockProduct = (overrides?: Partial<Product>): Product => ({
   title: "Product title",
   description: "Product description",
   image: {
-    src: "https://images.unsplash.com/photo-1542731900-6d4a6d8f8d7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-    alt: "Product image",
+    src: "https://via.placeholder.com/640x360",
+    alt: "Example Product",
   },
   price: {
     currency: "£",
     value: 10,
   },
-  tags: ["tag1", "tag2"],
+  tags: ["electronics", "sound"],
   ...overrides,
 });
