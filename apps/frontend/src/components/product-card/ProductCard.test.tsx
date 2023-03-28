@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { createMockProduct } from "fullstack-react-tdd-example-mocks";
 import { ProductCard } from "./";
 
 describe("ProductCard", () => {
@@ -12,10 +13,10 @@ describe("ProductCard", () => {
     render(
       <ProductCard
         onClick={() => {}}
-        product={{
-          id: "1",
+        product={createMockProduct({
           title,
           description,
+          tags,
           image: {
             src: imageSrc,
             alt: imageAlt,
@@ -24,8 +25,7 @@ describe("ProductCard", () => {
             currency: "£",
             value: 10,
           },
-          tags,
-        }}
+        })}
       />
     );
 
@@ -38,32 +38,9 @@ describe("ProductCard", () => {
   });
 
   it('should trigger a callback with the product id when the "Buy Now" button is clicked', () => {
-    const title = "Product Title";
-    const description = "Product Description";
-    const imageSrc = "https://example.com/image.png";
-    const imageAlt = "Product Image";
-    const tags = ["tag1", "tag2"];
     const onClick = jest.fn();
 
-    render(
-      <ProductCard
-        product={{
-          id: "1",
-          title,
-          description,
-          image: {
-            src: imageSrc,
-            alt: imageAlt,
-          },
-          price: {
-            currency: "£",
-            value: 10,
-          },
-          tags,
-        }}
-        onClick={onClick}
-      />
-    );
+    render(<ProductCard product={createMockProduct()} onClick={onClick} />);
 
     screen.getByText("Buy Now").click();
 
