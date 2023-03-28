@@ -2,6 +2,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
 
 import { Card } from ".";
+import { Badge } from "../badge/badge";
 // ts-ignore is needed because the image is not a module
 // @ts-ignore
 import image from "./story-images/shoe.jpg";
@@ -17,7 +18,7 @@ export const CardWithImage: ComponentStory<typeof Card> = () => (
 
     <Card.Body>
       <Card.Title>
-        Card Title <span className="badge badge-secondary">New!</span>
+        Card Title <Badge type="secondary">New!</Badge>
       </Card.Title>
 
       <p>If a dog chews shoes whose shoes does he choose?</p>
@@ -26,8 +27,8 @@ export const CardWithImage: ComponentStory<typeof Card> = () => (
         <button className="btn btn-primary">Buy Now</button>
 
         <div>
-          <div className="badge badge-outline">Fashion</div>
-          <div className="badge badge-outline">Products</div>
+          <Badge outline>Fashion</Badge>
+          <Badge outline>Products</Badge>
         </div>
       </Card.Actions>
     </Card.Body>
@@ -38,7 +39,7 @@ export const WithBottomImage: ComponentStory<typeof Card> = () => (
   <Card>
     <Card.Body>
       <Card.Title>
-        Card Title <span className="badge badge-secondary">New!</span>
+        Card Title <Badge type="secondary">New!</Badge>
       </Card.Title>
 
       <p>If a dog chews shoes whose shoes does he choose?</p>
@@ -55,7 +56,7 @@ export const CardWithNoImage: ComponentStory<typeof Card> = () => (
   <Card>
     <Card.Body>
       <Card.Title>
-        Card Title <span className="badge badge-secondary">New!</span>
+        Card Title <Badge type="secondary">New!</Badge>
       </Card.Title>
 
       <p>If a dog chews shoes whose shoes does he choose?</p>
