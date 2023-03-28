@@ -219,6 +219,15 @@ importers:
       ts-jest: 27.1.5_tumq7ppzahxjy4uj6rwbrrtukm
       typescript: 4.8.4
 
+  packages/mocks:
+    specifiers:
+      fullstack-react-tdd-example-types: workspace:*
+      typescript: ^4.9.5
+    dependencies:
+      fullstack-react-tdd-example-types: link:../types
+    devDependencies:
+      typescript: 4.9.5
+
   packages/types:
     specifiers:
       typescript: ^4.9.5

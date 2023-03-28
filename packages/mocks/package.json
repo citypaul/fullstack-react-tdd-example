@@ -1,0 +1,21 @@
+{
+  "name": "fullstack-react-tdd-example-mocks",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Shared mocks for acmesoft",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "dependencies": {
+    "fullstack-react-tdd-example-types": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  }
+}
