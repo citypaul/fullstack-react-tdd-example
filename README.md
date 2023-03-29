@@ -30,7 +30,7 @@ The monorepo is structured as follows:
 
 You will need to [install pnpm globally](https://pnpm.io/installation) to run the monorepo.
 
-The version of pnpm used when developing this monorepo is `7.30.1`.
+The version of pnpm used when developing this monorepo is `8.0.0`.
 
 To install the dependencies for the monorepo, run the following command:
 
