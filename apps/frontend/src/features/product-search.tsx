@@ -1,14 +1,25 @@
+import { Product } from "fullstack-react-tdd-example-types";
 import { Button, Input } from "fullstack-react-tdd-example-ui";
 import React from "react";
 import { ProductCard } from "../components";
 import { useProductSearch } from "./product-search.queries";
 
+const ProductResultsList = ({ products }: { products: Product[] }) => {
+  if (products.length === 0) return <div>No products found</div>;
+
+  return (
+    <div className="flex gap-4 mt-4">
+      {products?.map((product) => (
+        <ProductCard key={product.id} product={product} onClick={() => {}} />
+      ))}
+    </div>
+  );
+};
+
 export const ProductSearch = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
 
   const { data, refetch, isLoading } = useProductSearch(searchTerm);
-
-  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div>
@@ -21,11 +32,8 @@ export const ProductSearch = () => {
         Search
       </Button>
 
-      <div className="flex gap-4 mt-4">
-        {data?.map((product) => (
-          <ProductCard key={product.id} product={product} onClick={() => {}} />
-        ))}
-      </div>
+      {isLoading && <div>Loading...</div>}
+      {data && <ProductResultsList products={data} />}
     </div>
   );
 };
