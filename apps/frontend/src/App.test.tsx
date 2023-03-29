@@ -1,9 +1,9 @@
-import { render, screen } from "@testing-library/react";
 import React from "react";
 import { App } from "./App";
+import { render, screen } from "./test-utils";
 
-test("renders hello world button", () => {
+test("renders product search", async () => {
   render(<App />);
 
-  expect(screen.getByText(/submit/i)).toBeInTheDocument();
+  expect(await screen.findByText(/product search/i)).toBeInTheDocument();
 });
