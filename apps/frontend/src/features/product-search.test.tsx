@@ -113,6 +113,29 @@ describe("ProductSearch", () => {
     expect(searchButton).not.toBeDisabled();
   });
 
-  it.todo("if no products are returned, a message should be displayed");
+  it("if no products are returned, a message should be displayed", async () => {
+    const searchQuery = "test product";
+
+    render(<ProductSearch />);
+
+    const searchInput = await screen.findByLabelText(/product search:/i);
+    const searchButton = await screen.findByRole("button", { name: /search/i });
+
+    server.use(
+      rest.get("/product-search", (req, res, ctx) => {
+        if (req.url.searchParams.get("search-term") !== searchQuery) {
+          return res(ctx.status(400));
+        }
+
+        return res(ctx.delay(100), ctx.json([]));
+      })
+    );
+
+    await userEvent.type(searchInput, searchQuery);
+    await userEvent.click(searchButton);
+
+    expect(await screen.findByText(/no products found/i)).toBeInTheDocument();
+    expect(screen.queryByText(mockProduct1Data.title)).not.toBeInTheDocument();
+  });
   it.todo("if an error occurs, a message should be displayed");
 });
