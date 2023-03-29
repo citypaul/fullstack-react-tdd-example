@@ -19,9 +19,11 @@ export const ProductSearch = () => {
       />
       <Button onClick={() => refetch()}>Search</Button>
 
-      {data?.map((product) => (
-        <ProductCard key={product.id} product={product} onClick={() => {}} />
-      ))}
+      <div className="flex gap-4 mt-4">
+        {data?.map((product) => (
+          <ProductCard key={product.id} product={product} onClick={() => {}} />
+        ))}
+      </div>
     </div>
   );
 };

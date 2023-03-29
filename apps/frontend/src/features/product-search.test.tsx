@@ -83,6 +83,7 @@ describe("ProductSearch", () => {
     );
 
     expect(screen.queryByText(mockProduct1Data.title)).not.toBeInTheDocument();
+    expect(screen.queryByText(mockProduct2Data.title)).not.toBeInTheDocument();
 
     await userEvent.type(searchInput, searchQuery);
     await userEvent.click(searchButton);
