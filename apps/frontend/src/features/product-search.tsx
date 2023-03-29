@@ -1,5 +1,5 @@
 import { Button, Input } from "fullstack-react-tdd-example-ui";
-import React, { useEffect } from "react";
+import React from "react";
 import { ProductCard } from "../components";
 import { useProductSearch } from "./product-search.queries";
 
