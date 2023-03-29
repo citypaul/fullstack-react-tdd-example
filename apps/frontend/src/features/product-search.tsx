@@ -1,20 +1,29 @@
+import { Button, Input } from "fullstack-react-tdd-example-ui";
 import React from "react";
+import { ProductCard } from "../components";
 import { useProductSearch } from "./product-search.queries";
 
-// if products are returned, they should be displayed as a list of product cards
-// if no products are returned, a message should be displayed
-// if an error occurs, a message should be displayed
-
 export const ProductSearch = () => {
-  const { data, isLoading } = useProductSearch();
+  const [searchTerm, setSearchTerm] = React.useState("");
+
+  const { data, refetch, isLoading } = useProductSearch(searchTerm);
 
   if (isLoading) return <div>Loading...</div>;
 
-  console.log(data);
-
   return (
     <div>
-      <h1>Product Search</h1>
+      <Input
+        label="Product Search:"
+        className="mb-2"
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <Button onClick={() => refetch()}>Search</Button>
+
+      <div className="flex gap-4 mt-4">
+        {data?.map((product) => (
+          <ProductCard key={product.id} product={product} onClick={() => {}} />
+        ))}
+      </div>
     </div>
   );
 };
