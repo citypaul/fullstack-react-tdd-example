@@ -1,8 +1,23 @@
 import { render, RenderOptions } from "@testing-library/react";
 import React, { ReactElement } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+export const testQueryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // so we dont need to wait 3 times which is the default
+      retry: false,
+      cacheTime: 0,
+    },
+  },
+});
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
-  return <>{children}</>;
+  return (
+    <QueryClientProvider client={testQueryClient}>
+      {children}
+    </QueryClientProvider>
+  );
 };
 
 const customRender = (
