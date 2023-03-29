@@ -1,4 +1,5 @@
-import { render } from "../test-utils";
+import { render, screen } from "../test-utils";
+import { ProductSearch } from "./product-search";
 
 // For our purposes, we are going to assume if data is returned
 // from the API, it will always be valid and complete
@@ -7,7 +8,11 @@ import { render } from "../test-utils";
 // at the BFF level.
 
 describe("ProductSearch", () => {
-  it("if products are returned, they should be displayed as a list of product cards", () => {});
+  it("if products are returned, they should be displayed as a list of product cards", async () => {
+    render(<ProductSearch />);
+
+    await screen.findByText("Product Search");
+  });
 
   it.todo("the search button should be disabled if the search input is empty");
   it.todo("if no products are returned, a message should be displayed");
