@@ -17,7 +17,9 @@ export const ProductSearch = () => {
         className="mb-2"
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <Button onClick={() => refetch()}>Search</Button>
+      <Button onClick={() => refetch()} disabled={!searchTerm}>
+        Search
+      </Button>
 
       <div className="flex gap-4 mt-4">
         {data?.map((product) => (
