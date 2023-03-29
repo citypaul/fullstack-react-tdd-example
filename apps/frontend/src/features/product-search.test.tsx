@@ -13,14 +13,9 @@ import { ProductSearch } from "./product-search";
 describe("ProductSearch", () => {
   it("if products are returned, they should be displayed as a list of product cards", async () => {
     const searchQuery = "test product";
+    const mockProductTitle = "Test Product";
 
     render(<ProductSearch />);
-
-    expect(await screen.findByText(/loading/i)).toBeInTheDocument();
-
-    await waitFor(() => {
-      expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
-    });
 
     const searchInput = await screen.findByLabelText(/product search:/i);
     const searchButton = await screen.findByRole("button", { name: /search/i });
@@ -31,13 +26,32 @@ describe("ProductSearch", () => {
           return res(ctx.status(400));
         }
 
-        return res(ctx.json([createMockProduct()]));
+        return res(
+          ctx.delay(100),
+          ctx.json([createMockProduct({ title: mockProductTitle })])
+        );
       })
     );
 
-    userEvent.type(searchInput, searchQuery);
+    expect(screen.queryByText(mockProductTitle)).not.toBeInTheDocument();
+
+    await userEvent.type(searchInput, searchQuery);
+    await userEvent.click(searchButton);
+
+    await waitFor(() => {
+      expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+    });
+
+    expect(await screen.findByText(mockProductTitle)).toBeInTheDocument();
+
+    expect(await screen.findByText(mockProductTitle)).toBeInTheDocument();
   });
 
+  it.todo("the search button should be disabled if the search input is empty");
   it.todo("if no products are returned, a message should be displayed");
   it.todo("if an error occurs, a message should be displayed");
 });
