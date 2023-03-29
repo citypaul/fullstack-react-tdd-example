@@ -21,8 +21,6 @@ export const ProductSearch = () => {
 
   const { data, refetch, isLoading } = useProductSearch(searchTerm);
 
-  if (isLoading) return <div>Loading...</div>;
-
   return (
     <div>
       <Input
@@ -34,6 +32,7 @@ export const ProductSearch = () => {
         Search
       </Button>
 
+      {isLoading && <div>Loading...</div>}
       {data && <ProductResultsList products={data} />}
     </div>
   );
