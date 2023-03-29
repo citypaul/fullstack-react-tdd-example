@@ -1,3 +1,4 @@
+import userEvent from "@testing-library/user-event";
 import { createMockProduct } from "fullstack-react-tdd-example-mocks";
 import { rest } from "msw";
 import { server } from "../setupTests";
@@ -31,10 +32,10 @@ describe("ProductSearch", () => {
         }
 
         return res(ctx.json([createMockProduct()]));
-
-        // await screen.findByText("Product Search");
       })
     );
+
+    userEvent.type(searchInput, searchQuery);
   });
 
   it.todo("if no products are returned, a message should be displayed");
