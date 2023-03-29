@@ -1,13 +1,10 @@
+import { createMockProduct } from "fullstack-react-tdd-example-mocks";
 import { rest } from "msw";
 
 export const handlers = [
-  rest.get("/example-endpoint", (req, res, ctx) => {
+  rest.get("/product-search", (req, res, ctx) => {
     return res(
-      ctx.json({
-        name: "Jeff",
-        age: 25,
-        description: "testing out mock service workerxxx!",
-      }),
+      ctx.json([createMockProduct(), createMockProduct()]),
       ctx.status(200)
     );
   }),

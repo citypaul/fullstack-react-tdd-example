@@ -1,3 +1,4 @@
+import { Button, Input } from "fullstack-react-tdd-example-ui";
 import React from "react";
 import { useProductSearch } from "./product-search.queries";
 
@@ -14,7 +15,8 @@ export const ProductSearch = () => {
 
   return (
     <div>
-      <h1>Product Search</h1>
+      <Input label="Product Search:" className="mb-2" />
+      <Button>Search</Button>
     </div>
   );
 };
