@@ -138,5 +138,6 @@ describe("ProductSearch", () => {
     expect(await screen.findByText(/no products found/i)).toBeInTheDocument();
     expect(screen.queryByText(mockProduct1Data.title)).not.toBeInTheDocument();
   });
+
   it.todo("if an error occurs, a message should be displayed");
 });
