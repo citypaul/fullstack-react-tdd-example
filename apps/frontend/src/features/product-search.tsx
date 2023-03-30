@@ -19,7 +19,7 @@ const ProductResultsList = ({ products }: { products: Product[] }) => {
 export const ProductSearch = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
 
-  const { data, refetch, isLoading } = useProductSearch(searchTerm);
+  const { data, refetch, isLoading, isError } = useProductSearch(searchTerm);
 
   return (
     <div>
@@ -31,7 +31,7 @@ export const ProductSearch = () => {
       <Button onClick={() => refetch()} disabled={!searchTerm}>
         Search
       </Button>
-
+      {isError && <div>Error fetching data</div>}
       {isLoading && <div>Loading...</div>}
       {data && <ProductResultsList products={data} />}
     </div>
