@@ -38,4 +38,14 @@ describe("Input", () => {
 
     expect(screen.getByText(expectedErrorMessage)).toBeInTheDocument();
   });
+
+  it("can render custom classes", () => {
+    const expectedLabel = "Name";
+    const { getByLabelText } = render(
+      <Input id="name" label={expectedLabel} className="text-red-500" />
+    );
+
+    const input = getByLabelText(expectedLabel);
+    expect(input).toHaveClass("text-red-500");
+  });
 });
