@@ -1,5 +1,26 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import React from "react";
+import { Input } from "./input";
+
 describe("Input", () => {
-  it("passes", () => {
-    expect(true).toBe(true);
+  it("renders and handles input", () => {
+    const expectedLabel = "Name";
+
+    const handleChange = jest.fn();
+    render(
+      <Input
+        id="name"
+        onChange={(e) => handleChange(e.target.value)}
+        label={expectedLabel}
+      />
+    );
+
+    const input = screen.getByLabelText(expectedLabel);
+    userEvent.type(input, "John Doe");
+
+    expect((input as HTMLInputElement).value).toBe("John Doe");
+    expect(handleChange).toHaveBeenCalledWith("John Doe");
+    expect(input).not.toBeInvalid();
   });
 });
