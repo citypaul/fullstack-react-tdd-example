@@ -15,13 +15,3 @@ export default {
 const Template: ComponentStory<typeof Input> = (args) => <Input {...args} />;
 
 export const Primary = Template.bind({});
-export const Secondary = Template.bind({});
-export const WithError = Template.bind({});
-
-Secondary.args = {
-  variant: "secondary",
-};
-
-WithError.args = {
-  error: "This field is required",
-};
