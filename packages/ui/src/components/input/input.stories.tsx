@@ -6,7 +6,6 @@ import { Input } from ".";
 export default {
   title: "Shared Library/Input",
   args: {
-    placeholder: "Placeholder",
     label: "Label",
   },
   component: Input,
@@ -15,3 +14,8 @@ export default {
 const Template: ComponentStory<typeof Input> = (args) => <Input {...args} />;
 
 export const Primary = Template.bind({});
+export const WithError = Template.bind({});
+
+WithError.args = {
+  error: "This field is required",
+};

@@ -16,7 +16,6 @@ export const Input = ({ label, error, className, ...rest }: InputProps) => {
       <input
         {...rest}
         id={id}
-        placeholder="Type here"
         className={`input input-bordered w-full max-w-xs ${
           error ? "input-error" : ""
         } ${className}`}
