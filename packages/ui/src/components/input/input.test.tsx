@@ -23,4 +23,19 @@ describe("Input", () => {
     expect(handleChange).toHaveBeenCalledWith("John Doe");
     expect(input).not.toBeInvalid();
   });
+
+  it("can render an error state", () => {
+    const expectedLabel = "Name";
+    const expectedErrorMessage = "This field is required";
+
+    const { getByLabelText } = render(
+      <Input id="name" label={expectedLabel} error={expectedErrorMessage} />
+    );
+
+    const input = getByLabelText(expectedLabel);
+    expect(input).toHaveClass("input-error");
+    expect(input).toBeInvalid();
+
+    expect(screen.getByText(expectedErrorMessage)).toBeInTheDocument();
+  });
 });
