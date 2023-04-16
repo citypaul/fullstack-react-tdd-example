@@ -8,7 +8,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import { Counter } from "./components";
+import { Counter, FormExample } from "./components";
 import { ProductSearch } from "./features";
 import { store } from "./store";
 
@@ -65,6 +65,15 @@ export const router = createBrowserRouter(
 
               <li>
                 <NavLink
+                  to="form-example"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Form
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
                   to="product-search"
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
@@ -80,6 +89,7 @@ export const router = createBrowserRouter(
       <Route path="/">
         <Route path="counter-use-state" element={<Counter />} />
         <Route path="counter-use-reducer" element={<Counter />} />
+        <Route path="form-example" element={<FormExample />} />
         <Route path="product-search" element={<ProductSearch />} />
       </Route>
     </Route>
