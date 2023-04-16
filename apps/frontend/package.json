@@ -86,5 +86,21 @@
   },
   "msw": {
     "workerDirectory": "public"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!src/**/index.{js,jsx,ts,tsx}",
+      "!src/**/*.stories.{js,jsx,ts,tsx}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/src/App.tsx",
+      "<rootDir>/src/routes/",
+      "<rootDir>/src/mocks/",
+      "<rootDir>/src/components/counter-example/counter-use-reducer-implementation.tsx",
+      "<rootDir>/src/features/product-search.queries.tsx"
+    ]
   }
 }

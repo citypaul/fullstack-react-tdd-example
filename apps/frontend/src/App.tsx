@@ -9,6 +9,18 @@ if (process.env.NODE_ENV === "development") {
   worker.start();
 }
 
+// App here is not explicitly tested.
+
+// That's because I'm just using it to create a menu of links to the other components
+// for the purpose of making it easy to navigate to them for my talk
+
+// In a real app, the entry point can still be tested in the same way as any other component.
+
+// If you want to test the entry point, you can do so by mocking the router using
+// https://reactrouter.com/web/api/MemoryRouter
+
+// This mock would be used in test-utils.tsx
+
 export const App = () => {
   return (
     <Provider store={store}>
