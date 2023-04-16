@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-// import { Counter } from "./counter-use-reducer-implementation";
-import { Counter } from "./counter-use-state-implementation";
+import { UseStateCounter as Counter } from "./";
 
 describe("Counter component", () => {
   test("Initial count is 0", async () => {

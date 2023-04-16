@@ -8,7 +8,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import { Counter, FormExample } from "./components";
+import { FormExample, UseReducerCounter, UseStateCounter } from "./components";
 import { ProductSearch } from "./features";
 import { store } from "./store";
 
@@ -87,8 +87,8 @@ export const router = createBrowserRouter(
       }
     >
       <Route path="/">
-        <Route path="counter-use-state" element={<Counter />} />
-        <Route path="counter-use-reducer" element={<Counter />} />
+        <Route path="counter-use-state" element={<UseStateCounter />} />
+        <Route path="counter-use-reducer" element={<UseReducerCounter />} />
         <Route path="form-example" element={<FormExample />} />
         <Route path="product-search" element={<ProductSearch />} />
       </Route>
