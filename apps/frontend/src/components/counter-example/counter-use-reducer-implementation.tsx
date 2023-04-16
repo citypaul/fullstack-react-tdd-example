@@ -20,13 +20,14 @@ const counterReducer: Reducer = (state, action) => {
   }
 };
 
-export const Counter = () => {
+export const UseReducerCounter = () => {
   const [state, dispatch] = useReducer(counterReducer, initialState);
 
   return (
     <div>
+      <h1>With use reducer implementation</h1>
       <p>Count: {state.count}</p>
-      <div className="btn-group">
+      <div className="btn-group mt-2">
         <Button onClick={() => dispatch({ type: "INCREMENT" })}>
           Increment
         </Button>
