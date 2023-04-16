@@ -1,5 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
+import { Counter } from "./components";
 import { ProductSearch } from "./features";
 import { store } from "./store";
 
@@ -13,6 +14,7 @@ export const App = () => {
     <Provider store={store}>
       <div className="container mx-auto p-4">
         <main>
+          <Counter />
           <ProductSearch />
         </main>
       </div>
