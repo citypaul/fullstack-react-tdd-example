@@ -14,8 +14,8 @@ export const router = createBrowserRouter(
       path="/"
       element={
         <>
-          <nav className="navbar bg-indigo-100 mb-4 rounded-md">
-            <ol className="menu menu-horizontal px-1">
+          <nav className="lg:navbar bg-indigo-100 mb-4 rounded-md">
+            <ol className="menu lg:menu-horizontal px-1 m-1">
               <li>
                 <a
                   href="http://localhost:3001"

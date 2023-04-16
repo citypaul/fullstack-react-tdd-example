@@ -26,5 +26,3 @@ yarn-error.log*
 .turbo/
 
 storybook-static
-
-# ignore any directory named .turbo

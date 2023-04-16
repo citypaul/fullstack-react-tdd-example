@@ -16,7 +16,8 @@ if (process.env.NODE_ENV === "development") {
 
 // In a real app, the entry point can still be tested in the same way as any other component.
 
-// If you want to test the entry point, you can do so by mocking the router using
+// If you want to test the entry point, you can do so by providing an in memory router
+// appropriate for tests using
 // https://reactrouter.com/web/api/MemoryRouter
 
 // This mock would be used in test-utils.tsx
