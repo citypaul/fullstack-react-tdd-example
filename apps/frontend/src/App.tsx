@@ -1,8 +1,9 @@
 import React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
+import { store } from "./features/product-search/redux-toolkit-implementation/store";
 import { router } from "./routes";
-import { store } from "./store";
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = require("./mocks/browser");
@@ -19,17 +20,20 @@ if (process.env.NODE_ENV === "development") {
 // If you want to test the entry point, you can do so by providing an in memory router
 // appropriate for tests using
 // https://reactrouter.com/web/api/MemoryRouter
-
 // This mock would be used in test-utils.tsx
+
+const queryClient = new QueryClient();
 
 export const App = () => {
   return (
-    <Provider store={store}>
-      <div className="container mx-auto p-4">
-        <main>
-          <RouterProvider router={router} />
-        </main>
-      </div>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <div className="container mx-auto p-4">
+          <main>
+            <RouterProvider router={router} />
+          </main>
+        </div>
+      </Provider>
+    </QueryClientProvider>
   );
 };

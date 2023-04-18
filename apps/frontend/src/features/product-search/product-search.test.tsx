@@ -2,9 +2,9 @@ import userEvent from "@testing-library/user-event";
 import { createMockProduct } from "fullstack-react-tdd-example-mocks";
 import { Product } from "fullstack-react-tdd-example-types";
 import { rest } from "msw";
+import { ReactQueryProductSearch as ProductSearch } from ".";
 import { server } from "../../setupTests";
 import { render, screen, waitFor } from "../../test-utils";
-import { ProductSearch } from "./product-search";
 // For our purposes, we are going to assume if data is returned
 // from the API, it will always be valid and complete
 

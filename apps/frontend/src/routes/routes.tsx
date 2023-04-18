@@ -6,7 +6,10 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { FormExample, UseReducerCounter, UseStateCounter } from "../components";
-import { ProductSearch } from "../features";
+import {
+  ReactQueryProductSearch,
+  ReduxProductSearch,
+} from "../features/product-search/";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -65,10 +68,19 @@ export const router = createBrowserRouter(
 
               <li>
                 <NavLink
-                  to="product-search"
+                  to="product-search-react-query"
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
-                  Product Search
+                  Product Search (React Query)
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="product-search-redux"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Product Search (Redux Toolkit Query)
                 </NavLink>
               </li>
             </ol>
@@ -81,7 +93,11 @@ export const router = createBrowserRouter(
         <Route path="counter-use-state" element={<UseStateCounter />} />
         <Route path="counter-use-reducer" element={<UseReducerCounter />} />
         <Route path="form-example" element={<FormExample />} />
-        <Route path="product-search" element={<ProductSearch />} />
+        <Route
+          path="product-search-react-query"
+          element={<ReactQueryProductSearch />}
+        />
+        <Route path="product-search-redux" element={<ReduxProductSearch />} />
       </Route>
     </Route>
   )
