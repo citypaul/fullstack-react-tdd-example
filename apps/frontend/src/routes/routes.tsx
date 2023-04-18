@@ -6,6 +6,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { FormExample, UseReducerCounter, UseStateCounter } from "../components";
+import { MockServiceWorkerExample } from "../features";
 import {
   ReactQueryProductSearch,
   ReduxProductSearch,
@@ -68,6 +69,15 @@ export const router = createBrowserRouter(
 
               <li>
                 <NavLink
+                  to="mock-service-worker"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Mock Service Worker
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
                   to="product-search-react-query"
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
@@ -93,6 +103,10 @@ export const router = createBrowserRouter(
         <Route path="counter-use-state" element={<UseStateCounter />} />
         <Route path="counter-use-reducer" element={<UseReducerCounter />} />
         <Route path="form-example" element={<FormExample />} />
+        <Route
+          path="mock-service-worker"
+          element={<MockServiceWorkerExample />}
+        />
         <Route
           path="product-search-react-query"
           element={<ReactQueryProductSearch />}
