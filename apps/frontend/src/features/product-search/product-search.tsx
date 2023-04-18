@@ -1,8 +1,8 @@
 import { Product } from "fullstack-react-tdd-example-types";
 import { Button, Input } from "fullstack-react-tdd-example-ui";
 import React from "react";
-import { ProductCard } from "../components";
-import { useLazyGetProductBySearchTermQuery } from "../services/product";
+import { ProductCard } from "../../components";
+import { useLazyGetProductBySearchTermQuery } from "../../services/product";
 
 const ProductResultsList = ({ products }: { products: Product[] }) => {
   if (products.length === 0) return <div>No products found</div>;
