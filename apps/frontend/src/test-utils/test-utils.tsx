@@ -2,7 +2,7 @@ import { render, RenderOptions } from "@testing-library/react";
 import React, { ReactElement } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
-import { store } from "../store";
+import { store } from "../features/product-search/redux-toolkit-implementation/store";
 
 export const testQueryClient = new QueryClient({
   defaultOptions: {

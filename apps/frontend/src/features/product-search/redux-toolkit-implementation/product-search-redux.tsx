@@ -1,8 +1,8 @@
 import { Product } from "fullstack-react-tdd-example-types";
 import { Button, Input } from "fullstack-react-tdd-example-ui";
 import React from "react";
-import { ProductCard } from "../../components";
-import { useProductSearch } from "./product-search.queries";
+import { ProductCard } from "../../../components";
+import { useLazyGetProductBySearchTermQuery } from "./services/product";
 
 const ProductResultsList = ({ products }: { products: Product[] }) => {
   if (products.length === 0) return <div>No products found</div>;
@@ -16,26 +16,26 @@ const ProductResultsList = ({ products }: { products: Product[] }) => {
   );
 };
 
-export const ReactQueryProductSearch = () => {
+export const ReduxProductSearch = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
 
-  const { data, refetch, isLoading, isError } = useProductSearch(searchTerm);
+  const [getProducts, results] = useLazyGetProductBySearchTermQuery();
 
   return (
     <div>
-      <h1>React Query powered product search</h1>
+      <h1>RTK (Redux) query powered product search</h1>
       <Input
         label="Product Search:"
         className="mb-2"
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <Button onClick={() => refetch()} disabled={!searchTerm}>
+      <Button onClick={() => getProducts(searchTerm)} disabled={!searchTerm}>
         Search
       </Button>
-      {isError && <div>Error fetching data</div>}
-      {isLoading && <div>Loading...</div>}
+      {results.isError && <div>Error fetching data</div>}
+      {results.isLoading && <div>Loading...</div>}
 
-      {data && <ProductResultsList products={data} />}
+      {results.data && <ProductResultsList products={results.data} />}
     </div>
   );
 };
