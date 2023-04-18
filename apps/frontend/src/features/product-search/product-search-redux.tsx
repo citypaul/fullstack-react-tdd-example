@@ -16,13 +16,14 @@ const ProductResultsList = ({ products }: { products: Product[] }) => {
   );
 };
 
-export const ProductSearch = () => {
+export const ReduxProductSearch = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
 
   const [getProducts, results] = useLazyGetProductBySearchTermQuery();
 
   return (
     <div>
+      <h1>RTK (Redux) query powered product search</h1>
       <Input
         label="Product Search:"
         className="mb-2"
