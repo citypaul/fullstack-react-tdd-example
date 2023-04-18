@@ -3,7 +3,7 @@ import React from "react";
 import { useMockServiceWorkerDemo } from "./mock-service-worker-queries";
 
 export const MockServiceWorkerExample = () => {
-  const { data, refetch, isLoading } = useMockServiceWorkerDemo("example");
+  const { data, refetch, isLoading } = useMockServiceWorkerDemo();
 
   return (
     <>

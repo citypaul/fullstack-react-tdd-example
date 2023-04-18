@@ -2,7 +2,7 @@ import axios from "axios";
 import { Product } from "fullstack-react-tdd-example-types";
 import { useQuery } from "react-query";
 
-export const useMockServiceWorkerDemo = (searchTerm: string) => {
+export const useMockServiceWorkerDemo = () => {
   return useQuery(
     ["product-search"],
     () => {
