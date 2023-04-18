@@ -6,7 +6,7 @@ describe("Counter component", () => {
   test("Initial count is 0", async () => {
     render(<Counter />);
 
-    expect(screen.getByText(/count: 0/i)).toBeInTheDocument();
+    expect(screen.getByText(/^count: 0$/i)).toBeInTheDocument();
   });
 
   test("Increment button increases the count", async () => {
@@ -14,7 +14,7 @@ describe("Counter component", () => {
 
     const incrementButton = screen.getByRole("button", { name: /increment/i });
     await userEvent.click(incrementButton);
-    expect(screen.getByText(/count: 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/^count: 1$/i)).toBeInTheDocument();
   });
 
   test("Decrement button decreases the count", async () => {
@@ -24,10 +24,10 @@ describe("Counter component", () => {
     const decrementButton = screen.getByRole("button", { name: /decrement/i });
 
     await userEvent.click(incrementButton);
-    expect(screen.getByText(/count: 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/^count: 1$/i)).toBeInTheDocument();
 
     await userEvent.click(decrementButton);
-    expect(screen.getByText(/count: 0/i)).toBeInTheDocument();
+    expect(screen.getByText(/^count: 0$/i)).toBeInTheDocument();
   });
 
   test("Decrement button doesn't decrease count below 0", async () => {
@@ -36,7 +36,7 @@ describe("Counter component", () => {
     const decrementButton = screen.getByRole("button", { name: /decrement/i });
 
     await userEvent.click(decrementButton);
-    expect(screen.getByText(/count: 0/i)).toBeInTheDocument();
+    expect(screen.getByText(/^count: 0$/i)).toBeInTheDocument();
   });
 
   test("Reset button resets the count", async () => {
@@ -47,9 +47,9 @@ describe("Counter component", () => {
 
     await userEvent.click(incrementButton);
     await userEvent.click(incrementButton);
-    expect(screen.getByText(/count: 2/i)).toBeInTheDocument();
+    expect(screen.getByText(/^count: 2$/i)).toBeInTheDocument();
 
     await userEvent.click(resetButton);
-    expect(screen.getByText(/count: 0/i)).toBeInTheDocument();
+    expect(screen.getByText(/^count: 0$/i)).toBeInTheDocument();
   });
 });
