@@ -19,12 +19,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18.15.0
+          node-version: 18.16.0
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8.0.0
+          version: 8.2.0
 
       - name: Get pnpm store directory
         id: pnpm-cache
