@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 
 export const useMockServiceWorkerDemo = () => {
   return useQuery(
-    ["product-search"],
+    ["mock-service-worker-demo"],
     () => {
       return axios
         .get<Product[]>(`/mock-service-worker-demo`)
