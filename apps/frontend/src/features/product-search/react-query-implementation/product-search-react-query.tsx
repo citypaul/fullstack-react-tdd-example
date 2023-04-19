@@ -29,9 +29,7 @@ export const ReactQueryProductSearch = () => {
         className="mb-2"
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <Button onClick={() => refetch()} disabled={!searchTerm}>
-        Search
-      </Button>
+      <Button onClick={() => refetch()}>Search</Button>
       {isError && <div>Error fetching data</div>}
       {isLoading && <div>Loading...</div>}
 

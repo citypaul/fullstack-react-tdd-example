@@ -101,19 +101,6 @@ describe("ProductSearch", () => {
     await assertProductCard(mockProduct2Data);
   });
 
-  it("the search button should be disabled if the search input is empty", async () => {
-    render(<ProductSearch />);
-
-    const searchInput = await screen.findByLabelText(/product search:/i);
-    const searchButton = await screen.findByRole("button", { name: /search/i });
-
-    expect(searchButton).toBeDisabled();
-
-    await userEvent.type(searchInput, "test product");
-
-    expect(searchButton).not.toBeDisabled();
-  });
-
   it("if no products are returned, a message should be displayed", async () => {
     const searchQuery = "test product";
 
