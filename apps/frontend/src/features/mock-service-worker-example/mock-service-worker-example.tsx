@@ -5,6 +5,8 @@ import { useMockServiceWorkerDemo } from "./mock-service-worker-queries";
 export const MockServiceWorkerExample = () => {
   const { data, refetch, isLoading } = useMockServiceWorkerDemo();
 
+  // if (data) console.log(data);
+
   return (
     <>
       <Button onClick={() => refetch()}>Fetch data</Button>
