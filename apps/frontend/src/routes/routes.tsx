@@ -45,7 +45,7 @@ export const router = createBrowserRouter(
                   to="counter-use-state"
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
-                  Counter (use state)
+                  Counter (state)
                 </NavLink>
               </li>
 
@@ -54,7 +54,7 @@ export const router = createBrowserRouter(
                   to="counter-use-reducer"
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
-                  Counter (use reducer)
+                  Counter (reducer)
                 </NavLink>
               </li>
 
@@ -90,7 +90,7 @@ export const router = createBrowserRouter(
                   to="product-search-redux"
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
-                  Product Search (Redux Toolkit Query)
+                  Product Search (Redux)
                 </NavLink>
               </li>
             </ol>
