@@ -4,7 +4,7 @@ import React from "react";
 import { Input } from "./input";
 
 describe("Input", () => {
-  it("renders and handles input", () => {
+  it("renders and handles input", async () => {
     const expectedLabel = "Name";
 
     const handleChange = jest.fn();
@@ -17,7 +17,7 @@ describe("Input", () => {
     );
 
     const input = screen.getByLabelText(expectedLabel);
-    userEvent.type(input, "John Doe");
+    await userEvent.type(input, "John Doe");
 
     expect((input as HTMLInputElement).value).toBe("John Doe");
     expect(handleChange).toHaveBeenCalledWith("John Doe");
