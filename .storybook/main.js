@@ -6,6 +6,7 @@ module.exports = {
   },
   stories: [
     "../apps/frontend/**/*.stories.{js,jsx,ts,tsx,mdx}",
+    "../apps/london-js/**/*.stories.{js,jsx,ts,tsx,mdx}",
     "../packages/**/*.stories.{js,jsx,ts,tsx,mdx}",
   ],
   addons: [
