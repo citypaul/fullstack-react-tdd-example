@@ -24,17 +24,30 @@ export const UseReducerCounter = () => {
   const [state, dispatch] = useReducer(counterReducer, initialState);
 
   return (
-    <div>
-      <h1>With use reducer implementation</h1>
-      <p>Count: {state.count}</p>
-      <div className="btn-group mt-2">
-        <Button onClick={() => dispatch({ type: "INCREMENT" })}>
-          Increment
-        </Button>
-        <Button onClick={() => dispatch({ type: "DECREMENT" })}>
-          Decrement
-        </Button>
-        <Button onClick={() => dispatch({ type: "RESET" })}>Reset</Button>
+    <div className="stat">
+      <h2 className="stat-title">Count</h2>
+      <p
+        className="stat-value"
+        role="status"
+        aria-live="polite"
+        aria-label="count"
+      >
+        {state.count}
+      </p>
+      <div
+        className="stat-actions"
+        role="toolbar"
+        aria-label="counter controls"
+      >
+        <div className="btn-group">
+          <Button onClick={() => dispatch({ type: "INCREMENT" })}>
+            Increment
+          </Button>
+          <Button onClick={() => dispatch({ type: "DECREMENT" })}>
+            Decrement
+          </Button>
+          <Button onClick={() => dispatch({ type: "RESET" })}>Reset</Button>
+        </div>
       </div>
     </div>
   );

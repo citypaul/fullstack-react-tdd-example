@@ -19,13 +19,26 @@ export const UseStateCounter = () => {
   };
 
   return (
-    <div>
-      <h1>With use state implementation</h1>
-      <p>Count: {count}</p>
-      <div className="btn-group mt-2">
-        <Button onClick={increment}>Increment</Button>
-        <Button onClick={decrement}>Decrement</Button>
-        <Button onClick={reset}>Reset</Button>
+    <div className="stat">
+      <h2 className="stat-title">Count</h2>
+      <p
+        className="stat-value"
+        role="status"
+        aria-live="polite"
+        aria-label="count"
+      >
+        {count}
+      </p>
+      <div
+        className="stat-actions"
+        role="toolbar"
+        aria-label="counter controls"
+      >
+        <div className="btn-group">
+          <Button onClick={increment}>Increment</Button>
+          <Button onClick={decrement}>Decrement</Button>
+          <Button onClick={reset}>Reset</Button>
+        </div>
       </div>
     </div>
   );
