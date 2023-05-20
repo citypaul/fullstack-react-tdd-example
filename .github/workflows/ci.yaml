@@ -46,5 +46,8 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Build storybook
+        run: pnpm build
+
       - name: Test
         run: pnpm test
