@@ -17,19 +17,19 @@
     "test": "turbo run test"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.4",
-    "@storybook/addon-actions": "^6.5.16",
-    "@storybook/addon-essentials": "^6.5.16",
-    "@storybook/addon-interactions": "^6.5.16",
-    "@storybook/addon-links": "^6.5.16",
-    "@storybook/builder-webpack5": "^6.5.16",
-    "@storybook/cli": "^6.5.16",
+    "@babel/core": "^7.21.8",
+    "@storybook/addon-actions": "^7.0.12",
+    "@storybook/addon-essentials": "^7.0.12",
+    "@storybook/addon-interactions": "^7.0.12",
+    "@storybook/addon-links": "^7.0.12",
+    "@storybook/builder-webpack5": "^7.0.12",
+    "@storybook/cli": "^7.0.12",
     "@storybook/manager-webpack5": "^6.5.16",
-    "@storybook/react": "^6.5.16",
-    "@storybook/testing-library": "^0.0.13",
-    "babel-loader": "^8.3.0",
-    "prettier": "latest",
-    "turbo": "latest"
+    "@storybook/react": "^7.0.12",
+    "@storybook/testing-library": "^0.1.0",
+    "babel-loader": "^9.1.2",
+    "prettier": "^2.8.8",
+    "turbo": "^1.9.8"
   },
   "engines": {
     "node": ">=18.16.0"
