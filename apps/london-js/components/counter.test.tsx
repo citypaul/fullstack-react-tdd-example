@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import { HelloWorld } from "./hello-world";
+import { Counter } from "./counter";
 
 describe("hello-world", () => {
   it("should render", () => {
-    render(<HelloWorld />);
+    render(<Counter />);
     expect(screen.getByText("Hello World!")).toBeInTheDocument();
   });
 });
