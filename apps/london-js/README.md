@@ -3,8 +3,6 @@
 
 ## Overview
 
-Copy and SaveShare
-
 The Counter component is an interactive element that allows users to increment, decrement, and reset a counter value. The main intent is to provide users with a simple, user-friendly interface for managing and controlling a numerical value.
 
 ## Requirements
