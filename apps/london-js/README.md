@@ -1,6 +1,9 @@
 # Counter Component Requirements
+<img width="339" alt="image" src="https://github.com/citypaul/fullstack-react-tdd-example/assets/5850178/9c34a80d-3163-46a8-a806-c7834f8ae0d4">
 
 ## Overview
+
+Copy and SaveShare
 
 The Counter component is an interactive element that allows users to increment, decrement, and reset a counter value. The main intent is to provide users with a simple, user-friendly interface for managing and controlling a numerical value.
 
