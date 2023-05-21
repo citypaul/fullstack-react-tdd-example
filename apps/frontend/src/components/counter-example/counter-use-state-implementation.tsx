@@ -9,9 +9,13 @@ export const UseStateCounter = () => {
   };
 
   const decrement = () => {
-    if (count > 0) {
-      setCount(count - 1);
-    }
+    setCount((prevCount) => {
+      if (prevCount > 0) {
+        return prevCount - 1;
+      }
+
+      return 0;
+    });
   };
 
   const reset = () => {

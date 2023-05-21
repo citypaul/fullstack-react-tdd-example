@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { UseReducerCounter as Counter } from "./";
+import { UseStateCounter as Counter } from "./";
 
 const getCount = () => screen.getByRole("status", { name: "count" });
 
