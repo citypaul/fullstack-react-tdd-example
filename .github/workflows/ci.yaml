@@ -9,9 +9,8 @@ on:
       - main
 
 jobs:
-  build_and_test:
+  install_deps:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -43,11 +42,32 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
+  build:
+    needs: install_deps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Build
         run: pnpm build
 
+  build_storybook:
+    needs: install_deps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Build storybook
         run: pnpm build-storybook
+
+  test:
+    needs: install_deps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Test
         run: pnpm test
