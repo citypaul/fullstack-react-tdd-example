@@ -79,7 +79,7 @@
     "fullstack-react-tdd-example-mocks": "workspace:*",
     "fullstack-react-tdd-example-types": "workspace:*",
     "msw": "^1.2.1",
-    "postcss": "^8.4.21",
+    "postcss": "^8.4.31",
     "prop-types": "^15.8.1",
     "tailwindcss": "^3.2.7",
     "webpack": "^5.76.0"
