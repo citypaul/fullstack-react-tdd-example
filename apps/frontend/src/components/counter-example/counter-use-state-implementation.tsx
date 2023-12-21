@@ -11,7 +11,7 @@ export const UseStateCounter = () => {
   const decrement = () => {
     setCount((prevCount) => {
       if (prevCount > 0) {
-        return prevCount - 1;
+        return prevCount + 1;
       }
 
       return 0;
