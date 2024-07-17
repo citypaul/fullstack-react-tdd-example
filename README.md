@@ -96,3 +96,108 @@ A suggested API architecture for a modern front end is the Backend for frontend 
 ![bff](./wireframes/bff.png)
 
 You can read more about it [here](https://samnewman.io/patterns/architectural/bff/).
+
+## AI Generated Notes for the talk
+
+Here's a summary and key takeaways from the presentation:
+
+SUMMARY:
+Paul Hammond, director at [Pack software](https://packsoftware.co.uk/), presents on component-driven development with React and DOM testing, covering topics like test-driven development, accessibility, and modern front-end practices.
+
+IDEAS:
+
+- Component-driven development helps build reusable, consistent UI elements
+- Testing against behavior rather than implementation details provides more value
+- Accessibility should be a key consideration when building front-end components
+- Tools like Storybook allow interactive development and documentation of components
+- Mock Service Worker enables mocking API calls for both testing and development
+- Backend for Frontend (BFF) pattern can simplify front-end architecture
+- Good tests give confidence to make changes over time
+- React Testing Library encourages testing from a user's perspective
+- TDD can lead to more maintainable and flexible code
+- Composable components allow for easier customization and reuse
+
+INSIGHTS:
+
+- Testing behavior instead of implementation allows for easier refactoring and maintenance
+- Accessible selectors in tests can improve overall application accessibility
+- Component explorers like Storybook facilitate collaboration between designers and developers
+- Mocking at the network level allows for consistent mocks across tests and development
+- TDD can lead to faster feedback loops and higher confidence in code changes
+- Focusing on delivery outcomes can help convince teams to adopt TDD practices
+- Using the DOM for testing closely mimics real user interactions
+- Separating UI concerns from business logic improves overall application architecture
+- Continuous delivery practices like "walking skeletons" can improve project setup
+- Balancing unit tests with integration/E2E tests covers different testing scenarios
+
+QUOTES:
+
+- "The purpose of good tests is to give us the confidence to make changes over time."
+- "If tests are passing, we should feel confident enough to go straight to production."
+- "Modern front ends are built with components and not pages."
+- "Component driven development helps us to build reusable components that reduce duplication."
+- "We want to see how we make changes over time, how tests help us to make changes over time."
+- "Good tests should give us the confidence to make changes over time."
+- "The joy of TDD is the right way of putting it because it's such a liberating experience."
+- "I haven't worked late for 10 years, and because I don't need to, and you shouldn't need to if you write in a test-first style."
+- "When it comes to testing, one of the things I typically do is... I would pull somebody's branch down, run the tests, deliberately fail something and see the tests."
+- "I need to have confidence that's the way it works."
+
+HABITS:
+
+- Write tests before implementation code to ensure proper test coverage
+- Use accessible selectors in tests to improve overall accessibility
+- Collaborate closely with designers using tools like Storybook
+- Refactor code confidently with a strong test suite in place
+- Run tests in watch mode for instant feedback during development
+- Use mock service workers to simulate API responses in tests
+- Build walking skeletons to establish CI/CD pipelines early in projects
+- Review pull requests by intentionally breaking code to verify test coverage
+- Prioritize testing behavior over implementation details in front-end tests
+- Continuously learn and apply best practices in front-end development
+
+FACTS:
+
+- React Testing Library is built on top of DOM Testing Library
+- Jest uses an in-memory DOM representation called jsdom for testing
+- Mock Service Worker can intercept and mock API calls at the network level
+- Storybook is a tool for developing UI components in isolation
+- Accessibility affects 30-40% of the population in some form
+- Component-driven development is framework-agnostic and applies to React, Vue, Angular, etc.
+- Test-driven development can lead to fewer bugs and more maintainable code
+- The Backend for Frontend pattern can improve front-end performance and simplify architecture
+- Cypress and Playwright are tools for end-to-end testing of web applications
+- Mutation testing can be used to verify the quality of test suites
+
+REFERENCES:
+
+- React Testing Library
+- Storybook
+- Mock Service Worker
+- Jest
+- Cypress
+- Playwright
+- Redux Toolkit
+- React Query
+- Testing JavaScript (by Kent C. Dodds)
+- W3C Web Accessibility Initiative (WAI)
+- Ian Cooper's talk "TDD: Where Did It All Go Wrong"
+- GitHub Primer (UI component library)
+- Testing Library Playground
+- Backend for Frontend (BFF) pattern
+
+ONE-SENTENCE TAKEAWAY:
+Test-driven development with React Testing Library enables confident, maintainable front-end code by focusing on behavior and accessibility.
+
+RECOMMENDATIONS:
+
+- Adopt component-driven development to improve reusability and consistency in front-end applications
+- Use Storybook or similar tools to develop and document UI components
+- Implement test-driven development practices for front-end code to improve quality
+- Focus on testing behavior rather than implementation details for more resilient tests
+- Utilize Mock Service Worker for consistent API mocking in tests and development
+- Consider implementing a Backend for Frontend pattern to simplify front-end architecture
+- Prioritize accessibility in component design and testing from the start
+- Use React Testing Library's accessible selectors to improve overall application accessibility
+- Implement continuous integration and delivery practices early in projects
+- Balance unit tests with integration and end-to-end tests for comprehensive coverage
