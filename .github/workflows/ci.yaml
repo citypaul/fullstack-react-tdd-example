@@ -14,17 +14,15 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18.16.0
+          node-version-file: .nvmrc
 
       - name: Set up pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8.2.0
+        uses: pnpm/action-setup@v4
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -32,7 +30,7 @@ jobs:
         run: |
           echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
