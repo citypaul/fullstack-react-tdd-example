@@ -33,7 +33,7 @@
   },
   "engines": {
     "node": "v23.6.1",
-    "pnpm": "9.15.4"
+    "pnpm": "8.2.0"
   },
-  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+  "packageManager": "pnpm@8.2.0+sha512.7f6fda6e5e86c9cc4b815650b56036cc124a31772fd8bf3a1c6470278aa74b4da05732e0b457a00b6e6a58a16d52e9c263be06530c6ad80ef2180244c8eb8262"
 }
