@@ -1,16 +1,169 @@
 # TDD Workshop: Behavioral Testing Across Languages
 
-## Planning Document v1.0
+## Planning Document v1.1
 
 **Duration**: Full Afternoon (~4 hours)
 **Format**: Presentation followed by Hands-On Workshop
 **Audience**: Senior developers across TypeScript and C# teams
+**Preparation Time**: 1 month
 
 ---
 
-## Overall Workshop Structure
+## Preparation Plan
 
-The workshop follows a deliberate arc: from inspiration to understanding to practice.
+### Overview
+
+We have one month to prepare materials. The goal is to create a **new repository** containing examples in both TypeScript and C# that demonstrate identical concepts. C# teams will collaborate during preparation to ensure the C# examples are idiomatic and complete before the workshop day.
+
+### Repository Structure
+
+```
+tdd-workshop/
+├── README.md                           # Workshop overview and setup instructions
+├── docs/
+│   └── workshop-guide.md               # Facilitator guide for the day
+│
+├── 01-core-concepts/                   # Language-agnostic examples (demo + exercises)
+│   ├── typescript/
+│   │   ├── booking-system/             # Opening demo
+│   │   │   ├── booking-system.test.ts
+│   │   │   ├── booking-system.ts
+│   │   │   ├── booking-system-bad-tests.test.ts  # Contrast: implementation-coupled tests
+│   │   │   └── types.ts
+│   │   ├── price-calculator/           # Implementation independence example
+│   │   │   ├── price-calculator.test.ts
+│   │   │   ├── price-calculator-imperative.ts
+│   │   │   └── price-calculator-functional.ts
+│   │   └── shopping-cart/              # Hands-on exercise
+│   │       ├── shopping-cart.test.ts   # Tests provided (RED)
+│   │       ├── shopping-cart.ts        # Empty - teams implement
+│   │       └── types.ts
+│   │
+│   └── csharp/
+│       ├── BookingSystem/              # Same concepts, idiomatic C#
+│       │   ├── BookingSystemTests.cs
+│       │   ├── BookingSystem.cs
+│       │   ├── BookingSystemBadTests.cs
+│       │   └── Types.cs
+│       ├── PriceCalculator/
+│       │   ├── PriceCalculatorTests.cs
+│       │   ├── PriceCalculatorImperative.cs
+│       │   └── PriceCalculatorFunctional.cs
+│       └── ShoppingCart/
+│           ├── ShoppingCartTests.cs    # Tests provided (RED)
+│           ├── ShoppingCart.cs         # Empty - teams implement
+│           └── Types.cs
+│
+├── 02-frontend-patterns/               # Frontend-specific (TypeScript only)
+│   ├── counter-example/                # useState vs useReducer - same tests
+│   │   ├── counter.test.tsx
+│   │   ├── counter-use-state.tsx
+│   │   └── counter-use-reducer.tsx
+│   ├── product-search/                 # React Query vs Redux - same tests
+│   │   ├── product-search.test.tsx
+│   │   ├── product-search-react-query.tsx
+│   │   └── product-search-redux.tsx
+│   └── msw-example/                    # Mocking at HTTP boundary
+│       ├── api-integration.test.tsx
+│       ├── handlers.ts
+│       └── api-client.ts
+│
+├── 03-backend-patterns/                # Backend-specific (C# focused, TS equivalent)
+│   ├── typescript/
+│   │   └── repository-pattern/         # Interface-based testing
+│   │       ├── user-service.test.ts
+│   │       ├── user-service.ts
+│   │       └── user-repository.ts
+│   └── csharp/
+│       └── RepositoryPattern/
+│           ├── UserServiceTests.cs
+│           ├── UserService.cs
+│           └── IUserRepository.cs
+│
+└── slides/                             # Presentation materials
+    └── tdd-workshop.md                 # Slide content (can use reveal.js, etc.)
+```
+
+### Preparation Timeline
+
+```
+Week 1: Core Setup & Booking System Demo
+─────────────────────────────────────────
+[ ] Create new repository with structure above
+[ ] Implement TypeScript booking-system (demo code)
+[ ] Implement TypeScript booking-system-bad-tests (contrast)
+[ ] Write implementation that passes good tests
+[ ] Verify demo flow: break code → tests fail with clear messages
+
+Week 2: Core Examples & C# Collaboration Begins
+───────────────────────────────────────────────
+[ ] Implement TypeScript price-calculator (both implementations)
+[ ] Implement TypeScript shopping-cart tests (exercise starter)
+[ ] Meet with C# team: review TypeScript examples
+[ ] C# team begins BookingSystem translation
+[ ] C# team begins PriceCalculator translation
+
+Week 3: Frontend Patterns & C# Completion
+─────────────────────────────────────────
+[ ] Port counter example from existing repo
+[ ] Port product-search example from existing repo
+[ ] Port MSW example from existing repo
+[ ] C# team completes ShoppingCart exercise starter
+[ ] C# team reviews and refines all examples
+[ ] Cross-review: verify concepts are identical across languages
+
+Week 4: Polish & Dry Run
+────────────────────────
+[ ] Create presentation slides
+[ ] Write facilitator guide
+[ ] Test all examples run correctly (both languages)
+[ ] Dry run with small group
+[ ] Adjust timing based on dry run feedback
+[ ] Final repository cleanup and documentation
+```
+
+### Collaboration with C# Teams
+
+**Goals**:
+
+1. C# examples should be **idiomatic** — not direct translations
+2. Same concepts, potentially different patterns (e.g., factory vs builder)
+3. Both languages ready and tested before workshop day
+4. C# developers can present their own examples if desired
+
+**Collaboration Points**:
+
+- Week 2: Kickoff meeting to review TypeScript examples and discuss C# idioms
+- Week 3: Review session for C# implementations
+- Week 4: Joint dry run with both TypeScript and C# examples
+
+### Key Principles for Examples
+
+Each example should demonstrate:
+
+1. **Tests describe behavior, not implementation**
+   - Test names read like specifications
+   - Failure messages explain what business rule was violated
+
+2. **Tests survive refactoring**
+   - Show two implementations passing same tests
+   - Prove that changing HOW doesn't break tests
+
+3. **Factory/Builder pattern for test data**
+   - No shared mutable state
+   - Complete objects with sensible defaults
+   - Easy to customize via overrides
+
+4. **Mocking at boundaries only**
+   - Time as an injected dependency
+   - HTTP mocking (MSW for TS, WireMock for C#)
+   - No mocking of internal methods
+
+---
+
+## Workshop Day Structure
+
+The following sections describe what happens on the day itself. The workshop follows a deliberate arc: from inspiration to understanding to practice.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -1361,16 +1514,53 @@ _wireMockServer
 
 ---
 
+## Appendix D: Concepts by Example
+
+This table maps each core concept to the examples that demonstrate it:
+
+| Concept                           | Booking System | Price Calculator | Shopping Cart | Counter  | Product Search |
+| --------------------------------- | -------------- | ---------------- | ------------- | -------- | -------------- |
+| Test behavior, not implementation | ✓ (demo)       | ✓                | ✓             | ✓        | ✓              |
+| Tests as specifications           | ✓ (demo)       |                  | ✓             |          |                |
+| Implementation independence       | ✓ (demo)       | ✓ (main)         |               | ✓ (main) | ✓ (main)       |
+| Factory/Builder pattern           | ✓              | ✓                | ✓             |          | ✓              |
+| Mock at boundaries (time)         | ✓              |                  |               |          |                |
+| Mock at boundaries (HTTP)         |                |                  |               |          | ✓ (main)       |
+| Bad tests contrast                | ✓ (main)       |                  |               |          |                |
+| Coverage through behavior         | ✓              | ✓                | ✓             |          |                |
+
+**Legend**:
+
+- ✓ = demonstrates this concept
+- (main) = primary example for this concept
+- (demo) = used in opening demonstration
+
+---
+
 ## Questions for Review
 
-1. **Demo Domain**: Is Meeting Room Booking suitable, or would another domain resonate better with your organization?
+### Preparation
 
-2. **Exercise Domain**: Shopping Cart for hands-on — appropriately different from demo while still being universally understood?
+1. **Repository**: Should the new repo be public (for attendees to reference later) or internal?
 
-3. **Time Allocation**: Does the 90 minutes for hands-on practice feel right? Could be adjusted if needed.
+2. **C# Team Involvement**: Who from C# should be involved in preparation? Do we need dedicated time allocated?
 
-4. **C# Depth**: Should we create a parallel C# starter repo, or have C# teams translate during the workshop?
+3. **Existing Code**: Should we copy examples from this repo or start fresh with cleaner implementations?
 
-5. **Frontend Section**: 8 minutes in Phase 5 — sufficient, or should it be expanded?
+### Content
 
-6. **Anti-patterns**: Should we add an explicit "Bad Tests Gallery" showing common anti-patterns before the principles section?
+4. **Demo Domain**: Is Meeting Room Booking suitable, or would another domain resonate better with your organization?
+
+5. **Exercise Domain**: Shopping Cart for hands-on — appropriately different from demo while still being universally understood?
+
+6. **Frontend Depth**: The current plan has frontend patterns as a separate section. Should frontend teams have their own extended exercises?
+
+7. **Anti-patterns Gallery**: Should we add an explicit "Bad Tests Gallery" showing common anti-patterns as a standalone section?
+
+### Logistics
+
+8. **Time Allocation**: Does the 90 minutes for hands-on practice feel right? Could be adjusted if needed.
+
+9. **Team Size**: What's the expected attendance? This affects how we structure the exercises.
+
+10. **Follow-up**: Should there be follow-up sessions or office hours after the workshop?
