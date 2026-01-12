@@ -1,18 +1,18 @@
 # TDD Workshop: Executive Overview
 
-**Purpose**: Cross-team workshop teaching behavioral testing principles across TypeScript and C#
+**Purpose**: Cross-team workshop teaching behavioral testing and specification-driven development across TypeScript, Java, and C#
 
-**Duration**: Half-day (~4 hours)
+**Duration**: Full day (~7 hours including breaks)
 
-**Audience**: Senior developers from TypeScript and C# teams
+**Audience**: Senior developers from TypeScript, Java, and C# teams
 
 ---
 
 ## The Core Message
 
-> Tests should describe what the system does, not how it does it.
+> Tests are executable specifications. They describe what the system should do, not how it does it.
 
-When tests verify behavior rather than implementation:
+When we write tests this way:
 
 - They catch real bugs with clear, actionable messages
 - They survive refactoring without breaking
@@ -21,105 +21,135 @@ When tests verify behavior rather than implementation:
 
 ---
 
+## What BDD Actually Is
+
+**BDD is NOT** Given/When/Then syntax, Cucumber, or SpecFlow.
+
+**BDD IS** a collaborative practice:
+
+1. **Conversations** with business stakeholders to understand desired behavior
+2. **Concrete examples** that clarify requirements and surface edge cases
+3. **Executable specifications** written in your test framework (Jest, JUnit, xUnit)
+4. Test names that read as **business requirements**, not code descriptions
+
+The tools came later and became conflated with the practice. We do BDD by having conversations and writing specifications — not by adopting a syntax.
+
+---
+
 ## Workshop Structure
 
-### Opening: Personal Story (15 min)
+### Morning: Foundations (~1.5 hours)
 
-Paul shares his TDD journey — how he started, what changed his mind, and why this matters.
+**Opening Presentation (30 min)** — Paul's TDD journey + introduction to requirement gathering and specifications
 
-### Phase 1: Inspiration (25 min)
+**Demo (30 min)** — Using a booking system to show:
 
-Live demo with a powerful contrast:
+1. Good tests catch broken behavior
+2. Good tests allow refactoring
+3. Bad tests do the opposite (miss bugs AND break on refactoring)
 
-1. **Good tests**: We introduce bugs in the code. Tests fail immediately with clear messages explaining exactly which business rule was violated.
+**Principles Discussion (20 min)** — Agree on shared principles across all languages
 
-2. **Bad tests**: We introduce the _same bugs_. Tests still pass. The bugs would ship to production.
+### Afternoon: Hands-On Labs (~4 hours)
 
-This is the "aha moment" — seeing real bugs slip through implementation-coupled tests while behavioral tests catch them every time.
+**The bulk of the day is hands-on work.** Engineers build a credit card validator from scratch, progressing through tagged checkpoints ~30 minutes apart.
 
-### Phase 2: Principles (35 min)
+| Lab       | Focus                                              | Tag                        |
+| --------- | -------------------------------------------------- | -------------------------- |
+| **Lab 0** | Requirements gathering simulation (this IS BDD)    | `lab-0-requirements`       |
+| **Lab 1** | Basic validation (length, format, Luhn)            | `lab-1-basic-validation`   |
+| **Lab 2** | Provider detection (Visa, Mastercard, Amex)        | `lab-2-provider-detection` |
+| **Lab 3** | Provider-specific rules (lengths, CVV)             | `lab-3-provider-rules`     |
+| **Lab 4** | Frontend integration (form validation + messaging) | `lab-4-frontend`           |
+| **Lab 5** | Backend integration (API endpoint protection)      | `lab-5-backend`            |
 
-We name what they just witnessed:
+**Multi-language parity**: All labs have identical implementations at each tag in TypeScript, Java, and C#. Engineers choose their language; tags keep everyone synchronized.
 
-- Test behavior, not implementation
-- Tests are executable specifications
-- Write the test first (RED-GREEN-REFACTOR)
-- Mock at boundaries, not internals
+### Closing (~30 min)
 
-### Phase 3: Patterns (45 min)
+**AI Demo (10 min)** — Regenerate implementation from specs (proves specs are what matter)
 
-Concrete examples showing the mechanics — factory patterns, boundary mocking. Side-by-side TypeScript and C# patterns.
-
-### Phase 4: Practice (90 min)
-
-Hands-on TDD from scratch. Teams receive requirements in plain English and build a shopping cart using the RED-GREEN-REFACTOR cycle — write a failing test, make it pass, refactor, repeat. No pre-written tests; they experience the full TDD workflow.
-
-### Phase 5: Application (20 min)
-
-Domain-specific patterns (frontend, backend) and adoption strategies for real work.
+**Wrap-Up (20 min)** — Brownfield projects, "Working Effectively with Legacy Code", Q&A
 
 ---
 
 ## Core Principles
 
-These are the key ideas the workshop teaches:
-
-| Principle                             | What It Means                                                      |
-| ------------------------------------- | ------------------------------------------------------------------ |
-| **Test behavior, not implementation** | If you refactor without changing behavior, tests shouldn't break   |
-| **Tests are specifications**          | Test names should read like business requirements                  |
-| **Test-first (RED-GREEN-REFACTOR)**   | Write a failing test, then minimum code to pass, then refactor     |
-| **Test-first beats test-last**        | Writing tests first shapes better APIs and catches ambiguity early |
-| **Mock at boundaries**                | Mock HTTP, databases, time — not your own functions                |
-| **Isolated test state**               | Each test creates its own data; no shared mutable state            |
-| **Implementation independence**       | Same tests should pass for different implementations               |
+| Principle                             | What It Means                          |
+| ------------------------------------- | -------------------------------------- |
+| **Test behavior, not implementation** | Refactoring shouldn't break tests      |
+| **Tests are specifications**          | Test names = business requirements     |
+| **Test-first (RED-GREEN-REFACTOR)**   | Failing test → minimal code → refactor |
+| **Test-first beats test-last**        | Shapes APIs, catches ambiguity early   |
+| **Mock at boundaries**                | Mock HTTP/DB/time, not your own code   |
+| **Isolated test state**               | Each test creates its own data         |
 
 ---
 
-## Workshop Repository Structure
+## Lab Progression: Card Validator
 
-We will create a new repository with examples in both languages:
+The card validator exercise progresses naturally from simple to full-stack:
+
+```
+Lab 0: Requirements Gathering
+    │   "We need to validate credit card numbers"
+    │   Teams ask questions to discover specifications
+    ▼
+Lab 1: Basic Validation
+    │   Empty check, numeric only, Luhn checksum
+    ▼
+Lab 2: Provider Detection
+    │   Visa (4), Mastercard (51-55), Amex (34/37)
+    ▼
+Lab 3: Provider-Specific Rules
+    │   Visa: 16 digits, 3-digit CVV
+    │   Amex: 15 digits, 4-digit CVV
+    ▼
+Lab 4: Frontend Integration
+    │   Real-time form validation
+    │   Provider icon display
+    │   User-friendly error messages
+    ▼
+Lab 5: Backend Integration
+        API endpoint protection
+        Validation middleware
+        Structured error responses
+```
+
+**Why card validation:**
+
+- Everyone understands credit cards
+- Clear, simple starting rules
+- Natural progression to complexity
+- Applicable to both frontend and backend
+
+---
+
+## Repository Structure
 
 ```
 tdd-workshop/
 ├── typescript/
-│   ├── 01-booking-system/      # Demo: "What good looks like"
-│   ├── 02-price-calculator/    # Implementation independence
-│   ├── 03-shopping-cart/       # Hands-on exercise
-│   ├── 04-counter/             # React: state mechanism independence
-│   ├── 05-product-search/      # React: data fetching independence
-│   └── 06-api-integration/     # MSW boundary mocking
+│   ├── card-validator/         # Labs 0-5
+│   └── demo-booking-system/    # Opening demo
+│
+├── java/
+│   ├── card-validator/         # Labs 0-3, 5
+│   └── demo-booking-system/
 │
 ├── csharp/
-│   ├── 01-booking-system/      # Same concepts, idiomatic C#
-│   ├── 02-price-calculator/
-│   ├── 03-shopping-cart/
-│   └── 07-repository-pattern/  # Backend boundary mocking
+│   ├── CardValidator/          # Labs 0-3, 5
+│   └── DemoBookingSystem/
 │
-└── slides/
-    └── workshop-presentation.pptx
+├── slides/
+│   └── workshop-presentation.pptx
+│
+└── facilitator/
+    ├── requirements-cheatsheet.md
+    └── timing-guide.md
 ```
 
-Each example teaches specific concepts. TypeScript and C# implementations are parallel — same business logic, idiomatic to each language.
-
----
-
-## Preparation Plan
-
-**Timeline**: 1 month
-
-| Week | Focus                                                |
-| ---- | ---------------------------------------------------- |
-| 1    | Finalize examples, create TypeScript implementations |
-| 2    | C# team creates parallel implementations             |
-| 3    | Test run with small group, refine based on feedback  |
-| 4    | Final polish, prepare slides and handouts            |
-
-**Team Involvement**:
-
-- Paul: TypeScript examples, presentation, facilitation
-- C# representatives: Parallel C# implementations using idiomatic patterns
-- All: Review and feedback during week 3
+Tags at each lab allow teams to catch up if they fall behind.
 
 ---
 
@@ -127,27 +157,20 @@ Each example teaches specific concepts. TypeScript and C# implementations are pa
 
 After the workshop, developers will:
 
-1. Recognize the difference between behavioral and implementation-coupled tests
-2. Practice the RED-GREEN-REFACTOR cycle and understand why test-first matters
-3. Write tests that describe business rules, not code structure
-4. Use factory patterns for isolated test data
-5. Mock at system boundaries (HTTP, database, time)
-6. Feel confident refactoring code with good test coverage
+1. Understand that tests ARE specifications, not verification of code
+2. Practice requirement gathering through concrete examples (real BDD)
+3. Use the RED-GREEN-REFACTOR cycle confidently
+4. Recognize the difference between behavioral and implementation-coupled tests
+5. Write tests that describe business rules, not code structure
+6. Apply the same patterns across frontend and backend
+7. Have patterns for applying TDD to existing (brownfield) codebases
 
 ---
 
 ## Next Steps
 
 1. **Today**: Align on scope, timeline, and team involvement
-2. **This week**: Confirm C# team representatives for preparation
-3. **Week 1**: Begin example development
-4. **Ongoing**: Detailed planning document available for deep-dive discussions
-
----
-
-## Questions for Discussion
-
-1. Does the half-day format work, or do we need to split across sessions?
-2. Who from C# teams will collaborate on preparation?
-3. Should the repository be internal or available externally?
-4. Any domain preferences for examples (booking, shopping cart, or something closer to our work)?
+2. **This week**: Confirm Java and C# team representatives for preparation
+3. **Week 1**: Begin example development (TypeScript first, then parallel)
+4. **Week 3**: Dry run with small group
+5. **Ongoing**: Detailed planning document available for deep-dive discussions

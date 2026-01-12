@@ -1,412 +1,127 @@
 # TDD Workshop: Behavioral Testing Across Languages
 
-## Planning Document v1.1
+## Planning Document v3.0
 
-**Duration**: Full Afternoon (~4 hours)
-**Format**: Presentation followed by Hands-On Workshop
-**Audience**: Senior developers across TypeScript and C# teams
+**Duration**: Full day (~7 hours including breaks)
+**Format**: Presentation, Demo, Hands-On Labs (majority of day)
+**Audience**: Senior developers across TypeScript, Java, and C# teams
 **Preparation Time**: 1 month
 
 ---
 
-## Preparation Plan
+## What BDD Actually Is
 
-### Overview
+Before we begin, let's be clear about BDD (Behavior-Driven Development):
 
-We have one month to prepare materials. The goal is to create a **new repository** containing examples in both TypeScript and C# that demonstrate identical concepts. C# teams will collaborate during preparation to ensure the C# examples are idiomatic and complete before the workshop day.
+**BDD is NOT:**
 
-### Examples Catalog
+- Gherkin syntax (Given/When/Then)
+- Cucumber, SpecFlow, or any specific tool
+- A way to write tests in natural language
+- Something you adopt by using a DSL
 
-Each example is designed to teach specific concepts. This section defines what each example demonstrates and why it exists.
+**BDD IS:**
 
----
+- A collaborative practice for discovering and specifying behavior
+- Conversations between developers, testers, and business stakeholders
+- Using concrete examples to clarify requirements
+- Those examples becoming executable specifications
+- Writing specifications in your test framework (Jest, JUnit, xUnit), not a separate DSL
 
-#### Example 1: Booking System (Opening Demo)
+**The key insight**: Many teams adopt Given/When/Then syntax without the practice — they write Cucumber scenarios after the code exists, which misses the entire point. The value is in the conversations and the examples, not the syntax.
 
-**Languages**: TypeScript + C#
-**Purpose**: Opening demonstration — "What good looks like"
-**Used in**: Phase 1 (Inspiration)
-
-**Key Concepts Demonstrated**:
-
-| Concept                                  | How It's Shown                                                                            |
-| ---------------------------------------- | ----------------------------------------------------------------------------------------- |
-| **Tests catch bugs with clear messages** | Break overlap detection → test fails explaining "back-to-back bookings should be allowed" |
-| **Tests describe business behavior**     | Test names read as specification: "should reject booking in the past"                     |
-| **Bad tests provide false confidence**   | Same bugs pass through implementation-coupled tests (spy assertions)                      |
-| **Controlling time as a boundary**       | `now` is passed as parameter, not `new Date()` inside function                            |
-
-**Files**:
-
-- `booking-system.test.ts` — Good behavioral tests
-- `booking-system-bad-tests.test.ts` — Contrast: implementation-coupled tests that miss bugs
-- `booking-system.ts` — Implementation
-- `types.ts` — Type definitions
-
-**Demo Flow**:
-
-1. Run tests (all green)
-2. Break overlap logic → test fails with descriptive message
-3. Break past-booking check → test fails with descriptive message
-4. Show bad tests file → same bugs pass through
-5. Show refactoring doesn't break good tests
+**In this workshop**: The requirement gathering exercise IS the BDD practice. The tests we write ARE the executable specifications. Test names describe business behavior in plain language.
 
 ---
 
-#### Example 2: Price Calculator (Testing Pure Functions)
-
-**Languages**: TypeScript + C#
-**Purpose**: Show behavioral tests for business logic
-**Used in**: Phase 3 (Patterns)
-
-**Key Concepts Demonstrated**:
-
-| Concept                             | How It's Shown                                                  |
-| ----------------------------------- | --------------------------------------------------------------- |
-| **Tests verify business rules**     | Each test describes a pricing rule (discounts, tax, edge cases) |
-| **Factory pattern for test data**   | `createPriceParams()` with overrides                            |
-| **Pure functions are easy to test** | No setup needed — just input and expected output                |
-
-**Files**:
-
-- `price-calculator.test.ts` — Behavioral tests
-- `price-calculator.ts` — Implementation
-
-**Key Point**: Tests describe what the calculator should do for the business, not how it's coded internally.
-
----
-
-#### Example 3: Shopping Cart (Hands-On TDD Exercise)
-
-**Languages**: TypeScript + C#
-**Purpose**: Teams practice the full RED-GREEN-REFACTOR cycle from scratch
-**Used in**: Phase 4 (Practice)
-
-**Key Concepts Demonstrated**:
-
-| Concept                         | How It's Shown                                                |
-| ------------------------------- | ------------------------------------------------------------- |
-| **RED-GREEN-REFACTOR workflow** | Teams write tests first, then implementation, then refactor   |
-| **Test-first shapes design**    | Requirements given in English; teams decide API through tests |
-| **Incremental development**     | Build feature by feature, test by test                        |
-| **Refactoring with confidence** | Final exercise: restructure implementation, tests protect you |
-
-**Files** (starter):
-
-- `shopping-cart.ts` — Empty file (teams build from scratch)
-- `shopping-cart.test.ts` — Empty file (teams write tests first)
-- `types.ts` — Type definitions (provided as reference)
-- `REQUIREMENTS.md` — Business rules in plain English
-
-**Exercise Structure**:
-
-Teams receive requirements in plain English and must:
-
-1. Write a failing test for the first requirement (RED)
-2. Write minimum code to pass (GREEN)
-3. Refactor if needed
-4. Repeat for next requirement
-
-This is real TDD — not filling in blanks for pre-written tests.
-
----
-
-#### Example 4: Counter Component (State Mechanism Independence)
-
-**Languages**: TypeScript/React only
-**Purpose**: Show that UI tests don't care about internal state management
-**Used in**: Phase 5 (Application — Frontend Patterns)
-
-**Key Concepts Demonstrated**:
-
-| Concept                                        | How It's Shown                                                               |
-| ---------------------------------------------- | ---------------------------------------------------------------------------- |
-| **Internal state is an implementation detail** | Same tests pass for `useState` and `useReducer` implementations              |
-| **Test user-visible behavior**                 | Tests click buttons and verify displayed count, not state values             |
-| **Accessible queries**                         | `getByRole('button', { name: /increment/i })` — tests use accessibility tree |
-| **Tests survive state refactoring**            | Switch from useState to useReducer (or Redux, or Zustand) — tests unchanged  |
-
-**Files**:
-
-- `counter.test.tsx` — Behavioral tests (never changes)
-- `counter-use-state.tsx` — Implementation A: React useState
-- `counter-use-reducer.tsx` — Implementation B: React useReducer
-
-**Key Point**: The test doesn't know or care whether you use `useState`, `useReducer`, Redux, Zustand, or any other state mechanism. It only knows: "when I click increment, the displayed count goes up."
-
----
-
-#### Example 5: Product Search (Data Fetching Independence)
-
-**Languages**: TypeScript/React only
-**Purpose**: Show that tests don't care about data fetching implementation
-**Used in**: Phase 5 (Application — Frontend Patterns)
-
-**Key Concepts Demonstrated**:
-
-| Concept                                       | How It's Shown                                                     |
-| --------------------------------------------- | ------------------------------------------------------------------ |
-| **Data fetching is an implementation detail** | Same tests pass for React Query and Redux Toolkit implementations  |
-| **Mock at HTTP boundary (MSW)**               | Network requests intercepted, not fetch/axios mocked               |
-| **Test user workflows**                       | User types search term, clicks button, sees results                |
-| **Tests survive library changes**             | Switch from React Query to Redux (or vice versa) — tests unchanged |
-
-**Files**:
-
-- `product-search.test.tsx` — Behavioral tests (never changes)
-- `product-search-react-query.tsx` — Implementation A: React Query
-- `product-search-redux.tsx` — Implementation B: Redux Toolkit RTK Query
-- `handlers.ts` — MSW handlers for mocking API
-
-**Key Point**: Whether you use React Query, Redux, SWR, or plain fetch — the tests don't change. They verify: "user searches, loading appears, results display."
-
----
-
-#### Example 6: API Integration with MSW (Mocking at Boundaries)
-
-**Languages**: TypeScript (frontend) + C# equivalent with WireMock
-**Purpose**: Demonstrate mocking at the HTTP boundary, not at internal layers
-**Used in**: Phase 3 (Patterns) and Phase 5 (Application)
-
-**Key Concepts Demonstrated**:
-
-| Concept                                  | How It's Shown                                         |
-| ---------------------------------------- | ------------------------------------------------------ |
-| **Mock at network boundary**             | MSW intercepts HTTP requests, real code executes       |
-| **Same mocks for tests and development** | MSW handlers work in Jest and in browser               |
-| **Test real integration code**           | Actual fetch/axios calls execute, only network is fake |
-| **No mocking of internal functions**     | Don't mock `fetchData()`, mock the endpoint it calls   |
-
-**TypeScript Files** (MSW):
-
-- `api-integration.test.tsx` — Tests that verify API integration behavior
-- `handlers.ts` — MSW request handlers
-- `api-client.ts` — Real API client code (not mocked)
-
-**C# Equivalent** (WireMock):
-
-- `ApiIntegrationTests.cs` — Tests using WireMock.Net
-- `WireMockSetup.cs` — WireMock server configuration
-- `ApiClient.cs` — Real HTTP client code
-
-**Key Point**: We mock the external world (HTTP responses), not our own code. The test exercises the real API client, real error handling, real response parsing — only the network is controlled.
-
-**Contrast with bad approach**:
-
-```typescript
-// ❌ BAD: Mocking internal function
-jest.spyOn(apiClient, 'fetchProducts').mockResolvedValue([...]);
-
-// ✅ GOOD: Mocking at HTTP boundary
-server.use(
-  http.get('/api/products', () => {
-    return HttpResponse.json([...]);
-  })
-);
-```
-
----
-
-#### Example 7: Service with Repository (Backend Boundary Mocking)
-
-**Languages**: C# (primary) + TypeScript equivalent
-**Purpose**: Show backend pattern for mocking at boundaries via interfaces
-**Used in**: Phase 5 (Application — Backend Patterns)
-
-**Key Concepts Demonstrated**:
-
-| Concept                                   | How It's Shown                                                            |
-| ----------------------------------------- | ------------------------------------------------------------------------- |
-| **Interface as boundary**                 | `IUserRepository` defines the contract, tests provide fake implementation |
-| **Test service behavior, not repository** | Tests verify service logic, not database queries                          |
-| **Dependency injection enables testing**  | Service receives repository via constructor                               |
-| **In-memory fakes vs mocks**              | Prefer simple in-memory implementations over complex mocking              |
-
-**C# Files**:
-
-- `UserServiceTests.cs` — Tests with in-memory repository
-- `UserService.cs` — Service containing business logic
-- `IUserRepository.cs` — Interface (the boundary)
-- `InMemoryUserRepository.cs` — Test fake implementation
-
-**TypeScript Equivalent**:
-
-- `user-service.test.ts` — Same patterns in TypeScript
-- `user-service.ts` — Service implementation
-- `user-repository.ts` — Interface + in-memory implementation
-
-**Key Point**: The repository is the boundary. Tests provide a simple in-memory implementation, not a mock with `verify()` calls. We test: "when service does X, what happens?" — not "did service call repository method Y?"
-
----
-
-### Repository Structure
-
-```
-tdd-workshop/
-├── README.md                           # Workshop overview and setup instructions
-├── docs/
-│   └── workshop-guide.md               # Facilitator guide for the day
-│
-├── 01-core-concepts/                   # Language-agnostic examples
-│   ├── typescript/
-│   │   ├── booking-system/             # Example 1: Opening demo
-│   │   ├── price-calculator/           # Example 2: Implementation independence
-│   │   └── shopping-cart/              # Example 3: Hands-on exercise
-│   └── csharp/
-│       ├── BookingSystem/              # Example 1: C# version
-│       ├── PriceCalculator/            # Example 2: C# version
-│       └── ShoppingCart/               # Example 3: C# version
-│
-├── 02-boundary-mocking/                # Mocking at boundaries (both languages)
-│   ├── typescript/
-│   │   └── msw-api-integration/        # Example 6: MSW pattern
-│   └── csharp/
-│       └── WireMockApiIntegration/     # Example 6: WireMock pattern
-│
-├── 03-frontend-patterns/               # Frontend-specific (TypeScript/React)
-│   ├── counter-example/                # Example 4: State mechanism independence
-│   └── product-search/                 # Example 5: Data fetching independence
-│
-├── 04-backend-patterns/                # Backend-specific (C# primary)
-│   ├── csharp/
-│   │   └── ServiceWithRepository/      # Example 7: Repository pattern
-│   └── typescript/
-│       └── service-with-repository/    # Example 7: TS equivalent
-│
-└── slides/                             # Presentation materials
-    └── tdd-workshop.md                 # Slide content
-```
-
-### Preparation Timeline
-
-```
-Week 1: Core Setup & Booking System Demo
-─────────────────────────────────────────
-[ ] Create new repository with structure above
-[ ] Implement TypeScript booking-system (demo code)
-[ ] Implement TypeScript booking-system-bad-tests (contrast)
-[ ] Write implementation that passes good tests
-[ ] Verify demo flow: break code → tests fail with clear messages
-
-Week 2: Core Examples & C# Collaboration Begins
-───────────────────────────────────────────────
-[ ] Implement TypeScript price-calculator (both implementations)
-[ ] Implement TypeScript shopping-cart tests (exercise starter)
-[ ] Meet with C# team: review TypeScript examples
-[ ] C# team begins BookingSystem translation
-[ ] C# team begins PriceCalculator translation
-
-Week 3: Frontend Patterns & C# Completion
-─────────────────────────────────────────
-[ ] Port counter example from existing repo
-[ ] Port product-search example from existing repo
-[ ] Port MSW example from existing repo
-[ ] C# team completes ShoppingCart exercise starter
-[ ] C# team reviews and refines all examples
-[ ] Cross-review: verify concepts are identical across languages
-
-Week 4: Polish & Dry Run
-────────────────────────
-[ ] Create presentation slides
-[ ] Write facilitator guide
-[ ] Test all examples run correctly (both languages)
-[ ] Dry run with small group
-[ ] Adjust timing based on dry run feedback
-[ ] Final repository cleanup and documentation
-```
-
-### Collaboration with C# Teams
-
-**Goals**:
-
-1. C# examples should be **idiomatic** — not direct translations
-2. Same concepts, potentially different patterns (e.g., factory vs builder)
-3. Both languages ready and tested before workshop day
-4. C# developers can present their own examples if desired
-
-**Collaboration Points**:
-
-- Week 2: Kickoff meeting to review TypeScript examples and discuss C# idioms
-- Week 3: Review session for C# implementations
-- Week 4: Joint dry run with both TypeScript and C# examples
-
-### Key Concepts Summary
-
-The workshop teaches these core concepts, each demonstrated by specific examples:
-
-| Concept                                  | Primary Example                     | Also Shown In  |
-| ---------------------------------------- | ----------------------------------- | -------------- |
-| **Tests catch bugs with clear messages** | Booking System (demo)               | All examples   |
-| **Tests describe business behavior**     | Booking System (demo)               | Shopping Cart  |
-| **Bad tests provide false confidence**   | Booking System (bad tests contrast) | —              |
-| **Test-first (RED-GREEN-REFACTOR)**      | Shopping Cart (hands-on TDD)        | Phase 2        |
-| **Refactoring with confidence**          | Booking System, Shopping Cart       | —              |
-| **Mock at HTTP boundary**                | MSW API Integration                 | Product Search |
-| **Mock at interface boundary**           | Service with Repository             | —              |
-| **Factory/Builder pattern**              | All examples                        | —              |
-| **Controlling time as dependency**       | Booking System                      | —              |
-
----
-
-## Workshop Day Structure
-
-The following sections describe what happens on the day itself. The workshop follows a deliberate arc: from personal story to inspiration to understanding to practice.
+## Workshop Structure
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                                                                         │
-│  OPENING: PRESENTATION (PowerPoint)                                     │
-│  "My Journey with TDD"                                                  │
-│  ─────────────────────                                                  │
-│  Paul's personal story: How I started using TDD                         │
-│  Historical context and credibility                                     │
-│  Transition into "What Good Looks Like"                                 │
-│  Goal: Build connection and establish why this matters to ME            │
+│  MORNING: FOUNDATIONS                                                   │
+│  ════════════════════                                                   │
+│                                                                         │
+│  OPENING PRESENTATION (30 min)                                          │
+│  ───────────────────────────────                                        │
+│  Paul's TDD journey                                                     │
+│  Introduction to requirement gathering / specifications                 │
+│  What BDD actually is (not Given/When/Then)                             │
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  PHASE 1: INSPIRATION                                                   │
-│  "What Good Looks Like"                                                 │
-│  ─────────────────────                                                  │
-│  Live demo: Break code, watch tests catch bugs with clear messages      │
-│  Contrast: Show same bugs passing through bad tests                     │
-│  Goal: Create visceral understanding of WHY this matters                │
+│  DEMO (30 min) — Booking system example                                 │
+│  ────────────────────────────────────────────                           │
+│  1. Good tests catch broken behavior                                    │
+│  2. Good tests allow refactoring (behavior unchanged → tests green)     │
+│  3. Bad tests do the opposite (miss bugs AND break on refactoring)      │
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  PHASE 2: PRINCIPLES                                                    │
-│  "Why It Works"                                                         │
-│  ──────────────                                                         │
-│  Extract principles from what they just witnessed                       │
-│  Name the patterns, explain the reasoning                               │
-│  Goal: Give them a mental model to apply                                │
+│  PRINCIPLES (20 min)                                                    │
+│  ────────────────────                                                   │
+│  Agree on shared principles across all languages/domains                │
+│  Discussion, not lecture                                                │
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  PHASE 3: PATTERNS                                                      │
-│  "How To Do It"                                                         │
-│  ──────────────                                                         │
-│  Concrete examples in TypeScript                                        │
-│  Discussion of C# translation patterns                                  │
-│  Goal: Show the mechanics of good behavioral tests                      │
+│  ═══════════════════════════════════════════════════════════════════    │
+│  AFTERNOON: HANDS-ON LABS (~4 hours)                                    │
+│  ════════════════════════════════════                                   │
+│                                                                         │
+│  LAB 0: Requirements Gathering Simulation (30 min)                      │
+│  ─────────────────────────────────────────────────                      │
+│  Teams discover requirements through conversation                       │
+│  This IS the BDD practice                                               │
+│  TAG: lab-0-requirements                                                │
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  PHASE 4: PRACTICE                                                      │
-│  "Now You Try"                                                          │
-│  ─────────────                                                          │
-│  Hands-on exercises with starter repos                                  │
-│  RED-GREEN-REFACTOR cycle in action                                     │
-│  Goal: Build muscle memory through doing                                │
+│  LAB 1: Basic Validation (30 min)                                       │
+│  ──────────────────────────────────                                     │
+│  Length, format, Luhn checksum                                          │
+│  TAG: lab-1-basic-validation                                            │
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  PHASE 5: APPLICATION                                                   │
-│  "Taking It Home"                                                       │
+│  LAB 2: Provider Detection (30 min)                                     │
+│  ──────────────────────────────────                                     │
+│  Identify Visa, Mastercard, Amex from card number                       │
+│  TAG: lab-2-provider-detection                                          │
+│                                                                         │
+│                              ↓                                          │
+│                                                                         │
+│  LAB 3: Provider-Specific Rules (30 min)                                │
+│  ─────────────────────────────────────────                              │
+│  Different lengths, CVV rules per provider                              │
+│  TAG: lab-3-provider-rules                                              │
+│                                                                         │
+│                              ↓                                          │
+│                                                                         │
+│  LAB 4: Frontend Integration (30 min)                                   │
+│  ──────────────────────────────────────                                 │
+│  Real-time form validation with user-friendly messages                  │
+│  TAG: lab-4-frontend                                                    │
+│                                                                         │
+│                              ↓                                          │
+│                                                                         │
+│  LAB 5: Backend Integration (30 min)                                    │
+│  ──────────────────────────────────────                                 │
+│  API endpoint protection, validation middleware                         │
+│  TAG: lab-5-backend                                                     │
+│                                                                         │
+│                              ↓                                          │
+│                                                                         │
+│  AI DEMO (10 min)                                                       │
 │  ────────────────                                                       │
-│  Domain-specific considerations (frontend, backend, integration)        │
-│  Adoption strategies and anti-pattern checklist                         │
-│  Goal: Bridge from workshop to real work                                │
+│  Regenerate implementation from specifications                          │
+│  Proves: specs are what matter, implementation is secondary             │
+│                                                                         │
+│                              ↓                                          │
+│                                                                         │
+│  WRAP-UP (20 min)                                                       │
+│  ────────────────                                                       │
+│  Brownfield projects, resources, Q&A                                    │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
@@ -415,224 +130,146 @@ The following sections describe what happens on the day itself. The workshop fol
 
 ## Time Allocation
 
-| Phase       | Content                           | Duration | Cumulative |
-| ----------- | --------------------------------- | -------- | ---------- |
-| **Opening** | Presentation: My Journey with TDD | 15 min   | 0:15       |
-| **Phase 1** | Inspiration: Live Demo            | 25 min   | 0:40       |
-| **Phase 2** | Principles                        | 35 min   | 1:15       |
-| _Break_     |                                   | 10 min   | 1:25       |
-| **Phase 3** | Patterns & Examples               | 45 min   | 2:10       |
-| _Break_     |                                   | 10 min   | 2:20       |
-| **Phase 4** | Hands-On Practice                 | 90 min   | 3:50       |
-| **Phase 5** | Application & Wrap-Up             | 20 min   | 4:10       |
+| Section        | Content                           | Duration | Cumulative |
+| -------------- | --------------------------------- | -------- | ---------- |
+| **Opening**    | Presentation: Journey + BDD intro | 30 min   | 0:30       |
+| **Demo**       | Three-part demonstration          | 30 min   | 1:00       |
+| **Principles** | Agree on shared principles        | 20 min   | 1:20       |
+| _Break_        |                                   | 10 min   | 1:30       |
+| **Lab 0**      | Requirements gathering simulation | 30 min   | 2:00       |
+| **Lab 1**      | Basic validation                  | 30 min   | 2:30       |
+| _Lunch_        |                                   | 60 min   | 3:30       |
+| **Lab 2**      | Provider detection                | 30 min   | 4:00       |
+| **Lab 3**      | Provider-specific rules           | 30 min   | 4:30       |
+| _Break_        |                                   | 15 min   | 4:45       |
+| **Lab 4**      | Frontend integration              | 30 min   | 5:15       |
+| **Lab 5**      | Backend integration               | 30 min   | 5:45       |
+| _Break_        |                                   | 10 min   | 5:55       |
+| **AI Demo**    | Regenerate from specs             | 10 min   | 6:05       |
+| **Wrap-Up**    | Brownfield, resources, Q&A        | 20 min   | 6:25       |
 
-**Total**: ~4 hours 10 minutes
+**Total**: ~6.5 hours (including 1.5 hours breaks/lunch)
 
----
-
-## Pedagogical Rationale
-
-### Why This Structure?
-
-Most TDD training fails because it follows a pattern that doesn't create buy-in:
-
-```
-Traditional (Less Effective)          Our Approach (More Effective)
-─────────────────────────────         ────────────────────────────
-1. Theory first                       1. Personal story (connection)
-2. Explain RED-GREEN-REFACTOR         2. Demo first (visceral impact)
-3. Abstract principles                3. Show tests catching real bugs
-4. Practice at the end                4. Contrast with bad tests
-5. Hope they remember                 5. THEN explain why it worked
-                                      6. THEN show patterns
-                                      7. Practice throughout
-                                      8. They've experienced it firsthand
-```
-
-**The key insight**: Developers don't need to be convinced that testing is good. They've heard that. What they need is to SEE the difference between tests that catch bugs and describe behavior versus tests that provide false confidence.
-
-### Why Start With a Personal Story?
-
-Opening with your TDD journey achieves several things:
-
-1. **Establishes credibility** - You're not preaching theory, you've lived this
-2. **Creates connection** - "I was skeptical too" builds trust
-3. **Sets honest expectations** - Acknowledging trade-offs prevents defensiveness
-4. **Frames the demo** - "Let me show you what I mean" is a natural transition
-
-### Why Follow With "Breaking Code"?
-
-The live demo where we deliberately break code and watch tests fail achieves:
-
-1. **Immediate engagement** - It's a live performance, not a lecture
-2. **Visceral understanding** - They SEE the value, not just hear about it
-3. **The contrast is powerful** - Same bugs passing through bad tests is memorable
-4. **Sets up the principles** - "Why did those tests work?" flows naturally
+**Hands-on time**: ~3.5 hours (Labs 0-5) — **majority of day**
 
 ---
 
-## Opening: Presentation — "My Journey with TDD"
+## Core Principles
 
-**Duration**: 15 minutes
-**Format**: PowerPoint presentation
+These are the principles we want everyone to agree on:
+
+| Principle                             | What It Means                                                      |
+| ------------------------------------- | ------------------------------------------------------------------ |
+| **Test behavior, not implementation** | If you refactor without changing behavior, tests shouldn't break   |
+| **Tests are specifications**          | Test names should read like business requirements                  |
+| **Test-first (RED-GREEN-REFACTOR)**   | Write a failing test, then minimum code to pass, then refactor     |
+| **Test-first beats test-last**        | Writing tests first shapes better APIs and catches ambiguity early |
+| **Mock at boundaries**                | Mock HTTP, databases, time — not your own functions                |
+| **Isolated test state**               | Each test creates its own data; no shared mutable state            |
+
+---
+
+## Opening Presentation (30 min)
 
 ### Purpose
 
-Before diving into code, establish personal credibility and create connection. This isn't abstract theory — it's something that changed how I work.
+Set context, establish credibility, introduce the concept of tests as specifications.
 
-### Slide Outline
+### Content
 
-**Slide 1: Title**
+**Part 1: My TDD Journey (10 min)**
 
-- TDD Workshop: Testing Behavior, Not Implementation
-- Paul Hammond, Director at Pack Software
-
-**Slide 2-3: My Story**
-
-- How I first encountered TDD (the context, the project)
+- How I first encountered TDD
 - Initial skepticism vs. what changed my mind
-- A specific moment or project where it clicked
+- A specific moment where it clicked
 
-**Slide 4: The Problem I Kept Seeing**
+**Part 2: The Problem (5 min)**
 
-- Tests that passed but bugs shipped anyway
+- Tests that passed but bugs shipped
 - Tests that broke every time we refactored
-- Teams afraid to change code because tests were fragile
 - "100% coverage" that meant nothing
 
-**Slide 5: What Changed**
+**Part 3: Tests as Specifications (10 min)**
 
-- The shift from "testing code" to "testing behavior"
-- Realizing tests should be a specification, not a verification of implementation
-- The freedom that comes from tests you can trust
+- The shift from "testing code" to "specifying behavior"
+- What BDD actually is (not Cucumber)
+- Requirement gathering through concrete examples
+- Test names as business documentation
 
-**Slide 6: What We'll Do Today**
+**Part 4: What We'll Do Today (5 min)**
 
-- I'll show you what good looks like (live demo)
-- We'll break down why it works (principles)
-- You'll practice it yourselves (hands-on)
-- You'll leave with patterns you can apply Monday
-
-**Slide 7: Transition to Demo**
-
-- "Let me show you what I mean..."
-- Sets up the live coding demo
-
-### Speaker Notes
-
-- Keep it personal and authentic — this is YOUR story
-- Acknowledge that TDD can feel slower at first
-- Don't oversell — be honest about trade-offs
-- The goal is curiosity, not conversion (yet)
-
-### Preparation Needed
-
-- [ ] Draft slides in PowerPoint
-- [ ] Decide which specific story/project to reference
-- [ ] Practice the transition from slides to live demo
+- Demo: see the difference between good and bad tests
+- Principles: agree on how we want to work
+- Labs: build a card validator from requirements to full-stack
+- AI demo: prove that specs are what matter
 
 ---
 
-## Phase 1: Inspiration — "What Good Looks Like"
+## Demo (30 min)
 
-**Duration**: 25 minutes
+### Single Application Throughout
 
-### 1.1 The Demo Domain: Meeting Room Booking System
+We use **one application** for the entire demo to show the contrast clearly. The booking system works well because it has:
 
-We use a **Meeting Room Booking System** because:
+- Clear business rules
+- Subtle edge cases (back-to-back bookings, time boundaries)
+- Universal understanding (everyone knows booking systems)
 
-- **Universal**: Every developer understands booking/scheduling
-- **Not tied to frontend or backend**: Pure business logic
-- **Rich in subtle bugs**: Time-based logic, overlap detection, edge cases
-- **Language-agnostic**: Same concepts apply in TypeScript, C#, Java, etc.
+### Demo Part 1: Good Tests Catch Broken Behavior (10 min)
 
-### 1.2 The Business Rules (Become Test Descriptions)
+**Show tests passing first**, then introduce bugs:
 
-```
-Booking System
-  Creating a booking
-    ✓ should create a booking with valid start and end times
-    ✓ should reject booking where end time is before start time
-    ✓ should reject booking that overlaps with existing booking
-    ✓ should allow back-to-back bookings (boundary case)
-    ✓ should reject booking in the past
-    ✓ should reject booking exceeding maximum duration (4 hours)
-  Cancelling a booking
-    ✓ should allow cancellation of future booking
-    ✓ should reject cancellation of booking that has already started
-```
-
-### 1.3 Demo Flow
-
-**Step 1: Show tests passing (2 minutes)**
-
-- Run the test suite
-- All green
-- Point out: "These test names read like a specification"
-
-**Step 2: Break the code — Bug #1: Overlap Detection (5 minutes)**
-
-Introduce a subtle off-by-one error in overlap logic:
+**Bug 1: Off-by-one in overlap detection**
 
 ```typescript
-// BEFORE (correct)
-const hasOverlap = existingBookings.some(
-  (existing) =>
-    newBooking.start < existing.end && newBooking.end > existing.start,
-);
-
-// AFTER (buggy)
-const hasOverlap = existingBookings.some(
-  (existing) =>
-    newBooking.start <= existing.end && newBooking.end >= existing.start,
-);
+// Introduce bug: <= instead of <
+newBooking.start <= existing.end && newBooking.end >= existing.start;
 ```
 
-Run tests. **Key moment — the failure message**:
+Run tests. **Test fails with clear message:**
 
 ```
 FAIL: should allow back-to-back bookings
 
   A booking from 10:00-11:00 should be allowed when an existing
   booking ends at exactly 10:00 (back-to-back bookings are valid)
-
-  Expected: { success: true }
-  Received: { success: false, error: "Overlaps with existing booking" }
 ```
 
-**Point out**: "The test told us exactly what business rule was violated. We didn't have to debug — we just had to read."
-
-**Step 3: Break the code — Bug #2: Past Booking Check (5 minutes)**
+**Bug 2: Wrong time comparison**
 
 ```typescript
-// BEFORE (correct)
-if (booking.start < now) {
-  return { success: false, error: "Cannot book in the past" };
-}
-
-// AFTER (buggy)
-if (booking.end < now) {
-  return { success: false, error: "Cannot book in the past" };
-}
+// Introduce bug: checking end instead of start
+if (booking.end < now) { ... }
 ```
 
-Run tests. Failure message describes the edge case:
+Run tests. **Test fails with clear message:**
 
 ```
 FAIL: should reject booking in the past
 
   A booking starting at 9:00 (in the past) but ending at 11:00
   (in the future) should still be rejected
-
-  Expected: { success: false, error: containing "past" }
-  Received: { success: true }
 ```
 
-**Step 4: The Contrast — Bad Tests (8 minutes)**
+**Key point**: The test told us exactly which business rule was violated. We didn't debug — we read.
 
-**This is the most important part of the demo.**
+### Demo Part 2: Good Tests Allow Refactoring (5 min)
 
-Show the SAME booking system with implementation-coupled tests:
+With the bugs fixed, refactor the implementation:
+
+- Extract helper functions
+- Rename variables
+- Reorganize structure
+
+Run tests after each change. **Tests stay green.**
+
+**Key point**: We changed HOW the code works. The tests only care about WHAT it does.
+
+### Demo Part 3: Bad Tests Do The Opposite (15 min)
+
+**This is the most important part.**
+
+Show the same application with implementation-coupled tests:
 
 ```typescript
 // BAD TESTS — verify implementation, not behavior
@@ -649,1366 +286,667 @@ it("should call checkOverlap", () => {
 });
 ```
 
-Now introduce the **exact same bugs** we introduced before:
+**Introduce the same bugs.** Run bad tests. **They still pass.**
 
-- The off-by-one overlap error
-- The wrong time comparison for past bookings
+Let this sink in:
 
-Run the bad tests. **They still pass.**
-
-**Let this sink in.** The system now has real bugs — users can't book back-to-back meetings, and bookings that start in the past are accepted. But the tests are green.
+- The system has real bugs
+- Users can't book back-to-back meetings
+- Bookings in the past are accepted
+- But tests are green
 
 Ask the audience:
 
-- "Would you deploy this code? The tests pass."
+- "Would you deploy this? Tests pass."
 - "What did these tests actually verify?"
-- "Which test suite would you rather have protecting your code?"
 
-**The answer**: The bad tests verified that functions were called. They said nothing about whether the system works correctly from a user's perspective. The bugs would ship to production.
+**Now show refactoring with bad tests:**
 
-**Step 5: Refactoring Proof (5 minutes)**
+Refactor the implementation (same changes as before — extract functions, rename).
 
-Return to the good behavioral tests. Now refactor the implementation:
+**Bad tests break.** Even though behavior is unchanged.
 
-- Extract helper functions
-- Rename variables
-- Reorganize the code structure
+|                | Behavior Broken   | Behavior Works     |
+| -------------- | ----------------- | ------------------ |
+| **Good tests** | FAIL (correct)    | PASS (correct)     |
+| **Bad tests**  | PASS (bug ships!) | FAIL (wastes time) |
 
-Run tests after each change. **Tests stay green.**
-
-**The point**: Good tests let you change HOW the code works without breaking the tests — as long as WHAT it does stays the same. Bad tests break when you refactor, even if behavior is unchanged.
-
-### 1.4 Key Takeaways (5 minutes)
-
-Make explicit what they witnessed:
-
-1. **Good tests catch real bugs** — When we broke business logic, behavioral tests failed immediately with clear messages
-2. **Bad tests miss real bugs** — The same bugs passed through implementation-coupled tests undetected
-3. **Good tests explain what went wrong** — Failure messages described business rules, not code structure
-4. **Good tests survive refactoring** — We changed the implementation structure and tests stayed green
+**Key insight**: Bad tests fail when they shouldn't and pass when they shouldn't. They provide negative value.
 
 ---
 
-## Phase 2: Principles — "Why It Works"
+## Principles Discussion (20 min)
 
-**Duration**: 40 minutes
+After the demo, facilitate a discussion to agree on principles.
 
-Now that they've SEEN the difference, we name and explain the principles.
+**Format**: Not a lecture. Present each principle, invite questions/pushback, get agreement.
 
-### 2.1 Principle: Test Behavior, Not Implementation (10 minutes)
+### The Principles
 
-**The Rule**:
+1. **Test behavior, not implementation**
+   - Litmus test: "If I refactor without changing behavior, do tests break?"
+   - Yes → testing implementation (bad)
+   - No → testing behavior (good)
 
-> Tests should describe what the system does for users, not how it does it internally.
+2. **Tests are specifications**
+   - Test names read like business requirements
+   - Test output is documentation that can't go stale
+   - Non-developers can read and understand what the system does
 
-**The Litmus Test**:
+3. **Test-first (RED-GREEN-REFACTOR)**
+   - Write a failing test first (RED)
+   - Write minimum code to pass (GREEN)
+   - Improve structure (REFACTOR)
+   - Repeat
 
-> "If I refactor the implementation without changing behavior, do my tests break?"
->
-> - Yes → Testing implementation (bad)
-> - No → Testing behavior (good)
+4. **Test-first beats test-last**
+   - Test shapes the API — you're the first user of your code
+   - Catches ambiguity in requirements immediately
+   - Code is testable by construction
+   - Tests don't get skipped under pressure
 
-**Concrete Examples**:
+5. **Mock at boundaries**
+   - Mock: HTTP, databases, time, file system
+   - Don't mock: your own functions, internal modules
+   - The test should exercise real code, with controlled external dependencies
 
-| Good (Behavior)                      | Bad (Implementation)                   |
-| ------------------------------------ | -------------------------------------- |
-| "should reject overlapping bookings" | "should call checkOverlap method"      |
-| "should reject booking in the past"  | "should compare start with Date.now()" |
-| `expect(result.success).toBe(false)` | `expect(spy).toHaveBeenCalled()`       |
-
-### 2.2 Principle: Tests Are Executable Specifications (8 minutes)
-
-**The Rule**:
-
-> Test descriptions should read like business requirements. They ARE the specification.
-
-**Example**:
-
-```
-Booking System
-  Creating a booking
-    ✓ should create a booking with valid start and end times
-    ✓ should reject booking where end time is before start time
-    ✓ should reject booking that overlaps with existing booking
-    ✓ should allow back-to-back bookings
-    ✓ should reject booking in the past
-    ✓ should reject booking exceeding maximum duration
-```
-
-This is documentation that:
-
-- Cannot go stale (it runs)
-- Is verified on every commit
-- Is readable by non-developers
-- Is the single source of truth
-
-### 2.3 Principle: Coverage Through Behavior (8 minutes)
-
-**The Rule**:
-
-> Achieve coverage by testing all business behaviors, not by testing all lines.
-
-**The Question to Ask**:
-
-> "What business behavior am I NOT testing?"
-> NOT: "What line am I missing?"
-
-**Coverage Theater** (the anti-pattern):
-
-```typescript
-// 100% line coverage, tests nothing meaningful
-it("processes booking", () => {
-  const result = createBooking(validBooking);
-  expect(result).toBeDefined(); // So what?
-});
-```
-
-**Real Coverage**:
-
-```typescript
-it('should reject overlapping bookings', () => { ... });
-it('should allow back-to-back bookings', () => { ... });
-it('should reject bookings in the past', () => { ... });
-it('should reject bookings over 4 hours', () => { ... });
-```
-
-Each test covers a business rule. Coverage is a side effect.
-
-### 2.4 Principle: Isolated Test State — Factory Pattern (7 minutes)
-
-**The Rule**:
-
-> Each test creates its own fresh state. No shared mutable state.
-
-**The Problem**:
-
-```typescript
-// ANTI-PATTERN: Shared mutable state
-let booking: Booking;
-let existingBookings: Booking[];
-
-beforeEach(() => {
-  booking = { start: "10:00", end: "11:00", room: "A" };
-  existingBookings = [];
-});
-
-it("test 1", () => {
-  existingBookings.push(anotherBooking); // Mutates shared state!
-});
-
-it("test 2", () => {
-  // May fail depending on test execution order!
-});
-```
-
-**The Solution**:
-
-```typescript
-// Factory pattern
-const createBooking = (overrides?: Partial<Booking>): Booking => ({
-  id: "booking-123",
-  room: "Room A",
-  start: new Date("2025-01-15T10:00:00"),
-  end: new Date("2025-01-15T11:00:00"),
-  ...overrides,
-});
-
-it("should reject overlapping bookings", () => {
-  const existing = createBooking({ start: "09:30", end: "10:30" });
-  const newBooking = createBooking({ start: "10:00", end: "11:00" });
-
-  const result = bookingService.create(newBooking, [existing]);
-
-  expect(result.success).toBe(false);
-});
-```
-
-### 2.5 Principle: Test First — RED-GREEN-REFACTOR (10 minutes)
-
-**The Rule**:
-
-> Write a failing test before writing any production code. Then write the minimum code to pass. Then refactor.
-
-**The Cycle**:
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                                                                     │
-│   RED ──────────────► GREEN ──────────────► REFACTOR               │
-│    │                    │                      │                    │
-│    │ Write a test       │ Write minimum        │ Improve structure  │
-│    │ that fails         │ code to pass         │ (tests stay green) │
-│    │                    │                      │                    │
-│    └────────────────────┴──────────────────────┴───────► repeat     │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
-```
-
-**Why Test-First Beats Test-Last**:
-
-| Test-First (TDD)                            | Test-Last                                      |
-| ------------------------------------------- | ---------------------------------------------- |
-| Test shapes the API — you're the first user | API already exists — tests retrofit to it      |
-| Forces small, testable units                | Often leads to hard-to-test code               |
-| Catches requirement ambiguity immediately   | Ambiguity discovered during testing (too late) |
-| 100% of code has tests (by construction)    | Tests often skipped under time pressure        |
-| Design emerges from usage                   | Design decisions already baked in              |
-| Confidence to refactor from the start       | Refactoring feels risky                        |
-
-**The Key Insight**:
-
-> When you write the test first, the test tells you what code to write.
-> When you write code first, you're guessing what the test should verify.
-
-**What "Minimum Code to Pass" Means**:
-
-```typescript
-// RED: Test expects greeting
-it("should greet the user by name", () => {
-  expect(greet("Alice")).toBe("Hello, Alice!");
-});
-
-// GREEN: Minimum code (resist the urge to over-engineer!)
-function greet(name: string): string {
-  return `Hello, ${name}!`;
-}
-
-// NOT THIS (over-engineering):
-function greet(name: string, options?: GreetingOptions): string {
-  const greeting = options?.formal ? "Good day" : "Hello";
-  const punctuation = options?.enthusiastic ? "!" : ".";
-  return `${greeting}, ${name}${punctuation}`;
-}
-```
-
-Only add complexity when a test demands it.
-
-### 2.6 Principle: Mock at Boundaries, Not Internals (7 minutes)
-
-**The Rule**:
-
-> Mock things you don't control (HTTP, databases, time). Don't mock your own code.
-
-**The Boundaries Diagram**:
-
-```
-┌─────────────────────────────────────────┐
-│           Your Application              │
-│                                         │
-│   Domain Logic (pure functions)         │
-│              ↓                          │
-│   Ports (interfaces/abstractions)       │
-│              ↓                          │
-└──────────────┼──────────────────────────┘
-               │ ← MOCK HERE
-               ↓
-    External World (HTTP, DB, Clock, etc.)
-```
-
-**Example — Controlling Time**:
-
-```typescript
-// BAD: Hard to test, depends on actual time
-function isBookingInPast(booking: Booking): boolean {
-  return booking.start < new Date();
-}
-
-// GOOD: Time is a parameter (injected dependency)
-function isBookingInPast(booking: Booking, now: Date): boolean {
-  return booking.start < now;
-}
-```
+6. **Isolated test state**
+   - Each test creates its own data
+   - No shared mutable state
+   - Tests can run in any order
 
 ---
 
-## Phase 3: Patterns — "How To Do It"
+## Hands-On Labs: Card Validator
 
-**Duration**: 45 minutes
+The bulk of the day is spent building a credit card validator from scratch, progressing from basic validation to full-stack integration.
 
-Concrete examples in TypeScript with C# translation discussion.
+**Why card validation:**
 
-### 3.1 Example: Email Validation — Pure Function Testing (12 minutes)
+- Everyone understands credit cards
+- Clear, simple starting rules
+- Natural progression to complexity
+- Good edge cases
+- Applicable to both frontend and backend
 
-**Why**: Start simple. Pure functions are the easiest to test.
+**Multi-language parity:**
 
-```typescript
-describe("Email Validation", () => {
-  describe("valid emails", () => {
-    it("should accept standard email format", () => {
-      expect(isValidEmail("user@example.com")).toBe(true);
-    });
+All labs have identical implementations at each tag in:
 
-    it("should accept emails with subdomains", () => {
-      expect(isValidEmail("user@mail.example.com")).toBe(true);
-    });
+- **TypeScript** (Node.js + React)
+- **Java** (Spring Boot)
+- **C#** (.NET)
 
-    it("should accept emails with plus addressing", () => {
-      expect(isValidEmail("user+tag@example.com")).toBe(true);
-    });
-  });
-
-  describe("invalid emails", () => {
-    it("should reject email without @ symbol", () => {
-      expect(isValidEmail("userexample.com")).toBe(false);
-    });
-
-    it("should reject email without domain", () => {
-      expect(isValidEmail("user@")).toBe(false);
-    });
-
-    it("should reject empty string", () => {
-      expect(isValidEmail("")).toBe(false);
-    });
-  });
-});
-```
-
-**C# Translation Pattern**:
-
-```csharp
-public class EmailValidationTests
-{
-    [Theory]
-    [InlineData("user@example.com")]
-    [InlineData("user@mail.example.com")]
-    [InlineData("user+tag@example.com")]
-    public void Should_Accept_Valid_Email(string email)
-    {
-        EmailValidator.IsValid(email).Should().BeTrue();
-    }
-
-    [Theory]
-    [InlineData("userexample.com")]
-    [InlineData("user@")]
-    [InlineData("")]
-    public void Should_Reject_Invalid_Email(string email)
-    {
-        EmailValidator.IsValid(email).Should().BeFalse();
-    }
-}
-```
-
-**Discussion**: Theory/InlineData vs individual tests — trade-offs.
-
-### 3.2 Example: Price Calculator — Implementation Independence (15 minutes)
-
-**Why**: Shows that behavioral tests survive complete rewrites.
-
-```typescript
-describe("Price Calculator", () => {
-  it("should calculate total from unit price and quantity", () => {
-    const result = calculateTotal({ unitPrice: 10, quantity: 3 });
-    expect(result).toBe(30);
-  });
-
-  it("should apply percentage discount", () => {
-    const result = calculateTotal({
-      unitPrice: 100,
-      quantity: 1,
-      discountPercent: 10,
-    });
-    expect(result).toBe(90);
-  });
-
-  it("should apply fixed discount after percentage discount", () => {
-    const result = calculateTotal({
-      unitPrice: 100,
-      quantity: 1,
-      discountPercent: 10,
-      fixedDiscount: 5,
-    });
-    expect(result).toBe(85); // 100 - 10% = 90 - 5 = 85
-  });
-
-  it("should never return negative total", () => {
-    const result = calculateTotal({
-      unitPrice: 10,
-      quantity: 1,
-      fixedDiscount: 100,
-    });
-    expect(result).toBe(0);
-  });
-});
-```
-
-**The point**: Each test describes a business rule. The tests don't care how `calculateTotal` is implemented internally — only that it produces the correct results.
-
-### 3.3 Example: Factory Pattern Deep Dive (10 minutes)
-
-```typescript
-// Complete factory with sensible defaults
-const createBooking = (overrides?: Partial<Booking>): Booking => ({
-  id: "booking-123",
-  room: "Room A",
-  start: new Date("2025-01-15T10:00:00"),
-  end: new Date("2025-01-15T11:00:00"),
-  createdBy: "user-1",
-  status: "confirmed",
-  ...overrides,
-});
-
-// Composable factories for related objects
-const createRoom = (overrides?: Partial<Room>): Room => ({
-  id: "room-1",
-  name: "Room A",
-  capacity: 10,
-  hasVideoConference: true,
-  ...overrides,
-});
-
-// Usage in tests
-it("should reject booking for room at capacity", () => {
-  const room = createRoom({ capacity: 2 });
-  const existingBookings = [createBooking({ attendees: ["user-1", "user-2"] })];
-  const newBooking = createBooking({ attendees: ["user-3"] });
-
-  const result = addAttendee(newBooking, room, existingBookings);
-
-  expect(result.success).toBe(false);
-  expect(result.error).toContain("capacity");
-});
-```
-
-**C# Builder Pattern**:
-
-```csharp
-var booking = new BookingBuilder()
-    .WithRoom("Room A")
-    .StartingAt(DateTime.Parse("2025-01-15T10:00"))
-    .EndingAt(DateTime.Parse("2025-01-15T11:00"))
-    .Build();
-```
-
-### 3.4 Example: Boundary Mocking (8 minutes)
-
-**TypeScript with MSW**:
-
-```typescript
-// Setup: Mock at the HTTP boundary
-server.use(
-  http.get("/api/rooms", () => {
-    return HttpResponse.json([{ id: "room-1", name: "Room A", capacity: 10 }]);
-  }),
-);
-
-// Test: Real code, controlled external dependency
-it("should fetch available rooms", async () => {
-  const rooms = await roomService.getAvailable();
-
-  expect(rooms).toHaveLength(1);
-  expect(rooms[0].name).toBe("Room A");
-});
-```
-
-**C# Equivalent Concepts**:
-
-- WireMock.Net for HTTP-level mocking
-- Interface abstraction with NSubstitute/Moq for ports
-- `IClock` interface pattern for time
+Engineers choose their language. The tags ensure everyone is at the same checkpoint regardless of language.
 
 ---
 
-## Phase 4: Practice — "Now You Try"
+### Lab 0: Requirements Gathering Simulation (30 min)
 
-**Duration**: 90 minutes
+**TAG: `lab-0-requirements`**
 
-This is where teams learn TDD by doing it. They will build a feature from scratch using the RED-GREEN-REFACTOR cycle — not fill in blanks for pre-written tests.
+**Purpose**: This IS the BDD practice. Teams discover requirements through conversation before writing any code.
 
-### 4.1 Setup (10 minutes)
+**Setup**: Facilitator plays the role of "Product Owner"
 
-**Team Formation**:
+**Initial requirement** (intentionally vague):
 
-- Teams of 2-3 developers
-- Grouped by primary language (TypeScript or C#)
-- Each team gets access to starter repo
+> "We need to validate credit card numbers in our payment form."
 
-**Starter Repo Contents**:
+**Teams must ask questions to discover:**
 
-- Empty implementation file (`shopping-cart.ts` or `ShoppingCart.cs`)
-- Empty test file (`shopping-cart.test.ts` or `ShoppingCartTests.cs`)
-- Type definitions / interfaces (provided as reference)
-- `REQUIREMENTS.md` with business rules in plain English
-- Pre-configured test runner (npm test / dotnet test)
+- What makes a card number valid?
+- What providers do we support?
+- What feedback do users need?
+- Where does validation happen (frontend, backend, both)?
+- What happens with invalid cards?
 
-**The Requirements Document** (given to teams):
+**Facilitator reveals information only when asked:**
 
-```markdown
-# Shopping Cart Requirements
+| Question                       | Answer                                                             |
+| ------------------------------ | ------------------------------------------------------------------ |
+| "What's a valid length?"       | "Depends on the provider. Visa and Mastercard are 16, Amex is 15." |
+| "How do we know the provider?" | "First digits: 4 = Visa, 51-55 = Mastercard, 34/37 = Amex"         |
+| "Any checksum?"                | "Yes, Luhn algorithm. Google it."                                  |
+| "What about CVV?"              | "3 digits, but Amex is 4 digits."                                  |
+| "Frontend validation?"         | "Yes, real-time feedback as they type."                            |
+| "Backend validation?"          | "Yes, validate before processing payment."                         |
+| "Error messages?"              | "User-friendly. Not 'INVALID_LUHN_CHECKSUM'."                      |
 
-Build a shopping cart that:
-
-1. Can add items (each item has id, name, price, quantity)
-2. Calculates subtotal (sum of price × quantity for all items)
-3. Supports discount codes:
-   - "SAVE10" = 10% off
-   - "SAVE20" = 20% off
-   - Invalid codes should be rejected
-4. Calculates total with tax (20% tax rate)
-5. Discount is applied before tax
-6. Quantities must be positive (reject zero or negative)
-7. Total can never be negative
-```
-
-### 4.2 Exercise 1: First Feature with TDD (30 minutes)
-
-**Goal**: Build "add item and calculate subtotal" using strict TDD.
-
-**Facilitated Walkthrough** (first 10 minutes):
-
-The facilitator demonstrates the first cycle live:
-
-**Step 1 — RED**: Write the first failing test
+**Deliverable**: Teams document their discovered requirements as test names (specifications) — NO implementation yet.
 
 ```typescript
-describe("Shopping Cart", () => {
-  it("should calculate subtotal for a single item", () => {
-    const cart = createCart();
-    const cartWithItem = addItem(cart, {
-      id: "item-1",
-      name: "Widget",
-      price: 100,
-      quantity: 2,
-    });
+// Example output from Lab 0
+describe("Card Validator", () => {
+  describe("basic validation", () => {
+    it("should reject empty card numbers");
+    it("should reject card numbers with non-numeric characters");
+    it("should reject card numbers that fail Luhn checksum");
+  });
 
-    const result = calculateSubtotal(cartWithItem);
+  describe("provider detection", () => {
+    it("should identify Visa cards (start with 4)");
+    it("should identify Mastercard cards (start with 51-55)");
+    it("should identify Amex cards (start with 34 or 37)");
+  });
 
-    expect(result).toBe(200);
+  describe("provider-specific validation", () => {
+    it("should accept 16-digit Visa cards");
+    it("should reject 15-digit Visa cards");
+    it("should accept 15-digit Amex cards");
+    it("should reject 16-digit Amex cards");
+  });
+
+  describe("CVV validation", () => {
+    it("should accept 3-digit CVV for Visa");
+    it("should reject 4-digit CVV for Visa");
+    it("should accept 4-digit CVV for Amex");
+    it("should reject 3-digit CVV for Amex");
   });
 });
 ```
 
-Run tests → **RED** (functions don't exist yet)
-
-**Step 2 — GREEN**: Write minimum code to pass
-
-```typescript
-type CartItem = { id: string; name: string; price: number; quantity: number };
-type Cart = { items: CartItem[] };
-
-const createCart = (): Cart => ({ items: [] });
-
-const addItem = (cart: Cart, item: CartItem): Cart => ({
-  ...cart,
-  items: [...cart.items, item],
-});
-
-const calculateSubtotal = (cart: Cart): number =>
-  cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-```
-
-Run tests → **GREEN**
-
-**Step 3 — REFACTOR**: Any improvements? (In this case, code is already clean)
-
-**Teams Continue** (remaining 20 minutes):
-
-Teams add more tests for the subtotal feature:
-
-- Empty cart returns 0
-- Multiple items sum correctly
-- Adding same item twice (by id) increases quantity
-
-**Key coaching points**:
-
-- Write ONE test at a time
-- Don't write the next test until current one is GREEN
-- Resist the urge to implement features before tests demand them
-
-### 4.3 Exercise 2: Discount Codes with TDD (25 minutes)
-
-**Goal**: Add discount code functionality using strict TDD.
-
-Teams work independently. Requirements:
-
-- Apply "SAVE10" for 10% discount
-- Apply "SAVE20" for 20% discount
-- Reject invalid codes with clear error
-
-**Expected TDD Cycle**:
-
-```
-RED:   it("should apply SAVE10 for 10% discount")
-GREEN: Implement applyDiscount with hardcoded 10% for "SAVE10"
-
-RED:   it("should apply SAVE20 for 20% discount")
-GREEN: Extend to handle "SAVE20"
-
-RED:   it("should reject invalid discount code")
-GREEN: Add validation and error handling
-
-RED:   it("should apply discount before tax")
-GREEN: Update calculateTotal to apply discount first
-```
-
-**Debrief Questions**:
-
-- How did writing the test first change how you thought about the API?
-- Did anyone discover edge cases while writing tests that they wouldn't have considered otherwise?
-- How did the test help clarify what "reject invalid code" actually means?
-
-### 4.4 Exercise 3: Refactor with Confidence (15 minutes)
-
-**Goal**: Restructure the implementation while keeping tests green.
-
-**Challenge**: Your code works, but the team lead wants you to refactor it. Choose one:
-
-- Extract discount logic into a separate function
-- Rename variables for clarity
-- Reorganize into separate modules
-
-**Rules**:
-
-- Tests must NOT change (they test behavior, not implementation)
-- Tests must stay GREEN throughout (run after each change)
-- Implementation can change completely
-
-**The Point**: If your tests break when you refactor, they were testing implementation, not behavior. Good behavioral tests give you freedom to change HOW without changing WHAT.
-
-### 4.5 Debrief: Why TDD? (10 minutes)
-
-Facilitated discussion connecting their experience to principles:
-
-**Questions**:
-
-1. "How did it feel to write the test before the code?"
-2. "Did anyone try to write code first and then go back? What happened?"
-3. "How confident did you feel during refactoring?"
-4. "What would have been different if you'd written tests after the code?"
-
-**Key Takeaways to Reinforce**:
-
-| What They Experienced                  | The Principle                                   |
-| -------------------------------------- | ----------------------------------------------- |
-| Test told them what API to create      | Test-first shapes design                        |
-| Tests passed after refactoring         | Behavioral tests survive implementation changes |
-| Edge cases emerged while writing tests | TDD surfaces requirements gaps early            |
-| Small cycles felt manageable           | RED-GREEN-REFACTOR keeps progress incremental   |
+**Key learning**: The conversation IS the process. Requirements aren't handed down — they're discovered through examples.
 
 ---
 
-## Phase 5: Application — "Taking It Home"
+### Lab 1: Basic Validation (30 min)
 
-**Duration**: 25 minutes
+**TAG: `lab-1-basic-validation`**
 
-### 5.1 Frontend-Specific Patterns (8 minutes)
+**Starting point**: Starter project with test framework configured
 
-The same principles apply, with different boundaries:
+**Goal**: Implement basic card validation using TDD
 
-**The "Public API" is the DOM**:
-
-- Test what users see and do
-- Use accessible queries (`getByRole`, `getByLabelText`)
-- Avoid testing component internals (state, hooks)
-
-**Example from existing repo**:
-
-- Counter component: Same tests pass for `useState` and `useReducer` implementations
-- Product Search: Same tests pass for React Query and Redux Toolkit
-
-**Mock at the HTTP boundary**:
-
-- MSW intercepts network requests
-- Same mocks work in tests, Storybook, development
-
-### 5.2 Backend/Integration Patterns (7 minutes)
-
-**Repository pattern**:
-
-- Interface defines the contract
-- Tests use in-memory implementation
-- Production uses real database
-
-**Service boundaries**:
-
-- Mock external services at HTTP level
-- Test your service's behavior, not the external service
-
-### 5.3 Adoption Strategies (5 minutes)
-
-**Practical advice**:
-
-- Don't rewrite all tests at once
-- Start with new features (TDD from scratch)
-- When touching existing code, add behavioral tests first
-- Use the litmus test: "Can I refactor without changing tests?"
-
-**The Anti-Pattern Checklist** (handout):
-
-Before committing a test, ask:
-
-- [ ] Does this test describe a business behavior?
-- [ ] Would this test survive an implementation refactor?
-- [ ] Is the test isolated (no shared mutable state)?
-- [ ] Am I mocking boundaries, not internals?
-- [ ] Does the failure message explain what went wrong?
-
-### 5.4 Resources and Wrap-Up (5 minutes)
-
-**Resources**:
-
-- Workshop starter repos (TypeScript and C#)
-- Kent C. Dodds' Testing JavaScript
-- Ian Cooper's "TDD: Where Did It All Go Wrong"
-- Testing Library documentation
-- Your existing React TDD talk (YouTube link)
-
-**Final Message**:
-
-> "Good tests give you confidence to change code. Bad tests give you fear of changing code. The difference is whether you're testing behavior or implementation."
-
----
-
-## Appendix A: Demo Code — Booking System
-
-### Test File
+**Specifications to implement:**
 
 ```typescript
-// booking-system.test.ts
-import { createBooking, cancelBooking } from "./booking-system";
-import type { BookingRequest, Booking } from "./types";
-
-describe("Booking System", () => {
-  // Factory function
-  const createBookingRequest = (
-    overrides?: Partial<BookingRequest>,
-  ): BookingRequest => ({
-    room: "Room A",
-    start: new Date("2025-01-15T10:00:00"),
-    end: new Date("2025-01-15T11:00:00"),
-    bookedBy: "user-1",
-    ...overrides,
-  });
-
-  // Fixed "now" for deterministic tests
-  const now = new Date("2025-01-15T09:00:00");
-
-  describe("creating a booking", () => {
-    it("should create a booking with valid start and end times", () => {
-      const request = createBookingRequest();
-
-      const result = createBooking(request, [], now);
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.booking.room).toBe("Room A");
-      }
-    });
-
-    it("should reject booking where end time is before start time", () => {
-      const request = createBookingRequest({
-        start: new Date("2025-01-15T11:00:00"),
-        end: new Date("2025-01-15T10:00:00"),
-      });
-
-      const result = createBooking(request, [], now);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toContain("End time must be after start time");
-      }
-    });
-
-    it("should reject booking where end time equals start time", () => {
-      const request = createBookingRequest({
-        start: new Date("2025-01-15T10:00:00"),
-        end: new Date("2025-01-15T10:00:00"),
-      });
-
-      const result = createBooking(request, [], now);
-
-      expect(result.success).toBe(false);
-    });
-
-    it("should reject booking that overlaps with existing booking", () => {
-      const existing: Booking = {
-        id: "existing-1",
-        ...createBookingRequest({
-          start: new Date("2025-01-15T09:30:00"),
-          end: new Date("2025-01-15T10:30:00"),
-        }),
-        status: "confirmed",
-      };
-
-      const request = createBookingRequest({
-        start: new Date("2025-01-15T10:00:00"),
-        end: new Date("2025-01-15T11:00:00"),
-      });
-
-      const result = createBooking(request, [existing], now);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toContain("overlaps");
-      }
-    });
-
-    it("should allow back-to-back bookings", () => {
-      const existing: Booking = {
-        id: "existing-1",
-        ...createBookingRequest({
-          start: new Date("2025-01-15T09:00:00"),
-          end: new Date("2025-01-15T10:00:00"),
-        }),
-        status: "confirmed",
-      };
-
-      const request = createBookingRequest({
-        start: new Date("2025-01-15T10:00:00"),
-        end: new Date("2025-01-15T11:00:00"),
-      });
-
-      const result = createBooking(request, [existing], now);
-
-      expect(result.success).toBe(true);
-    });
-
-    it("should reject booking in the past", () => {
-      const request = createBookingRequest({
-        start: new Date("2025-01-15T08:00:00"),
-        end: new Date("2025-01-15T09:00:00"),
-      });
-
-      const result = createBooking(request, [], now);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toContain("past");
-      }
-    });
-
-    it("should reject booking exceeding maximum duration of 4 hours", () => {
-      const request = createBookingRequest({
-        start: new Date("2025-01-15T10:00:00"),
-        end: new Date("2025-01-15T15:00:00"), // 5 hours
-      });
-
-      const result = createBooking(request, [], now);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toContain("duration");
-      }
-    });
-
-    it("should allow booking in different room even at same time", () => {
-      const existing: Booking = {
-        id: "existing-1",
-        ...createBookingRequest({ room: "Room A" }),
-        status: "confirmed",
-      };
-
-      const request = createBookingRequest({ room: "Room B" });
-
-      const result = createBooking(request, [existing], now);
-
-      expect(result.success).toBe(true);
+describe("Card Validator - Basic", () => {
+  it("should reject empty card numbers", () => {
+    expect(validateCard("")).toEqual({
+      valid: false,
+      error: "Card number is required",
     });
   });
 
-  describe("cancelling a booking", () => {
-    it("should allow cancellation of future booking", () => {
-      const booking: Booking = {
-        id: "booking-1",
-        ...createBookingRequest({
-          start: new Date("2025-01-15T14:00:00"),
-          end: new Date("2025-01-15T15:00:00"),
-        }),
-        status: "confirmed",
-      };
-
-      const result = cancelBooking(booking, now);
-
-      expect(result.success).toBe(true);
+  it("should reject card numbers with non-numeric characters", () => {
+    expect(validateCard("4111-1111-1111-1111")).toEqual({
+      valid: false,
+      error: "Card number must contain only digits",
     });
+  });
 
-    it("should reject cancellation of booking that has already started", () => {
-      const booking: Booking = {
-        id: "booking-1",
-        ...createBookingRequest({
-          start: new Date("2025-01-15T08:00:00"),
-          end: new Date("2025-01-15T10:00:00"),
-        }),
-        status: "confirmed",
-      };
+  it("should reject card numbers that fail Luhn checksum", () => {
+    expect(validateCard("4111111111111112")).toEqual({
+      valid: false,
+      error: "Invalid card number",
+    });
+  });
 
-      const result = cancelBooking(booking, now);
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toContain("already started");
-      }
+  it("should accept valid card numbers", () => {
+    expect(validateCard("4111111111111111")).toEqual({
+      valid: true,
+      error: null,
     });
   });
 });
 ```
 
-### Implementation (for demo)
+**TDD cycle**:
+
+1. RED: Write first test, watch it fail
+2. GREEN: Implement minimum code to pass
+3. REFACTOR: Clean up if needed
+4. Repeat for each test
+
+**Checkpoint**: All basic validation tests pass. Tag and sync.
+
+---
+
+### Lab 2: Provider Detection (30 min)
+
+**TAG: `lab-2-provider-detection`**
+
+**Goal**: Identify card provider from number prefix
+
+**Specifications to implement:**
 
 ```typescript
-// booking-system.ts
-import type {
-  BookingRequest,
-  Booking,
-  BookingResult,
-  CancelResult,
-} from "./types";
+describe("Card Provider Detection", () => {
+  it("should identify Visa cards (start with 4)", () => {
+    expect(detectProvider("4111111111111111")).toBe("visa");
+  });
 
-const MAX_DURATION_HOURS = 4;
+  it("should identify Mastercard cards (start with 51)", () => {
+    expect(detectProvider("5111111111111118")).toBe("mastercard");
+  });
 
-export function createBooking(
-  request: BookingRequest,
-  existingBookings: Booking[],
-  now: Date,
-): BookingResult {
-  // Validate time order
-  if (request.end <= request.start) {
-    return {
-      success: false,
-      error: "End time must be after start time",
-    };
-  }
+  it("should identify Mastercard cards (start with 55)", () => {
+    expect(detectProvider("5511111111111117")).toBe("mastercard");
+  });
 
-  // Validate not in past
-  if (request.start < now) {
-    return {
-      success: false,
-      error: "Cannot create booking in the past",
-    };
-  }
+  it("should identify Amex cards (start with 34)", () => {
+    expect(detectProvider("341111111111111")).toBe("amex");
+  });
 
-  // Validate duration
-  const durationHours =
-    (request.end.getTime() - request.start.getTime()) / (1000 * 60 * 60);
-  if (durationHours > MAX_DURATION_HOURS) {
-    return {
-      success: false,
-      error: `Booking duration cannot exceed ${MAX_DURATION_HOURS} hours`,
-    };
-  }
+  it("should identify Amex cards (start with 37)", () => {
+    expect(detectProvider("371111111111114")).toBe("amex");
+  });
 
-  // Check for overlaps (same room only)
-  const hasOverlap = existingBookings
-    .filter((existing) => existing.room === request.room)
-    .some(
-      (existing) =>
-        request.start < existing.end && request.end > existing.start,
+  it("should return unknown for unrecognized prefixes", () => {
+    expect(detectProvider("9111111111111111")).toBe("unknown");
+  });
+});
+```
+
+**Discussion point**: How do you handle cards that match multiple patterns? (They don't in practice, but good to discuss.)
+
+**Checkpoint**: Provider detection works. Tag and sync.
+
+---
+
+### Lab 3: Provider-Specific Rules (30 min)
+
+**TAG: `lab-3-provider-rules`**
+
+**Goal**: Apply different validation rules per provider
+
+**Specifications to implement:**
+
+```typescript
+describe("Provider-Specific Validation", () => {
+  describe("Visa", () => {
+    it("should accept 16-digit Visa cards", () => {
+      const result = validateCard("4111111111111111");
+      expect(result.valid).toBe(true);
+      expect(result.provider).toBe("visa");
+    });
+
+    it("should reject 15-digit Visa cards", () => {
+      const result = validateCard("411111111111111");
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe("Visa cards must be 16 digits");
+    });
+  });
+
+  describe("Amex", () => {
+    it("should accept 15-digit Amex cards", () => {
+      const result = validateCard("341111111111111");
+      expect(result.valid).toBe(true);
+      expect(result.provider).toBe("amex");
+    });
+
+    it("should reject 16-digit Amex cards", () => {
+      const result = validateCard("3411111111111111");
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe("American Express cards must be 15 digits");
+    });
+  });
+
+  describe("CVV", () => {
+    it("should accept 3-digit CVV for Visa", () => {
+      const result = validateCVV("123", "visa");
+      expect(result.valid).toBe(true);
+    });
+
+    it("should reject 4-digit CVV for Visa", () => {
+      const result = validateCVV("1234", "visa");
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe("CVV must be 3 digits");
+    });
+
+    it("should accept 4-digit CVV for Amex", () => {
+      const result = validateCVV("1234", "amex");
+      expect(result.valid).toBe(true);
+    });
+
+    it("should reject 3-digit CVV for Amex", () => {
+      const result = validateCVV("123", "amex");
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe("American Express CVV must be 4 digits");
+    });
+  });
+});
+```
+
+**Checkpoint**: Full validation logic complete. Tag and sync.
+
+---
+
+### Lab 4: Frontend Integration (30 min)
+
+**TAG: `lab-4-frontend`**
+
+**Goal**: Create a payment form with real-time validation and user-friendly messaging
+
+**Specifications to implement:**
+
+```typescript
+describe("Payment Form", () => {
+  it("should show card provider icon when detected", async () => {
+    render(<PaymentForm />);
+
+    const cardInput = screen.getByLabelText("Card number");
+    await user.type(cardInput, "4111");
+
+    expect(screen.getByTestId("card-icon")).toHaveAttribute(
+      "data-provider",
+      "visa"
     );
-
-  if (hasOverlap) {
-    return {
-      success: false,
-      error: "Booking overlaps with existing booking",
-    };
-  }
-
-  // Create the booking
-  const booking: Booking = {
-    id: `booking-${Date.now()}`,
-    ...request,
-    status: "confirmed",
-  };
-
-  return { success: true, booking };
-}
-
-export function cancelBooking(booking: Booking, now: Date): CancelResult {
-  if (booking.start <= now) {
-    return {
-      success: false,
-      error: "Cannot cancel booking that has already started",
-    };
-  }
-
-  return { success: true };
-}
-```
-
----
-
-## Appendix B: Exercise Materials — Shopping Cart
-
-### Requirements Document (Given to Teams)
-
-```markdown
-# Shopping Cart — TDD Exercise
-
-## Your Task
-
-Build a shopping cart using Test-Driven Development. For each requirement:
-
-1. Write a failing test (RED)
-2. Write minimum code to pass (GREEN)
-3. Refactor if needed
-4. Move to the next requirement
-
-## Requirements
-
-### Part 1: Basic Cart (Exercise 1)
-
-1. **Create an empty cart**
-   - A new cart should have no items
-
-2. **Add items to cart**
-   - Each item has: id, name, price, quantity
-   - Adding an item increases the cart's item count
-
-3. **Calculate subtotal**
-   - Subtotal = sum of (price × quantity) for all items
-
-4. **Handle duplicate items**
-   - Adding an item with the same id should increase quantity, not add a duplicate
-
-### Part 2: Discounts (Exercise 2)
-
-5. **Apply discount codes**
-   - "SAVE10" = 10% off subtotal
-   - "SAVE20" = 20% off subtotal
-
-6. **Reject invalid discount codes**
-   - Unknown codes should return an error
-
-7. **Calculate total with tax**
-   - Tax rate is 20%
-   - Discount is applied before tax
-   - Formula: (subtotal - discount) × 1.2
-
-### Edge Cases (if time permits)
-
-8. **Reject invalid quantities**
-   - Quantity must be positive (> 0)
-
-9. **Total cannot be negative**
-   - Even with large discounts, total should be at least 0
-```
-
-### Starter Files (Given to Teams)
-
-**types.ts** (provided):
-
-```typescript
-export type CartItem = {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-};
-
-export type Cart = {
-  items: CartItem[];
-  discountCode?: string;
-  taxRate: number;
-};
-
-export type CartTotal = {
-  subtotal: number;
-  discount: number;
-  tax: number;
-  total: number;
-};
-
-export type DiscountResult =
-  | { success: true; cart: Cart }
-  | { success: false; error: string };
-```
-
-**shopping-cart.ts** (empty — teams build this):
-
-```typescript
-// Teams implement this file using TDD
-```
-
-**shopping-cart.test.ts** (empty — teams write tests first):
-
-```typescript
-// Teams write tests here BEFORE implementation
-```
-
-### Example Solution (Facilitator Reference Only)
-
-This is what a completed implementation might look like. **Do not share with teams** — they should arrive at their own design through TDD.
-
-**Example tests** (one possible approach):
-
-```typescript
-import {
-  createCart,
-  addItem,
-  calculateSubtotal,
-  applyDiscount,
-  calculateTotal,
-} from "./shopping-cart";
-
-describe("Shopping Cart", () => {
-  const createItem = (overrides?: Partial<CartItem>): CartItem => ({
-    id: "item-1",
-    name: "Test Product",
-    price: 100,
-    quantity: 1,
-    ...overrides,
   });
 
-  describe("basic cart operations", () => {
-    it("should create an empty cart", () => {
-      const cart = createCart();
-      expect(cart.items).toHaveLength(0);
-    });
+  it("should show validation error after user stops typing", async () => {
+    render(<PaymentForm />);
 
-    it("should add an item to the cart", () => {
-      const cart = createCart();
-      const item = createItem();
+    const cardInput = screen.getByLabelText("Card number");
+    await user.type(cardInput, "4111111111111112"); // Invalid Luhn
 
-      const result = addItem(cart, item);
-
-      expect(result.items).toHaveLength(1);
-      expect(result.items[0].name).toBe("Test Product");
-    });
-
-    it("should calculate subtotal for items", () => {
-      let cart = createCart();
-      cart = addItem(cart, createItem({ price: 50, quantity: 2 }));
-
-      expect(calculateSubtotal(cart)).toBe(100);
-    });
-
-    it("should increase quantity when adding duplicate item", () => {
-      let cart = createCart();
-      cart = addItem(cart, createItem({ id: "item-1", quantity: 1 }));
-      cart = addItem(cart, createItem({ id: "item-1", quantity: 2 }));
-
-      expect(cart.items).toHaveLength(1);
-      expect(cart.items[0].quantity).toBe(3);
+    // Error shown after debounce
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent("Invalid card number");
     });
   });
 
-  describe("discount codes", () => {
-    it("should apply SAVE10 for 10% discount", () => {
-      let cart = createCart();
-      cart = addItem(cart, createItem({ price: 100, quantity: 1 }));
+  it("should show provider-specific error messages", async () => {
+    render(<PaymentForm />);
 
-      const result = applyDiscount(cart, "SAVE10");
+    const cardInput = screen.getByLabelText("Card number");
+    await user.type(cardInput, "41111111111111"); // 14 digits
 
-      expect(result.success).toBe(true);
-    });
-
-    it("should reject invalid discount code", () => {
-      let cart = createCart();
-      cart = addItem(cart, createItem());
-
-      const result = applyDiscount(cart, "INVALID");
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error).toContain("Invalid");
-      }
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "Visa cards must be 16 digits"
+      );
     });
   });
 
-  describe("total calculation", () => {
-    it("should calculate total with tax", () => {
-      let cart = createCart();
-      cart = addItem(cart, createItem({ price: 100, quantity: 1 }));
+  it("should adapt CVV field length based on provider", async () => {
+    render(<PaymentForm />);
 
-      const total = calculateTotal(cart);
+    const cardInput = screen.getByLabelText("Card number");
+    await user.type(cardInput, "341111111111111"); // Amex
 
-      expect(total.subtotal).toBe(100);
-      expect(total.tax).toBe(20);
-      expect(total.total).toBe(120);
-    });
+    const cvvInput = screen.getByLabelText("CVV");
+    expect(cvvInput).toHaveAttribute("maxLength", "4");
+  });
 
-    it("should apply discount before tax", () => {
-      let cart = createCart();
-      cart = addItem(cart, createItem({ price: 100, quantity: 1 }));
-      const discountResult = applyDiscount(cart, "SAVE10");
+  it("should show success state when card is valid", async () => {
+    render(<PaymentForm />);
 
-      if (discountResult.success) {
-        const total = calculateTotal(discountResult.cart);
+    await user.type(screen.getByLabelText("Card number"), "4111111111111111");
+    await user.type(screen.getByLabelText("CVV"), "123");
 
-        // 100 - 10% = 90, then + 20% tax = 108
-        expect(total.subtotal).toBe(100);
-        expect(total.discount).toBe(10);
-        expect(total.tax).toBe(18);
-        expect(total.total).toBe(108);
-      }
+    await waitFor(() => {
+      expect(screen.getByTestId("card-input")).toHaveClass("valid");
     });
   });
 });
 ```
 
-**Note**: Teams' solutions will vary — that's expected and good. The tests they write will shape different (but equally valid) APIs.
+**Key patterns:**
+
+- Test user behavior, not component internals
+- Use accessible queries (`getByLabelText`, `getByRole`)
+- Real-time validation with debouncing
+- User-friendly error messages (not technical jargon)
+
+**Checkpoint**: Frontend form complete with real-time validation. Tag and sync.
 
 ---
 
-## Appendix C: C# Translation Patterns
+### Lab 5: Backend Integration (30 min)
 
-### Factory Pattern → Builder Pattern
+**TAG: `lab-5-backend`**
 
-**TypeScript**:
+**Goal**: Protect API endpoints with validation middleware
 
-```typescript
-const createBooking = (overrides?: Partial<Booking>): Booking => ({
-  id: "booking-123",
-  room: "Room A",
-  start: new Date("2025-01-15T10:00:00"),
-  ...overrides,
-});
-```
-
-**C#**:
-
-```csharp
-public class BookingBuilder
-{
-    private string _id = "booking-123";
-    private string _room = "Room A";
-    private DateTime _start = DateTime.Parse("2025-01-15T10:00:00");
-    private DateTime _end = DateTime.Parse("2025-01-15T11:00:00");
-
-    public BookingBuilder WithId(string id) { _id = id; return this; }
-    public BookingBuilder WithRoom(string room) { _room = room; return this; }
-    public BookingBuilder StartingAt(DateTime start) { _start = start; return this; }
-    public BookingBuilder EndingAt(DateTime end) { _end = end; return this; }
-
-    public Booking Build() => new Booking(_id, _room, _start, _end);
-}
-
-// Usage
-var booking = new BookingBuilder()
-    .WithRoom("Room B")
-    .StartingAt(DateTime.Parse("2025-01-15T14:00:00"))
-    .Build();
-```
-
-### Test Structure
-
-**TypeScript (Jest)**:
+**Specifications to implement:**
 
 ```typescript
-describe("Booking System", () => {
-  describe("creating a booking", () => {
-    it("should create a booking with valid times", () => {
-      // ...
+describe("Payment API", () => {
+  describe("POST /api/payments", () => {
+    it("should reject requests with invalid card numbers", async () => {
+      const response = await request(app).post("/api/payments").send({
+        cardNumber: "4111111111111112", // Invalid Luhn
+        cvv: "123",
+        amount: 100,
+      });
+
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({
+        error: "validation_error",
+        message: "Invalid card number",
+        field: "cardNumber",
+      });
+    });
+
+    it("should reject requests with mismatched CVV length", async () => {
+      const response = await request(app).post("/api/payments").send({
+        cardNumber: "341111111111111", // Amex
+        cvv: "123", // Should be 4 digits
+        amount: 100,
+      });
+
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({
+        error: "validation_error",
+        message: "American Express CVV must be 4 digits",
+        field: "cvv",
+      });
+    });
+
+    it("should accept valid payment requests", async () => {
+      const response = await request(app).post("/api/payments").send({
+        cardNumber: "4111111111111111",
+        cvv: "123",
+        amount: 100,
+      });
+
+      expect(response.status).toBe(200);
+      expect(response.body).toMatchObject({
+        success: true,
+        provider: "visa",
+      });
     });
   });
 });
 ```
 
-**C# (xUnit)**:
+**Key patterns:**
 
-```csharp
-public class BookingSystemTests
-{
-    public class CreatingABooking
-    {
-        [Fact]
-        public void Should_Create_Booking_With_Valid_Times()
-        {
-            // ...
-        }
-    }
-}
+- Validation middleware (reuse same validation logic)
+- Consistent error response format
+- Provider detection in response
+
+**Discussion**: Same validation logic, different presentation. Frontend shows user-friendly messages; API returns structured errors for programmatic handling.
+
+**Checkpoint**: Full-stack validation complete. Tag and sync.
+
+---
+
+## Tag Structure
+
+Each tag represents a checkpoint where all language implementations are synchronized.
+
+```
+lab-0-requirements     # Discovered requirements (specs only, no implementation)
+lab-1-basic-validation # Basic validation working
+lab-2-provider-detection # Provider detection working
+lab-3-provider-rules   # Provider-specific rules working
+lab-4-frontend         # Frontend form complete
+lab-5-backend          # Backend API complete
 ```
 
-### Assertions
+**Branch structure per language:**
 
-**TypeScript (Jest)**:
+```
+typescript/
+├── main               # Starting point (test framework only)
+├── lab-0-requirements # Specs written, no implementation
+├── lab-1-basic-validation
+├── lab-2-provider-detection
+├── lab-3-provider-rules
+├── lab-4-frontend
+└── lab-5-backend
 
-```typescript
-expect(result.success).toBe(true);
-expect(result.error).toContain("overlaps");
+java/
+├── main
+├── lab-0-requirements
+├── lab-1-basic-validation
+├── lab-2-provider-detection
+├── lab-3-provider-rules
+└── lab-5-backend      # (No frontend in Java)
+
+csharp/
+├── main
+├── lab-0-requirements
+├── lab-1-basic-validation
+├── lab-2-provider-detection
+├── lab-3-provider-rules
+└── lab-5-backend      # (No frontend in C#)
 ```
 
-**C# (FluentAssertions)**:
+**Facilitator use**: If a team falls behind, they can checkout the tag and continue from there.
 
-```csharp
-result.Success.Should().BeTrue();
-result.Error.Should().Contain("overlaps");
+---
+
+## AI Demo (10 min)
+
+### Purpose
+
+Prove that the specifications are what matter. The implementation is secondary.
+
+### Demo
+
+Take the card validator specifications that teams created.
+
+Feed them to an AI (Claude, GPT-4, Copilot) with the prompt:
+
+> "Here are my test specifications. Implement the code to make them pass."
+
+Watch the AI generate an implementation.
+
+Run the tests. **They pass.**
+
+### Key Insight
+
+If an AI can implement from your specifications, your specifications are good. The tests describe WHAT the system should do clearly enough that the implementation becomes mechanical.
+
+This is the ultimate proof that tests are specifications.
+
+---
+
+## Further Material & Wrap-Up (20 min)
+
+### Brownfield Projects
+
+Most real work is on existing codebases without tests. Acknowledge this reality.
+
+**Recommended approach:**
+
+1. When touching existing code, add behavioral tests first
+2. Use the "characterization test" technique — write tests that describe current behavior
+3. Then refactor with confidence
+4. Don't try to retrofit tests to everything at once
+
+**Resource**: "Working Effectively with Legacy Code" by Michael Feathers
+
+### Q&A
+
+Open discussion. Common questions:
+
+- "What about integration tests?"
+- "How do you test private methods?" (You don't)
+- "What about legacy code with no tests?"
+- "How do you get buy-in from the team?"
+
+---
+
+## Repository Structure
+
 ```
-
-### HTTP Mocking
-
-**TypeScript (MSW)**:
-
-```typescript
-server.use(
-  http.get("/api/rooms", () => {
-    return HttpResponse.json([{ id: "room-1", name: "Room A" }]);
-  }),
-);
-```
-
-**C# (WireMock.Net)**:
-
-```csharp
-_wireMockServer
-    .Given(Request.Create().WithPath("/api/rooms").UsingGet())
-    .RespondWith(Response.Create()
-        .WithStatusCode(200)
-        .WithBodyAsJson(new[] { new { Id = "room-1", Name = "Room A" } }));
+tdd-workshop/
+├── typescript/
+│   ├── card-validator/
+│   │   ├── src/
+│   │   ├── tests/
+│   │   └── package.json
+│   └── demo-booking-system/        # For opening demo only
+│
+├── java/
+│   ├── card-validator/
+│   │   ├── src/
+│   │   └── pom.xml
+│   └── demo-booking-system/
+│
+├── csharp/
+│   ├── CardValidator/
+│   │   ├── src/
+│   │   └── CardValidator.csproj
+│   └── DemoBookingSystem/
+│
+├── slides/
+│   └── workshop-presentation.pptx
+│
+└── facilitator/
+    ├── requirements-cheatsheet.md  # Answers for Lab 0
+    └── timing-guide.md             # Pacing notes
 ```
 
 ---
 
-## Appendix D: Concepts by Example Matrix
+## Preparation Checklist
 
-This matrix shows which concepts are demonstrated by each example:
+### Week 1
 
-| Concept                              | Ex.1 Booking | Ex.2 Price Calc |  Ex.3 Cart  | Ex.4 Counter | Ex.5 Product Search | Ex.6 MSW/WireMock | Ex.7 Repository |
-| ------------------------------------ | :----------: | :-------------: | :---------: | :----------: | :-----------------: | :---------------: | :-------------: |
-| Tests catch bugs with clear messages | **PRIMARY**  |        ✓        |      ✓      |      ✓       |          ✓          |         ✓         |        ✓        |
-| Tests describe business behavior     | **PRIMARY**  |   **PRIMARY**   |      ✓      |              |                     |                   |                 |
-| Bad tests provide false confidence   | **PRIMARY**  |                 |             |              |                     |                   |                 |
-| RED-GREEN-REFACTOR workflow          |              |                 | **PRIMARY** |              |                     |                   |                 |
-| Refactoring with confidence          |      ✓       |                 |      ✓      |              |                     |                   |                 |
-| Mock at HTTP boundary                |              |                 |             |              |          ✓          |    **PRIMARY**    |                 |
-| Mock at interface boundary           |              |                 |             |              |                     |                   |   **PRIMARY**   |
-| Factory/Builder pattern              |      ✓       |        ✓        |      ✓      |              |          ✓          |         ✓         |        ✓        |
-| Controlling time as dependency       |      ✓       |                 |             |              |                     |                   |                 |
-| Accessible queries (frontend)        |              |                 |             |      ✓       |          ✓          |                   |                 |
+- [ ] Create booking system demo (TypeScript)
+- [ ] Create good tests and bad tests versions
+- [ ] Set up lab starter projects (all languages)
 
-**Legend**:
+### Week 2
 
-- **PRIMARY** = Main example for teaching this concept
-- ✓ = Also demonstrates this concept
-- Empty = Not covered in this example
+- [ ] Create card validator solution at each tag (TypeScript)
+- [ ] Java team creates parallel implementations
+- [ ] C# team creates parallel implementations
+- [ ] Verify all tags are in sync across languages
 
-### Quick Reference: Which Example Teaches What?
+### Week 3
 
-**"Why should I care about TDD?"** → Example 1: Booking System (demo)
+- [ ] Draft presentation slides
+- [ ] Dry run with small group
+- [ ] Refine timing based on feedback
+- [ ] Test AI demo with actual specifications
 
-**"How do I practice TDD?"** → Example 3: Shopping Cart (hands-on)
+### Week 4
 
-**"How do I test React components?"** → Example 4: Counter, Example 5: Product Search
-
-**"How do I mock external APIs?"** → Example 6: MSW/WireMock
-
-**"How do I test backend services?"** → Example 7: Repository Pattern
+- [ ] Final polish
+- [ ] Prepare facilitator materials
+- [ ] Confirm logistics
 
 ---
 
-## Questions for Review
+## Facilitator Notes
 
-### Preparation
+### Pacing
 
-1. **Repository**: Should the new repo be public (for attendees to reference later) or internal?
+- Watch for teams falling behind
+- Tags allow catch-up without embarrassment
+- Labs 4-5 can be shortened if time is tight (frontend/backend are optional extensions)
 
-2. **C# Team Involvement**: Who from C# should be involved in preparation? Do we need dedicated time allocated?
+### Requirements Gathering (Lab 0)
 
-3. **Existing Code**: Should we copy examples from this repo or start fresh with cleaner implementations?
+- Don't give away answers too easily
+- Make teams ask specific questions
+- If they don't ask, they don't learn
 
-### Content
+### Common Issues
 
-4. **Demo Domain**: Is Meeting Room Booking suitable, or would another domain resonate better with your organization?
+- Teams jumping ahead (gently remind: RED-GREEN-REFACTOR)
+- Teams overthinking (minimum to pass, then refactor)
+- Analysis paralysis on requirements (time-box, move on)
 
-5. **Exercise Domain**: Shopping Cart for hands-on — appropriately different from demo while still being universally understood?
+### Language Parity
 
-6. **Frontend Depth**: The current plan has frontend patterns as a separate section. Should frontend teams have their own extended exercises?
-
-7. **Anti-patterns Gallery**: Should we add an explicit "Bad Tests Gallery" showing common anti-patterns as a standalone section?
-
-### Logistics
-
-8. **Time Allocation**: Does the 90 minutes for hands-on practice feel right? Could be adjusted if needed.
-
-9. **Team Size**: What's the expected attendance? This affects how we structure the exercises.
-
-10. **Follow-up**: Should there be follow-up sessions or office hours after the workshop?
+- Same business logic, idiomatic implementation
+- Don't force patterns that don't fit the language
+- Focus on the principles, not the syntax
