@@ -15,6 +15,220 @@
 
 We have one month to prepare materials. The goal is to create a **new repository** containing examples in both TypeScript and C# that demonstrate identical concepts. C# teams will collaborate during preparation to ensure the C# examples are idiomatic and complete before the workshop day.
 
+### Examples Catalog
+
+Each example is designed to teach specific concepts. This section defines what each example demonstrates and why it exists.
+
+---
+
+#### Example 1: Booking System (Opening Demo)
+
+**Languages**: TypeScript + C#
+**Purpose**: Opening demonstration — "What good looks like"
+**Used in**: Phase 1 (Inspiration)
+
+**Key Concepts Demonstrated**:
+
+| Concept                                  | How It's Shown                                                                            |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **Tests catch bugs with clear messages** | Break overlap detection → test fails explaining "back-to-back bookings should be allowed" |
+| **Tests describe business behavior**     | Test names read as specification: "should reject booking in the past"                     |
+| **Bad tests provide false confidence**   | Same bugs pass through implementation-coupled tests (spy assertions)                      |
+| **Controlling time as a boundary**       | `now` is passed as parameter, not `new Date()` inside function                            |
+
+**Files**:
+
+- `booking-system.test.ts` — Good behavioral tests
+- `booking-system-bad-tests.test.ts` — Contrast: implementation-coupled tests that miss bugs
+- `booking-system.ts` — Implementation
+- `types.ts` — Type definitions
+
+**Demo Flow**:
+
+1. Run tests (all green)
+2. Break overlap logic → test fails with descriptive message
+3. Break past-booking check → test fails with descriptive message
+4. Show bad tests file → same bugs pass through
+5. Show refactoring doesn't break good tests
+
+---
+
+#### Example 2: Price Calculator (Pure Function + Implementation Independence)
+
+**Languages**: TypeScript + C#
+**Purpose**: Show that behavioral tests survive complete implementation rewrites
+**Used in**: Phase 3 (Patterns)
+
+**Key Concepts Demonstrated**:
+
+| Concept                           | How It's Shown                                                                           |
+| --------------------------------- | ---------------------------------------------------------------------------------------- |
+| **Implementation independence**   | Two completely different implementations (imperative vs functional) pass identical tests |
+| **Tests don't care about HOW**    | Tests verify output for given input, nothing about internal structure                    |
+| **Factory pattern for test data** | `createPriceParams()` with overrides                                                     |
+| **Coverage through behavior**     | All business rules tested (discounts, edge cases) without testing internal methods       |
+
+**Files**:
+
+- `price-calculator.test.ts` — Behavioral tests (never changes)
+- `price-calculator-imperative.ts` — Implementation A: if/else, mutation
+- `price-calculator-functional.ts` — Implementation B: function composition, immutable
+
+**Key Point**: The test file is identical for both implementations. You can switch implementations and tests still pass.
+
+---
+
+#### Example 3: Shopping Cart (Hands-On Exercise)
+
+**Languages**: TypeScript + C#
+**Purpose**: Teams implement code to make pre-written tests pass
+**Used in**: Phase 4 (Practice)
+
+**Key Concepts Demonstrated**:
+
+| Concept                         | How It's Shown                                                |
+| ------------------------------- | ------------------------------------------------------------- |
+| **Tests guide implementation**  | Tests are provided, teams write code to satisfy them          |
+| **RED-GREEN-REFACTOR workflow** | Start RED, make GREEN, then refactor                          |
+| **Adding new requirements**     | Exercise 2: Add "discount expiry" feature test-first          |
+| **Refactoring confidence**      | Exercise 3: Change implementation structure, tests stay green |
+
+**Files**:
+
+- `shopping-cart.test.ts` — Complete test suite (provided)
+- `shopping-cart.ts` — Empty/skeleton (teams implement)
+- `types.ts` — Type definitions (provided)
+
+---
+
+#### Example 4: Counter Component (State Mechanism Independence)
+
+**Languages**: TypeScript/React only
+**Purpose**: Show that UI tests don't care about internal state management
+**Used in**: Phase 5 (Application — Frontend Patterns)
+
+**Key Concepts Demonstrated**:
+
+| Concept                                        | How It's Shown                                                               |
+| ---------------------------------------------- | ---------------------------------------------------------------------------- |
+| **Internal state is an implementation detail** | Same tests pass for `useState` and `useReducer` implementations              |
+| **Test user-visible behavior**                 | Tests click buttons and verify displayed count, not state values             |
+| **Accessible queries**                         | `getByRole('button', { name: /increment/i })` — tests use accessibility tree |
+| **Tests survive state refactoring**            | Switch from useState to useReducer (or Redux, or Zustand) — tests unchanged  |
+
+**Files**:
+
+- `counter.test.tsx` — Behavioral tests (never changes)
+- `counter-use-state.tsx` — Implementation A: React useState
+- `counter-use-reducer.tsx` — Implementation B: React useReducer
+
+**Key Point**: The test doesn't know or care whether you use `useState`, `useReducer`, Redux, Zustand, or any other state mechanism. It only knows: "when I click increment, the displayed count goes up."
+
+---
+
+#### Example 5: Product Search (Data Fetching Independence)
+
+**Languages**: TypeScript/React only
+**Purpose**: Show that tests don't care about data fetching implementation
+**Used in**: Phase 5 (Application — Frontend Patterns)
+
+**Key Concepts Demonstrated**:
+
+| Concept                                       | How It's Shown                                                     |
+| --------------------------------------------- | ------------------------------------------------------------------ |
+| **Data fetching is an implementation detail** | Same tests pass for React Query and Redux Toolkit implementations  |
+| **Mock at HTTP boundary (MSW)**               | Network requests intercepted, not fetch/axios mocked               |
+| **Test user workflows**                       | User types search term, clicks button, sees results                |
+| **Tests survive library changes**             | Switch from React Query to Redux (or vice versa) — tests unchanged |
+
+**Files**:
+
+- `product-search.test.tsx` — Behavioral tests (never changes)
+- `product-search-react-query.tsx` — Implementation A: React Query
+- `product-search-redux.tsx` — Implementation B: Redux Toolkit RTK Query
+- `handlers.ts` — MSW handlers for mocking API
+
+**Key Point**: Whether you use React Query, Redux, SWR, or plain fetch — the tests don't change. They verify: "user searches, loading appears, results display."
+
+---
+
+#### Example 6: API Integration with MSW (Mocking at Boundaries)
+
+**Languages**: TypeScript (frontend) + C# equivalent with WireMock
+**Purpose**: Demonstrate mocking at the HTTP boundary, not at internal layers
+**Used in**: Phase 3 (Patterns) and Phase 5 (Application)
+
+**Key Concepts Demonstrated**:
+
+| Concept                                  | How It's Shown                                         |
+| ---------------------------------------- | ------------------------------------------------------ |
+| **Mock at network boundary**             | MSW intercepts HTTP requests, real code executes       |
+| **Same mocks for tests and development** | MSW handlers work in Jest and in browser               |
+| **Test real integration code**           | Actual fetch/axios calls execute, only network is fake |
+| **No mocking of internal functions**     | Don't mock `fetchData()`, mock the endpoint it calls   |
+
+**TypeScript Files** (MSW):
+
+- `api-integration.test.tsx` — Tests that verify API integration behavior
+- `handlers.ts` — MSW request handlers
+- `api-client.ts` — Real API client code (not mocked)
+
+**C# Equivalent** (WireMock):
+
+- `ApiIntegrationTests.cs` — Tests using WireMock.Net
+- `WireMockSetup.cs` — WireMock server configuration
+- `ApiClient.cs` — Real HTTP client code
+
+**Key Point**: We mock the external world (HTTP responses), not our own code. The test exercises the real API client, real error handling, real response parsing — only the network is controlled.
+
+**Contrast with bad approach**:
+
+```typescript
+// ❌ BAD: Mocking internal function
+jest.spyOn(apiClient, 'fetchProducts').mockResolvedValue([...]);
+
+// ✅ GOOD: Mocking at HTTP boundary
+server.use(
+  http.get('/api/products', () => {
+    return HttpResponse.json([...]);
+  })
+);
+```
+
+---
+
+#### Example 7: Service with Repository (Backend Boundary Mocking)
+
+**Languages**: C# (primary) + TypeScript equivalent
+**Purpose**: Show backend pattern for mocking at boundaries via interfaces
+**Used in**: Phase 5 (Application — Backend Patterns)
+
+**Key Concepts Demonstrated**:
+
+| Concept                                   | How It's Shown                                                            |
+| ----------------------------------------- | ------------------------------------------------------------------------- |
+| **Interface as boundary**                 | `IUserRepository` defines the contract, tests provide fake implementation |
+| **Test service behavior, not repository** | Tests verify service logic, not database queries                          |
+| **Dependency injection enables testing**  | Service receives repository via constructor                               |
+| **In-memory fakes vs mocks**              | Prefer simple in-memory implementations over complex mocking              |
+
+**C# Files**:
+
+- `UserServiceTests.cs` — Tests with in-memory repository
+- `UserService.cs` — Service containing business logic
+- `IUserRepository.cs` — Interface (the boundary)
+- `InMemoryUserRepository.cs` — Test fake implementation
+
+**TypeScript Equivalent**:
+
+- `user-service.test.ts` — Same patterns in TypeScript
+- `user-service.ts` — Service implementation
+- `user-repository.ts` — Interface + in-memory implementation
+
+**Key Point**: The repository is the boundary. Tests provide a simple in-memory implementation, not a mock with `verify()` calls. We test: "when service does X, what happens?" — not "did service call repository method Y?"
+
+---
+
 ### Repository Structure
 
 ```
@@ -23,65 +237,34 @@ tdd-workshop/
 ├── docs/
 │   └── workshop-guide.md               # Facilitator guide for the day
 │
-├── 01-core-concepts/                   # Language-agnostic examples (demo + exercises)
+├── 01-core-concepts/                   # Language-agnostic examples
 │   ├── typescript/
-│   │   ├── booking-system/             # Opening demo
-│   │   │   ├── booking-system.test.ts
-│   │   │   ├── booking-system.ts
-│   │   │   ├── booking-system-bad-tests.test.ts  # Contrast: implementation-coupled tests
-│   │   │   └── types.ts
-│   │   ├── price-calculator/           # Implementation independence example
-│   │   │   ├── price-calculator.test.ts
-│   │   │   ├── price-calculator-imperative.ts
-│   │   │   └── price-calculator-functional.ts
-│   │   └── shopping-cart/              # Hands-on exercise
-│   │       ├── shopping-cart.test.ts   # Tests provided (RED)
-│   │       ├── shopping-cart.ts        # Empty - teams implement
-│   │       └── types.ts
-│   │
+│   │   ├── booking-system/             # Example 1: Opening demo
+│   │   ├── price-calculator/           # Example 2: Implementation independence
+│   │   └── shopping-cart/              # Example 3: Hands-on exercise
 │   └── csharp/
-│       ├── BookingSystem/              # Same concepts, idiomatic C#
-│       │   ├── BookingSystemTests.cs
-│       │   ├── BookingSystem.cs
-│       │   ├── BookingSystemBadTests.cs
-│       │   └── Types.cs
-│       ├── PriceCalculator/
-│       │   ├── PriceCalculatorTests.cs
-│       │   ├── PriceCalculatorImperative.cs
-│       │   └── PriceCalculatorFunctional.cs
-│       └── ShoppingCart/
-│           ├── ShoppingCartTests.cs    # Tests provided (RED)
-│           ├── ShoppingCart.cs         # Empty - teams implement
-│           └── Types.cs
+│       ├── BookingSystem/              # Example 1: C# version
+│       ├── PriceCalculator/            # Example 2: C# version
+│       └── ShoppingCart/               # Example 3: C# version
 │
-├── 02-frontend-patterns/               # Frontend-specific (TypeScript only)
-│   ├── counter-example/                # useState vs useReducer - same tests
-│   │   ├── counter.test.tsx
-│   │   ├── counter-use-state.tsx
-│   │   └── counter-use-reducer.tsx
-│   ├── product-search/                 # React Query vs Redux - same tests
-│   │   ├── product-search.test.tsx
-│   │   ├── product-search-react-query.tsx
-│   │   └── product-search-redux.tsx
-│   └── msw-example/                    # Mocking at HTTP boundary
-│       ├── api-integration.test.tsx
-│       ├── handlers.ts
-│       └── api-client.ts
-│
-├── 03-backend-patterns/                # Backend-specific (C# focused, TS equivalent)
+├── 02-boundary-mocking/                # Mocking at boundaries (both languages)
 │   ├── typescript/
-│   │   └── repository-pattern/         # Interface-based testing
-│   │       ├── user-service.test.ts
-│   │       ├── user-service.ts
-│   │       └── user-repository.ts
+│   │   └── msw-api-integration/        # Example 6: MSW pattern
 │   └── csharp/
-│       └── RepositoryPattern/
-│           ├── UserServiceTests.cs
-│           ├── UserService.cs
-│           └── IUserRepository.cs
+│       └── WireMockApiIntegration/     # Example 6: WireMock pattern
+│
+├── 03-frontend-patterns/               # Frontend-specific (TypeScript/React)
+│   ├── counter-example/                # Example 4: State mechanism independence
+│   └── product-search/                 # Example 5: Data fetching independence
+│
+├── 04-backend-patterns/                # Backend-specific (C# primary)
+│   ├── csharp/
+│   │   └── ServiceWithRepository/      # Example 7: Repository pattern
+│   └── typescript/
+│       └── service-with-repository/    # Example 7: TS equivalent
 │
 └── slides/                             # Presentation materials
-    └── tdd-workshop.md                 # Slide content (can use reveal.js, etc.)
+    └── tdd-workshop.md                 # Slide content
 ```
 
 ### Preparation Timeline
@@ -137,27 +320,23 @@ Week 4: Polish & Dry Run
 - Week 3: Review session for C# implementations
 - Week 4: Joint dry run with both TypeScript and C# examples
 
-### Key Principles for Examples
+### Key Concepts Summary
 
-Each example should demonstrate:
+The workshop teaches these core concepts, each demonstrated by specific examples:
 
-1. **Tests describe behavior, not implementation**
-   - Test names read like specifications
-   - Failure messages explain what business rule was violated
-
-2. **Tests survive refactoring**
-   - Show two implementations passing same tests
-   - Prove that changing HOW doesn't break tests
-
-3. **Factory/Builder pattern for test data**
-   - No shared mutable state
-   - Complete objects with sensible defaults
-   - Easy to customize via overrides
-
-4. **Mocking at boundaries only**
-   - Time as an injected dependency
-   - HTTP mocking (MSW for TS, WireMock for C#)
-   - No mocking of internal methods
+| Concept                                  | Primary Example                       | Also Shown In  |
+| ---------------------------------------- | ------------------------------------- | -------------- |
+| **Tests catch bugs with clear messages** | Booking System (demo)                 | All examples   |
+| **Tests describe business behavior**     | Booking System (demo)                 | Shopping Cart  |
+| **Bad tests provide false confidence**   | Booking System (bad tests contrast)   | —              |
+| **Implementation independence**          | Price Calculator, Counter             | Product Search |
+| **State mechanism independence**         | Counter (useState vs useReducer)      | —              |
+| **Data fetching independence**           | Product Search (React Query vs Redux) | —              |
+| **Mock at HTTP boundary**                | MSW API Integration                   | Product Search |
+| **Mock at interface boundary**           | Service with Repository               | —              |
+| **Factory/Builder pattern**              | All examples                          | —              |
+| **Controlling time as dependency**       | Booking System                        | —              |
+| **RED-GREEN-REFACTOR workflow**          | Shopping Cart (exercise)              | —              |
 
 ---
 
@@ -1514,26 +1693,45 @@ _wireMockServer
 
 ---
 
-## Appendix D: Concepts by Example
+## Appendix D: Concepts by Example Matrix
 
-This table maps each core concept to the examples that demonstrate it:
+This matrix shows which concepts are demonstrated by each example:
 
-| Concept                           | Booking System | Price Calculator | Shopping Cart | Counter  | Product Search |
-| --------------------------------- | -------------- | ---------------- | ------------- | -------- | -------------- |
-| Test behavior, not implementation | ✓ (demo)       | ✓                | ✓             | ✓        | ✓              |
-| Tests as specifications           | ✓ (demo)       |                  | ✓             |          |                |
-| Implementation independence       | ✓ (demo)       | ✓ (main)         |               | ✓ (main) | ✓ (main)       |
-| Factory/Builder pattern           | ✓              | ✓                | ✓             |          | ✓              |
-| Mock at boundaries (time)         | ✓              |                  |               |          |                |
-| Mock at boundaries (HTTP)         |                |                  |               |          | ✓ (main)       |
-| Bad tests contrast                | ✓ (main)       |                  |               |          |                |
-| Coverage through behavior         | ✓              | ✓                | ✓             |          |                |
+| Concept                              | Ex.1 Booking | Ex.2 Price Calc |  Ex.3 Cart  | Ex.4 Counter | Ex.5 Product Search | Ex.6 MSW/WireMock | Ex.7 Repository |
+| ------------------------------------ | :----------: | :-------------: | :---------: | :----------: | :-----------------: | :---------------: | :-------------: |
+| Tests catch bugs with clear messages | **PRIMARY**  |        ✓        |      ✓      |      ✓       |          ✓          |         ✓         |        ✓        |
+| Tests describe business behavior     | **PRIMARY**  |        ✓        |      ✓      |              |                     |                   |                 |
+| Bad tests provide false confidence   | **PRIMARY**  |                 |             |              |                     |                   |                 |
+| Implementation independence          |      ✓       |   **PRIMARY**   |             | **PRIMARY**  |     **PRIMARY**     |                   |                 |
+| State mechanism independence         |              |                 |             | **PRIMARY**  |                     |                   |                 |
+| Data fetching lib independence       |              |                 |             |              |     **PRIMARY**     |                   |                 |
+| Mock at HTTP boundary                |              |                 |             |              |          ✓          |    **PRIMARY**    |                 |
+| Mock at interface boundary           |              |                 |             |              |                     |                   |   **PRIMARY**   |
+| Factory/Builder pattern              |      ✓       |        ✓        |      ✓      |              |          ✓          |         ✓         |        ✓        |
+| Controlling time as dependency       |      ✓       |                 |             |              |                     |                   |                 |
+| RED-GREEN-REFACTOR workflow          |              |                 | **PRIMARY** |              |                     |                   |                 |
+| Accessible queries (frontend)        |              |                 |             |      ✓       |          ✓          |                   |                 |
+| In-memory fakes over mocks           |              |                 |             |              |                     |                   |   **PRIMARY**   |
 
 **Legend**:
 
-- ✓ = demonstrates this concept
-- (main) = primary example for this concept
-- (demo) = used in opening demonstration
+- **PRIMARY** = Main example for teaching this concept
+- ✓ = Also demonstrates this concept
+- Empty = Not covered in this example
+
+### Quick Reference: Which Example Teaches What?
+
+**"Why should I care about TDD?"** → Example 1: Booking System (demo)
+
+**"How do tests survive refactoring?"** → Example 2: Price Calculator, Example 4: Counter
+
+**"How do I practice TDD?"** → Example 3: Shopping Cart (hands-on)
+
+**"How do I test React components without testing implementation?"** → Example 4: Counter
+
+**"How do I mock external APIs?"** → Example 5: Product Search, Example 6: MSW/WireMock
+
+**"How do I test backend services?"** → Example 7: Repository Pattern
 
 ---
 
