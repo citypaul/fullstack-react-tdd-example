@@ -1,9 +1,9 @@
 # TDD Workshop: Behavioral Testing Across Languages
 
-## Planning Document v3.0
+## Planning Document v3.1
 
-**Duration**: Full day (~7 hours including breaks)
-**Format**: Presentation, Demo, Hands-On Labs (majority of day)
+**Duration**: Half-day (4 hours including breaks)
+**Format**: Presentation, Demo, Hands-On Labs (majority of time)
 **Audience**: Senior developers across TypeScript, Java, and C# teams
 **Preparation Time**: 1 month
 
@@ -39,87 +39,78 @@ Before we begin, let's be clear about BDD (Behavior-Driven Development):
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                                                                         │
-│  MORNING: FOUNDATIONS                                                   │
+│  FOUNDATIONS (45 min)                                                   │
 │  ════════════════════                                                   │
 │                                                                         │
-│  OPENING PRESENTATION (30 min)                                          │
+│  OPENING PRESENTATION (15 min)                                          │
 │  ───────────────────────────────                                        │
-│  Paul's TDD journey                                                     │
-│  Introduction to requirement gathering / specifications                 │
+│  Paul's TDD journey (brief)                                             │
 │  What BDD actually is (not Given/When/Then)                             │
+│  What we'll build today                                                 │
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  DEMO (30 min) — Booking system example                                 │
+│  DEMO (20 min) — Booking system example                                 │
 │  ────────────────────────────────────────────                           │
 │  1. Good tests catch broken behavior                                    │
-│  2. Good tests allow refactoring (behavior unchanged → tests green)     │
-│  3. Bad tests do the opposite (miss bugs AND break on refactoring)      │
+│  2. Good tests allow refactoring                                        │
+│  3. Bad tests do the opposite                                           │
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  PRINCIPLES (20 min)                                                    │
+│  PRINCIPLES (10 min)                                                    │
 │  ────────────────────                                                   │
-│  Agree on shared principles across all languages/domains                │
-│  Discussion, not lecture                                                │
-│                                                                         │
-│                              ↓                                          │
+│  Agree on shared principles (quick discussion)                          │
 │                                                                         │
 │  ═══════════════════════════════════════════════════════════════════    │
-│  AFTERNOON: HANDS-ON LABS (~4 hours)                                    │
-│  ════════════════════════════════════                                   │
+│  HANDS-ON LABS (~2.5 hours including breaks)                            │
+│  ═══════════════════════════════════════════                            │
 │                                                                         │
-│  LAB 0: Requirements Gathering Simulation (30 min)                      │
+│  LAB 0: Requirements Gathering (25 min)                                 │
 │  ─────────────────────────────────────────────────                      │
 │  Teams discover requirements through conversation                       │
-│  This IS the BDD practice                                               │
 │  TAG: lab-0-requirements                                                │
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  LAB 1: Basic Validation (30 min)                                       │
+│  LAB 1: Basic Validation (25 min)                                       │
 │  ──────────────────────────────────                                     │
 │  Length, format, Luhn checksum                                          │
 │  TAG: lab-1-basic-validation                                            │
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  LAB 2: Provider Detection (30 min)                                     │
+│  LAB 2: Provider Detection (25 min)                                     │
 │  ──────────────────────────────────                                     │
 │  Identify Visa, Mastercard, Amex from card number                       │
 │  TAG: lab-2-provider-detection                                          │
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  LAB 3: Provider-Specific Rules (30 min)                                │
+│  LAB 3: Provider-Specific Rules (25 min)                                │
 │  ─────────────────────────────────────────                              │
 │  Different lengths, CVV rules per provider                              │
 │  TAG: lab-3-provider-rules                                              │
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  LAB 4: Frontend Integration (30 min)                                   │
-│  ──────────────────────────────────────                                 │
-│  Real-time form validation with user-friendly messages                  │
-│  TAG: lab-4-frontend                                                    │
+│  LAB 4: Integration (25 min) — CHOOSE ONE                               │
+│  ──────────────────────────────────────────────────────                 │
+│  Option A: Frontend (form validation, user messaging)                   │
+│  Option B: Backend (API endpoint protection)                            │
+│  TAG: lab-4-frontend OR lab-4-backend                                   │
 │                                                                         │
-│                              ↓                                          │
-│                                                                         │
-│  LAB 5: Backend Integration (30 min)                                    │
-│  ──────────────────────────────────────                                 │
-│  API endpoint protection, validation middleware                         │
-│  TAG: lab-5-backend                                                     │
-│                                                                         │
-│                              ↓                                          │
+│  ═══════════════════════════════════════════════════════════════════    │
+│  CLOSING (20 min)                                                       │
+│  ════════════════                                                       │
 │                                                                         │
 │  AI DEMO (10 min)                                                       │
 │  ────────────────                                                       │
 │  Regenerate implementation from specifications                          │
-│  Proves: specs are what matter, implementation is secondary             │
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  WRAP-UP (20 min)                                                       │
+│  WRAP-UP (10 min)                                                       │
 │  ────────────────                                                       │
 │  Brownfield projects, resources, Q&A                                    │
 │                                                                         │
@@ -132,25 +123,24 @@ Before we begin, let's be clear about BDD (Behavior-Driven Development):
 
 | Section        | Content                           | Duration | Cumulative |
 | -------------- | --------------------------------- | -------- | ---------- |
-| **Opening**    | Presentation: Journey + BDD intro | 30 min   | 0:30       |
-| **Demo**       | Three-part demonstration          | 30 min   | 1:00       |
-| **Principles** | Agree on shared principles        | 20 min   | 1:20       |
-| _Break_        |                                   | 10 min   | 1:30       |
-| **Lab 0**      | Requirements gathering simulation | 30 min   | 2:00       |
-| **Lab 1**      | Basic validation                  | 30 min   | 2:30       |
-| _Lunch_        |                                   | 60 min   | 3:30       |
-| **Lab 2**      | Provider detection                | 30 min   | 4:00       |
-| **Lab 3**      | Provider-specific rules           | 30 min   | 4:30       |
-| _Break_        |                                   | 15 min   | 4:45       |
-| **Lab 4**      | Frontend integration              | 30 min   | 5:15       |
-| **Lab 5**      | Backend integration               | 30 min   | 5:45       |
-| _Break_        |                                   | 10 min   | 5:55       |
-| **AI Demo**    | Regenerate from specs             | 10 min   | 6:05       |
-| **Wrap-Up**    | Brownfield, resources, Q&A        | 20 min   | 6:25       |
+| **Opening**    | Presentation: Journey + BDD intro | 15 min   | 0:15       |
+| **Demo**       | Three-part demonstration          | 20 min   | 0:35       |
+| **Principles** | Agree on shared principles        | 10 min   | 0:45       |
+| _Break_        |                                   | 10 min   | 0:55       |
+| **Lab 0**      | Requirements gathering            | 25 min   | 1:20       |
+| **Lab 1**      | Basic validation                  | 25 min   | 1:45       |
+| **Lab 2**      | Provider detection                | 25 min   | 2:10       |
+| _Break_        |                                   | 10 min   | 2:20       |
+| **Lab 3**      | Provider-specific rules           | 25 min   | 2:45       |
+| **Lab 4**      | Integration (frontend OR backend) | 25 min   | 3:10       |
+| _Break_        |                                   | 10 min   | 3:20       |
+| **AI Demo**    | Regenerate from specs             | 10 min   | 3:30       |
+| **Wrap-Up**    | Brownfield, resources, Q&A        | 10 min   | 3:40       |
+| _Buffer_       | Overrun / extended Q&A            | 20 min   | 4:00       |
 
-**Total**: ~6.5 hours (including 1.5 hours breaks/lunch)
+**Total**: 4 hours
 
-**Hands-on time**: ~3.5 hours (Labs 0-5) — **majority of day**
+**Hands-on time**: ~2 hours 5 min (Labs 0-4) — **majority of workshop**
 
 ---
 
