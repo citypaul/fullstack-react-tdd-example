@@ -342,10 +342,20 @@ The workshop teaches these core concepts, each demonstrated by specific examples
 
 ## Workshop Day Structure
 
-The following sections describe what happens on the day itself. The workshop follows a deliberate arc: from inspiration to understanding to practice.
+The following sections describe what happens on the day itself. The workshop follows a deliberate arc: from personal story to inspiration to understanding to practice.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
+│                                                                         │
+│  OPENING: PRESENTATION (PowerPoint)                                     │
+│  "My Journey with TDD"                                                  │
+│  ─────────────────────                                                  │
+│  Paul's personal story: How I started using TDD                         │
+│  Historical context and credibility                                     │
+│  Transition into "What Good Looks Like"                                 │
+│  Goal: Build connection and establish why this matters to ME            │
+│                                                                         │
+│                              ↓                                          │
 │                                                                         │
 │  PHASE 1: INSPIRATION                                                   │
 │  "What Good Looks Like"                                                 │
@@ -397,15 +407,16 @@ The following sections describe what happens on the day itself. The workshop fol
 
 ## Time Allocation
 
-| Phase       | Content                | Duration | Cumulative |
-| ----------- | ---------------------- | -------- | ---------- |
-| **Phase 1** | Inspiration: Live Demo | 30 min   | 0:30       |
-| **Phase 2** | Principles             | 40 min   | 1:10       |
-| _Break_     |                        | 10 min   | 1:20       |
-| **Phase 3** | Patterns & Examples    | 45 min   | 2:05       |
-| _Break_     |                        | 10 min   | 2:15       |
-| **Phase 4** | Hands-On Practice      | 90 min   | 3:45       |
-| **Phase 5** | Application & Wrap-Up  | 25 min   | 4:10       |
+| Phase       | Content                           | Duration | Cumulative |
+| ----------- | --------------------------------- | -------- | ---------- |
+| **Opening** | Presentation: My Journey with TDD | 15 min   | 0:15       |
+| **Phase 1** | Inspiration: Live Demo            | 25 min   | 0:40       |
+| **Phase 2** | Principles                        | 35 min   | 1:15       |
+| _Break_     |                                   | 10 min   | 1:25       |
+| **Phase 3** | Patterns & Examples               | 45 min   | 2:10       |
+| _Break_     |                                   | 10 min   | 2:20       |
+| **Phase 4** | Hands-On Practice                 | 90 min   | 3:50       |
+| **Phase 5** | Application & Wrap-Up             | 20 min   | 4:10       |
 
 **Total**: ~4 hours 10 minutes
 
@@ -420,20 +431,30 @@ Most TDD training fails because it follows a pattern that doesn't create buy-in:
 ```
 Traditional (Less Effective)          Our Approach (More Effective)
 ─────────────────────────────         ────────────────────────────
-1. Theory first                       1. Demo first (visceral impact)
-2. Explain RED-GREEN-REFACTOR         2. Show tests catching real bugs
-3. Abstract principles                3. Contrast with bad tests
-4. Practice at the end                4. THEN explain why it worked
-5. Hope they remember                 5. THEN show patterns
-                                      6. Practice throughout
-                                      7. They've experienced it firsthand
+1. Theory first                       1. Personal story (connection)
+2. Explain RED-GREEN-REFACTOR         2. Demo first (visceral impact)
+3. Abstract principles                3. Show tests catching real bugs
+4. Practice at the end                4. Contrast with bad tests
+5. Hope they remember                 5. THEN explain why it worked
+                                      6. THEN show patterns
+                                      7. Practice throughout
+                                      8. They've experienced it firsthand
 ```
 
 **The key insight**: Developers don't need to be convinced that testing is good. They've heard that. What they need is to SEE the difference between tests that catch bugs and describe behavior versus tests that provide false confidence.
 
-### Why Start With "Breaking Code"?
+### Why Start With a Personal Story?
 
-Starting with a demo where we deliberately break code and watch tests fail achieves several things:
+Opening with your TDD journey achieves several things:
+
+1. **Establishes credibility** - You're not preaching theory, you've lived this
+2. **Creates connection** - "I was skeptical too" builds trust
+3. **Sets honest expectations** - Acknowledging trade-offs prevents defensiveness
+4. **Frames the demo** - "Let me show you what I mean" is a natural transition
+
+### Why Follow With "Breaking Code"?
+
+The live demo where we deliberately break code and watch tests fail achieves:
 
 1. **Immediate engagement** - It's a live performance, not a lecture
 2. **Visceral understanding** - They SEE the value, not just hear about it
@@ -442,9 +463,71 @@ Starting with a demo where we deliberately break code and watch tests fail achie
 
 ---
 
+## Opening: Presentation — "My Journey with TDD"
+
+**Duration**: 15 minutes
+**Format**: PowerPoint presentation
+
+### Purpose
+
+Before diving into code, establish personal credibility and create connection. This isn't abstract theory — it's something that changed how I work.
+
+### Slide Outline
+
+**Slide 1: Title**
+
+- TDD Workshop: Testing Behavior, Not Implementation
+- Paul Hammond, Director at Pack Software
+
+**Slide 2-3: My Story**
+
+- How I first encountered TDD (the context, the project)
+- Initial skepticism vs. what changed my mind
+- A specific moment or project where it clicked
+
+**Slide 4: The Problem I Kept Seeing**
+
+- Tests that passed but bugs shipped anyway
+- Tests that broke every time we refactored
+- Teams afraid to change code because tests were fragile
+- "100% coverage" that meant nothing
+
+**Slide 5: What Changed**
+
+- The shift from "testing code" to "testing behavior"
+- Realizing tests should be a specification, not a verification of implementation
+- The freedom that comes from tests you can trust
+
+**Slide 6: What We'll Do Today**
+
+- I'll show you what good looks like (live demo)
+- We'll break down why it works (principles)
+- You'll practice it yourselves (hands-on)
+- You'll leave with patterns you can apply Monday
+
+**Slide 7: Transition to Demo**
+
+- "Let me show you what I mean..."
+- Sets up the live coding demo
+
+### Speaker Notes
+
+- Keep it personal and authentic — this is YOUR story
+- Acknowledge that TDD can feel slower at first
+- Don't oversell — be honest about trade-offs
+- The goal is curiosity, not conversion (yet)
+
+### Preparation Needed
+
+- [ ] Draft slides in PowerPoint
+- [ ] Decide which specific story/project to reference
+- [ ] Practice the transition from slides to live demo
+
+---
+
 ## Phase 1: Inspiration — "What Good Looks Like"
 
-**Duration**: 30 minutes
+**Duration**: 25 minutes
 
 ### 1.1 The Demo Domain: Meeting Room Booking System
 
