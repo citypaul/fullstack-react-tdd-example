@@ -29,7 +29,13 @@ Paul shares his TDD journey — how he started, what changed his mind, and why t
 
 ### Phase 1: Inspiration (25 min)
 
-Live demo: We break code and watch good tests catch bugs with clear messages. Then we show the same bugs passing through bad tests. The contrast is powerful.
+Live demo with a powerful contrast:
+
+1. **Good tests**: We introduce bugs in the code. Tests fail immediately with clear messages explaining exactly which business rule was violated.
+
+2. **Bad tests**: We introduce the _same bugs_. Tests still pass. The bugs would ship to production.
+
+This is the "aha moment" — seeing real bugs slip through implementation-coupled tests while behavioral tests catch them every time.
 
 ### Phase 2: Principles (35 min)
 
@@ -42,7 +48,7 @@ We name what they just witnessed:
 
 ### Phase 3: Patterns (45 min)
 
-Concrete examples showing the mechanics — factory patterns, implementation independence, boundary mocking. Side-by-side TypeScript and C# patterns.
+Concrete examples showing the mechanics — factory patterns, boundary mocking. Side-by-side TypeScript and C# patterns.
 
 ### Phase 4: Practice (90 min)
 

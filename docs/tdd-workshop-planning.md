@@ -53,28 +53,26 @@ Each example is designed to teach specific concepts. This section defines what e
 
 ---
 
-#### Example 2: Price Calculator (Pure Function + Implementation Independence)
+#### Example 2: Price Calculator (Testing Pure Functions)
 
 **Languages**: TypeScript + C#
-**Purpose**: Show that behavioral tests survive complete implementation rewrites
+**Purpose**: Show behavioral tests for business logic
 **Used in**: Phase 3 (Patterns)
 
 **Key Concepts Demonstrated**:
 
-| Concept                           | How It's Shown                                                                     |
-| --------------------------------- | ---------------------------------------------------------------------------------- |
-| **Implementation independence**   | Two different implementations (with mutation vs immutable) pass identical tests    |
-| **Tests don't care about HOW**    | Tests verify output for given input, nothing about internal structure              |
-| **Factory pattern for test data** | `createPriceParams()` with overrides                                               |
-| **Coverage through behavior**     | All business rules tested (discounts, edge cases) without testing internal methods |
+| Concept                             | How It's Shown                                                  |
+| ----------------------------------- | --------------------------------------------------------------- |
+| **Tests verify business rules**     | Each test describes a pricing rule (discounts, tax, edge cases) |
+| **Factory pattern for test data**   | `createPriceParams()` with overrides                            |
+| **Pure functions are easy to test** | No setup needed — just input and expected output                |
 
 **Files**:
 
-- `price-calculator.test.ts` — Behavioral tests (never changes)
-- `price-calculator-v1.ts` — Implementation A: uses `let` and reassignment
-- `price-calculator-v2.ts` — Implementation B: immutable, no reassignment
+- `price-calculator.test.ts` — Behavioral tests
+- `price-calculator.ts` — Implementation
 
-**Key Point**: The test file is identical for both implementations. You can switch implementations and tests still pass.
+**Key Point**: Tests describe what the calculator should do for the business, not how it's coded internally.
 
 ---
 
@@ -336,20 +334,17 @@ Week 4: Polish & Dry Run
 
 The workshop teaches these core concepts, each demonstrated by specific examples:
 
-| Concept                                  | Primary Example                       | Also Shown In  |
-| ---------------------------------------- | ------------------------------------- | -------------- |
-| **Tests catch bugs with clear messages** | Booking System (demo)                 | All examples   |
-| **Tests describe business behavior**     | Booking System (demo)                 | Shopping Cart  |
-| **Bad tests provide false confidence**   | Booking System (bad tests contrast)   | —              |
-| **Test-first (RED-GREEN-REFACTOR)**      | Shopping Cart (hands-on TDD)          | Phase 2        |
-| **Test-first beats test-last**           | Shopping Cart (hands-on TDD)          | Phase 2        |
-| **Implementation independence**          | Price Calculator, Counter             | Product Search |
-| **State mechanism independence**         | Counter (useState vs useReducer)      | —              |
-| **Data fetching independence**           | Product Search (React Query vs Redux) | —              |
-| **Mock at HTTP boundary**                | MSW API Integration                   | Product Search |
-| **Mock at interface boundary**           | Service with Repository               | —              |
-| **Factory/Builder pattern**              | All examples                          | —              |
-| **Controlling time as dependency**       | Booking System                        | —              |
+| Concept                                  | Primary Example                     | Also Shown In  |
+| ---------------------------------------- | ----------------------------------- | -------------- |
+| **Tests catch bugs with clear messages** | Booking System (demo)               | All examples   |
+| **Tests describe business behavior**     | Booking System (demo)               | Shopping Cart  |
+| **Bad tests provide false confidence**   | Booking System (bad tests contrast) | —              |
+| **Test-first (RED-GREEN-REFACTOR)**      | Shopping Cart (hands-on TDD)        | Phase 2        |
+| **Refactoring with confidence**          | Booking System, Shopping Cart       | —              |
+| **Mock at HTTP boundary**                | MSW API Integration                 | Product Search |
+| **Mock at interface boundary**           | Service with Repository             | —              |
+| **Factory/Builder pattern**              | All examples                        | —              |
+| **Controlling time as dependency**       | Booking System                      | —              |
 
 ---
 
@@ -635,10 +630,12 @@ FAIL: should reject booking in the past
 
 **Step 4: The Contrast — Bad Tests (8 minutes)**
 
-Show the SAME feature with implementation-coupled tests:
+**This is the most important part of the demo.**
+
+Show the SAME booking system with implementation-coupled tests:
 
 ```typescript
-// BAD TESTS
+// BAD TESTS — verify implementation, not behavior
 it("should call validateTimes", () => {
   const spy = jest.spyOn(bookingService, "validateTimes");
   bookingService.createBooking(mockBooking);
@@ -652,58 +649,43 @@ it("should call checkOverlap", () => {
 });
 ```
 
-Introduce the same bugs. **Tests still pass.**
+Now introduce the **exact same bugs** we introduced before:
 
-Ask the audience: "What did these tests actually verify? That a function was called. Not that the system behaves correctly."
+- The off-by-one overlap error
+- The wrong time comparison for past bookings
 
-**Step 5: The Refactoring Proof (5 minutes)**
+Run the bad tests. **They still pass.**
 
-Return to good tests. Show two completely different implementations:
+**Let this sink in.** The system now has real bugs — users can't book back-to-back meetings, and bookings that start in the past are accepted. But the tests are green.
 
-**Implementation A**: Imperative, step-by-step
+Ask the audience:
 
-```typescript
-function createBooking(booking, existingBookings, now) {
-  if (booking.end <= booking.start) {
-    return { success: false, error: "End must be after start" };
-  }
-  if (booking.start < now) {
-    return { success: false, error: "Cannot book in the past" };
-  }
-  // ... more sequential checks
-}
-```
+- "Would you deploy this code? The tests pass."
+- "What did these tests actually verify?"
+- "Which test suite would you rather have protecting your code?"
 
-**Implementation B**: Extracted validation functions
+**The answer**: The bad tests verified that functions were called. They said nothing about whether the system works correctly from a user's perspective. The bugs would ship to production.
 
-```typescript
-function createBooking(booking, existingBookings, now) {
-  const timeOrderError = validateTimeOrder(booking);
-  if (timeOrderError) return timeOrderError;
+**Step 5: Refactoring Proof (5 minutes)**
 
-  const pastError = validateNotInPast(booking, now);
-  if (pastError) return pastError;
+Return to the good behavioral tests. Now refactor the implementation:
 
-  const overlapError = validateNoOverlap(booking, existingBookings);
-  if (overlapError) return overlapError;
+- Extract helper functions
+- Rename variables
+- Reorganize the code structure
 
-  const durationError = validateMaxDuration(booking);
-  if (durationError) return durationError;
+Run tests after each change. **Tests stay green.**
 
-  return { success: true, booking: persistBooking(booking) };
-}
-```
-
-Both pass the same tests. Tests don't care about implementation.
+**The point**: Good tests let you change HOW the code works without breaking the tests — as long as WHAT it does stays the same. Bad tests break when you refactor, even if behavior is unchanged.
 
 ### 1.4 Key Takeaways (5 minutes)
 
 Make explicit what they witnessed:
 
-1. **Tests caught subtle bugs immediately** — No manual testing required
-2. **Failure messages described business rules** — Not implementation details
-3. **Bad tests provided false confidence** — Bugs passed through undetected
-4. **Good tests survived refactoring** — Implementation changed, tests didn't
+1. **Good tests catch real bugs** — When we broke business logic, behavioral tests failed immediately with clear messages
+2. **Bad tests miss real bugs** — The same bugs passed through implementation-coupled tests undetected
+3. **Good tests explain what went wrong** — Failure messages described business rules, not code structure
+4. **Good tests survive refactoring** — We changed the implementation structure and tests stayed green
 
 ---
 
@@ -1049,42 +1031,7 @@ describe("Price Calculator", () => {
 });
 ```
 
-**Show two implementations** that both pass:
-
-**Imperative** (with mutation):
-
-```typescript
-function calculateTotal(params: PriceParams): number {
-  let total = params.unitPrice * params.quantity;
-  if (params.discountPercent) {
-    total = total * (1 - params.discountPercent / 100);
-  }
-  if (params.fixedDiscount) {
-    total = total - params.fixedDiscount;
-  }
-  return Math.max(0, total);
-}
-```
-
-**Immutable** (no mutation):
-
-```typescript
-function calculateTotal(params: PriceParams): number {
-  const subtotal = params.unitPrice * params.quantity;
-
-  const afterPercentDiscount = params.discountPercent
-    ? subtotal * (1 - params.discountPercent / 100)
-    : subtotal;
-
-  const afterFixedDiscount = params.fixedDiscount
-    ? afterPercentDiscount - params.fixedDiscount
-    : afterPercentDiscount;
-
-  return Math.max(0, afterFixedDiscount);
-}
-```
-
-**The point**: Same tests, completely different code structure.
+**The point**: Each test describes a business rule. The tests don't care how `calculateTotal` is implemented internally — only that it produces the correct results.
 
 ### 3.3 Example: Factory Pattern Deep Dive (10 minutes)
 
@@ -2008,18 +1955,15 @@ This matrix shows which concepts are demonstrated by each example:
 | Concept                              | Ex.1 Booking | Ex.2 Price Calc |  Ex.3 Cart  | Ex.4 Counter | Ex.5 Product Search | Ex.6 MSW/WireMock | Ex.7 Repository |
 | ------------------------------------ | :----------: | :-------------: | :---------: | :----------: | :-----------------: | :---------------: | :-------------: |
 | Tests catch bugs with clear messages | **PRIMARY**  |        ✓        |      ✓      |      ✓       |          ✓          |         ✓         |        ✓        |
-| Tests describe business behavior     | **PRIMARY**  |        ✓        |      ✓      |              |                     |                   |                 |
+| Tests describe business behavior     | **PRIMARY**  |   **PRIMARY**   |      ✓      |              |                     |                   |                 |
 | Bad tests provide false confidence   | **PRIMARY**  |                 |             |              |                     |                   |                 |
-| Implementation independence          |      ✓       |   **PRIMARY**   |             | **PRIMARY**  |     **PRIMARY**     |                   |                 |
-| State mechanism independence         |              |                 |             | **PRIMARY**  |                     |                   |                 |
-| Data fetching lib independence       |              |                 |             |              |     **PRIMARY**     |                   |                 |
+| RED-GREEN-REFACTOR workflow          |              |                 | **PRIMARY** |              |                     |                   |                 |
+| Refactoring with confidence          |      ✓       |                 |      ✓      |              |                     |                   |                 |
 | Mock at HTTP boundary                |              |                 |             |              |          ✓          |    **PRIMARY**    |                 |
 | Mock at interface boundary           |              |                 |             |              |                     |                   |   **PRIMARY**   |
 | Factory/Builder pattern              |      ✓       |        ✓        |      ✓      |              |          ✓          |         ✓         |        ✓        |
 | Controlling time as dependency       |      ✓       |                 |             |              |                     |                   |                 |
-| RED-GREEN-REFACTOR workflow          |              |                 | **PRIMARY** |              |                     |                   |                 |
 | Accessible queries (frontend)        |              |                 |             |      ✓       |          ✓          |                   |                 |
-| In-memory fakes over mocks           |              |                 |             |              |                     |                   |   **PRIMARY**   |
 
 **Legend**:
 
@@ -2031,13 +1975,11 @@ This matrix shows which concepts are demonstrated by each example:
 
 **"Why should I care about TDD?"** → Example 1: Booking System (demo)
 
-**"How do tests survive refactoring?"** → Example 2: Price Calculator, Example 4: Counter
-
 **"How do I practice TDD?"** → Example 3: Shopping Cart (hands-on)
 
-**"How do I test React components without testing implementation?"** → Example 4: Counter
+**"How do I test React components?"** → Example 4: Counter, Example 5: Product Search
 
-**"How do I mock external APIs?"** → Example 5: Product Search, Example 6: MSW/WireMock
+**"How do I mock external APIs?"** → Example 6: MSW/WireMock
 
 **"How do I test backend services?"** → Example 7: Repository Pattern
 
