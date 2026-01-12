@@ -61,18 +61,18 @@ Each example is designed to teach specific concepts. This section defines what e
 
 **Key Concepts Demonstrated**:
 
-| Concept                           | How It's Shown                                                                           |
-| --------------------------------- | ---------------------------------------------------------------------------------------- |
-| **Implementation independence**   | Two completely different implementations (imperative vs functional) pass identical tests |
-| **Tests don't care about HOW**    | Tests verify output for given input, nothing about internal structure                    |
-| **Factory pattern for test data** | `createPriceParams()` with overrides                                                     |
-| **Coverage through behavior**     | All business rules tested (discounts, edge cases) without testing internal methods       |
+| Concept                           | How It's Shown                                                                     |
+| --------------------------------- | ---------------------------------------------------------------------------------- |
+| **Implementation independence**   | Two different implementations (with mutation vs immutable) pass identical tests    |
+| **Tests don't care about HOW**    | Tests verify output for given input, nothing about internal structure              |
+| **Factory pattern for test data** | `createPriceParams()` with overrides                                               |
+| **Coverage through behavior**     | All business rules tested (discounts, edge cases) without testing internal methods |
 
 **Files**:
 
 - `price-calculator.test.ts` — Behavioral tests (never changes)
-- `price-calculator-imperative.ts` — Implementation A: if/else, mutation
-- `price-calculator-functional.ts` — Implementation B: function composition, immutable
+- `price-calculator-v1.ts` — Implementation A: uses `let` and reassignment
+- `price-calculator-v2.ts` — Implementation B: immutable, no reassignment
 
 **Key Point**: The test file is identical for both implementations. You can switch implementations and tests still pass.
 
@@ -674,16 +674,24 @@ function createBooking(booking, existingBookings, now) {
 }
 ```
 
-**Implementation B**: Functional, composable validators
+**Implementation B**: Extracted validation functions
 
 ```typescript
-const createBooking = pipe(
-  validateTimeOrder,
-  validateNotInPast,
-  validateNoOverlap,
-  validateMaxDuration,
-  persistBooking,
-);
+function createBooking(booking, existingBookings, now) {
+  const timeOrderError = validateTimeOrder(booking);
+  if (timeOrderError) return timeOrderError;
+
+  const pastError = validateNotInPast(booking, now);
+  if (pastError) return pastError;
+
+  const overlapError = validateNoOverlap(booking, existingBookings);
+  if (overlapError) return overlapError;
+
+  const durationError = validateMaxDuration(booking);
+  if (durationError) return durationError;
+
+  return { success: true, booking: persistBooking(booking) };
+}
 ```
 
 Both pass the same tests. Tests don't care about implementation.
@@ -1043,7 +1051,7 @@ describe("Price Calculator", () => {
 
 **Show two implementations** that both pass:
 
-**Imperative**:
+**Imperative** (with mutation):
 
 ```typescript
 function calculateTotal(params: PriceParams): number {
@@ -1058,18 +1066,22 @@ function calculateTotal(params: PriceParams): number {
 }
 ```
 
-**Functional**:
+**Immutable** (no mutation):
 
 ```typescript
-const calculateTotal = (params: PriceParams): number =>
-  [
-    (p: PriceParams) => p.unitPrice * p.quantity,
-    (total: number, p: PriceParams) =>
-      p.discountPercent ? total * (1 - p.discountPercent / 100) : total,
-    (total: number, p: PriceParams) =>
-      p.fixedDiscount ? total - p.fixedDiscount : total,
-    (total: number) => Math.max(0, total),
-  ].reduce((acc, fn) => fn(acc, params), 0);
+function calculateTotal(params: PriceParams): number {
+  const subtotal = params.unitPrice * params.quantity;
+
+  const afterPercentDiscount = params.discountPercent
+    ? subtotal * (1 - params.discountPercent / 100)
+    : subtotal;
+
+  const afterFixedDiscount = params.fixedDiscount
+    ? afterPercentDiscount - params.fixedDiscount
+    : afterPercentDiscount;
+
+  return Math.max(0, afterFixedDiscount);
+}
 ```
 
 **The point**: Same tests, completely different code structure.
@@ -1293,8 +1305,8 @@ GREEN: Update calculateTotal to apply discount first
 
 **Challenge**: Your code works, but the team lead wants you to refactor it. Choose one:
 
-- Extract discount logic into a strategy pattern
-- Change from imperative style to functional pipeline
+- Extract discount logic into a separate function
+- Rename variables for clarity
 - Reorganize into separate modules
 
 **Rules**:
