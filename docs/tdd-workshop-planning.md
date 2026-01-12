@@ -78,26 +78,38 @@ Each example is designed to teach specific concepts. This section defines what e
 
 ---
 
-#### Example 3: Shopping Cart (Hands-On Exercise)
+#### Example 3: Shopping Cart (Hands-On TDD Exercise)
 
 **Languages**: TypeScript + C#
-**Purpose**: Teams implement code to make pre-written tests pass
+**Purpose**: Teams practice the full RED-GREEN-REFACTOR cycle from scratch
 **Used in**: Phase 4 (Practice)
 
 **Key Concepts Demonstrated**:
 
 | Concept                         | How It's Shown                                                |
 | ------------------------------- | ------------------------------------------------------------- |
-| **Tests guide implementation**  | Tests are provided, teams write code to satisfy them          |
-| **RED-GREEN-REFACTOR workflow** | Start RED, make GREEN, then refactor                          |
-| **Adding new requirements**     | Exercise 2: Add "discount expiry" feature test-first          |
-| **Refactoring confidence**      | Exercise 3: Change implementation structure, tests stay green |
+| **RED-GREEN-REFACTOR workflow** | Teams write tests first, then implementation, then refactor   |
+| **Test-first shapes design**    | Requirements given in English; teams decide API through tests |
+| **Incremental development**     | Build feature by feature, test by test                        |
+| **Refactoring with confidence** | Final exercise: restructure implementation, tests protect you |
 
-**Files**:
+**Files** (starter):
 
-- `shopping-cart.test.ts` — Complete test suite (provided)
-- `shopping-cart.ts` — Empty/skeleton (teams implement)
-- `types.ts` — Type definitions (provided)
+- `shopping-cart.ts` — Empty file (teams build from scratch)
+- `shopping-cart.test.ts` — Empty file (teams write tests first)
+- `types.ts` — Type definitions (provided as reference)
+- `REQUIREMENTS.md` — Business rules in plain English
+
+**Exercise Structure**:
+
+Teams receive requirements in plain English and must:
+
+1. Write a failing test for the first requirement (RED)
+2. Write minimum code to pass (GREEN)
+3. Refactor if needed
+4. Repeat for next requirement
+
+This is real TDD — not filling in blanks for pre-written tests.
 
 ---
 
@@ -329,6 +341,8 @@ The workshop teaches these core concepts, each demonstrated by specific examples
 | **Tests catch bugs with clear messages** | Booking System (demo)                 | All examples   |
 | **Tests describe business behavior**     | Booking System (demo)                 | Shopping Cart  |
 | **Bad tests provide false confidence**   | Booking System (bad tests contrast)   | —              |
+| **Test-first (RED-GREEN-REFACTOR)**      | Shopping Cart (hands-on TDD)          | Phase 2        |
+| **Test-first beats test-last**           | Shopping Cart (hands-on TDD)          | Phase 2        |
 | **Implementation independence**          | Price Calculator, Counter             | Product Search |
 | **State mechanism independence**         | Counter (useState vs useReducer)      | —              |
 | **Data fetching independence**           | Product Search (React Query vs Redux) | —              |
@@ -336,7 +350,6 @@ The workshop teaches these core concepts, each demonstrated by specific examples
 | **Mock at interface boundary**           | Service with Repository               | —              |
 | **Factory/Builder pattern**              | All examples                          | —              |
 | **Controlling time as dependency**       | Booking System                        | —              |
-| **RED-GREEN-REFACTOR workflow**          | Shopping Cart (exercise)              | —              |
 
 ---
 
@@ -820,7 +833,67 @@ it("should reject overlapping bookings", () => {
 });
 ```
 
-### 2.5 Principle: Mock at Boundaries, Not Internals (7 minutes)
+### 2.5 Principle: Test First — RED-GREEN-REFACTOR (10 minutes)
+
+**The Rule**:
+
+> Write a failing test before writing any production code. Then write the minimum code to pass. Then refactor.
+
+**The Cycle**:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                                                                     │
+│   RED ──────────────► GREEN ──────────────► REFACTOR               │
+│    │                    │                      │                    │
+│    │ Write a test       │ Write minimum        │ Improve structure  │
+│    │ that fails         │ code to pass         │ (tests stay green) │
+│    │                    │                      │                    │
+│    └────────────────────┴──────────────────────┴───────► repeat     │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Why Test-First Beats Test-Last**:
+
+| Test-First (TDD)                            | Test-Last                                      |
+| ------------------------------------------- | ---------------------------------------------- |
+| Test shapes the API — you're the first user | API already exists — tests retrofit to it      |
+| Forces small, testable units                | Often leads to hard-to-test code               |
+| Catches requirement ambiguity immediately   | Ambiguity discovered during testing (too late) |
+| 100% of code has tests (by construction)    | Tests often skipped under time pressure        |
+| Design emerges from usage                   | Design decisions already baked in              |
+| Confidence to refactor from the start       | Refactoring feels risky                        |
+
+**The Key Insight**:
+
+> When you write the test first, the test tells you what code to write.
+> When you write code first, you're guessing what the test should verify.
+
+**What "Minimum Code to Pass" Means**:
+
+```typescript
+// RED: Test expects greeting
+it("should greet the user by name", () => {
+  expect(greet("Alice")).toBe("Hello, Alice!");
+});
+
+// GREEN: Minimum code (resist the urge to over-engineer!)
+function greet(name: string): string {
+  return `Hello, ${name}!`;
+}
+
+// NOT THIS (over-engineering):
+function greet(name: string, options?: GreetingOptions): string {
+  const greeting = options?.formal ? "Good day" : "Hello";
+  const punctuation = options?.enthusiastic ? "!" : ".";
+  return `${greeting}, ${name}${punctuation}`;
+}
+```
+
+Only add complexity when a test demands it.
+
+### 2.6 Principle: Mock at Boundaries, Not Internals (7 minutes)
 
 **The Rule**:
 
@@ -1080,6 +1153,8 @@ it("should fetch available rooms", async () => {
 
 **Duration**: 90 minutes
 
+This is where teams learn TDD by doing it. They will build a feature from scratch using the RED-GREEN-REFACTOR cycle — not fill in blanks for pre-written tests.
+
 ### 4.1 Setup (10 minutes)
 
 **Team Formation**:
@@ -1090,71 +1165,165 @@ it("should fetch available rooms", async () => {
 
 **Starter Repo Contents**:
 
-- Test file with all tests written (RED state — all failing)
-- Empty implementation files
-- README with business requirements
-- Pre-configured test runner
+- Empty implementation file (`shopping-cart.ts` or `ShoppingCart.cs`)
+- Empty test file (`shopping-cart.test.ts` or `ShoppingCartTests.cs`)
+- Type definitions / interfaces (provided as reference)
+- `REQUIREMENTS.md` with business rules in plain English
+- Pre-configured test runner (npm test / dotnet test)
 
-### 4.2 Exercise 1: Make It Green (35 minutes)
+**The Requirements Document** (given to teams):
 
-**Domain**: Shopping Cart
+```markdown
+# Shopping Cart Requirements
 
-**Business Rules (expressed as failing tests)**:
+Build a shopping cart that:
 
-1. Can add items to cart
-2. Can calculate subtotal (sum of item prices × quantities)
-3. Can apply discount codes (SAVE10 = 10%, SAVE20 = 20%)
-4. Invalid discount codes are rejected
-5. Can calculate total with tax (configurable rate)
-6. Cannot have negative quantities
-7. Discount cannot reduce total below zero
+1. Can add items (each item has id, name, price, quantity)
+2. Calculates subtotal (sum of price × quantity for all items)
+3. Supports discount codes:
+   - "SAVE10" = 10% off
+   - "SAVE20" = 20% off
+   - Invalid codes should be rejected
+4. Calculates total with tax (20% tax rate)
+5. Discount is applied before tax
+6. Quantities must be positive (reject zero or negative)
+7. Total can never be negative
+```
 
-**Task**: Implement the code to make all tests pass.
+### 4.2 Exercise 1: First Feature with TDD (30 minutes)
+
+**Goal**: Build "add item and calculate subtotal" using strict TDD.
+
+**Facilitated Walkthrough** (first 10 minutes):
+
+The facilitator demonstrates the first cycle live:
+
+**Step 1 — RED**: Write the first failing test
+
+```typescript
+describe("Shopping Cart", () => {
+  it("should calculate subtotal for a single item", () => {
+    const cart = createCart();
+    const cartWithItem = addItem(cart, {
+      id: "item-1",
+      name: "Widget",
+      price: 100,
+      quantity: 2,
+    });
+
+    const result = calculateSubtotal(cartWithItem);
+
+    expect(result).toBe(200);
+  });
+});
+```
+
+Run tests → **RED** (functions don't exist yet)
+
+**Step 2 — GREEN**: Write minimum code to pass
+
+```typescript
+type CartItem = { id: string; name: string; price: number; quantity: number };
+type Cart = { items: CartItem[] };
+
+const createCart = (): Cart => ({ items: [] });
+
+const addItem = (cart: Cart, item: CartItem): Cart => ({
+  ...cart,
+  items: [...cart.items, item],
+});
+
+const calculateSubtotal = (cart: Cart): number =>
+  cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+```
+
+Run tests → **GREEN**
+
+**Step 3 — REFACTOR**: Any improvements? (In this case, code is already clean)
+
+**Teams Continue** (remaining 20 minutes):
+
+Teams add more tests for the subtotal feature:
+
+- Empty cart returns 0
+- Multiple items sum correctly
+- Adding same item twice (by id) increases quantity
+
+**Key coaching points**:
+
+- Write ONE test at a time
+- Don't write the next test until current one is GREEN
+- Resist the urge to implement features before tests demand them
+
+### 4.3 Exercise 2: Discount Codes with TDD (25 minutes)
+
+**Goal**: Add discount code functionality using strict TDD.
+
+Teams work independently. Requirements:
+
+- Apply "SAVE10" for 10% discount
+- Apply "SAVE20" for 20% discount
+- Reject invalid codes with clear error
+
+**Expected TDD Cycle**:
+
+```
+RED:   it("should apply SAVE10 for 10% discount")
+GREEN: Implement applyDiscount with hardcoded 10% for "SAVE10"
+
+RED:   it("should apply SAVE20 for 20% discount")
+GREEN: Extend to handle "SAVE20"
+
+RED:   it("should reject invalid discount code")
+GREEN: Add validation and error handling
+
+RED:   it("should apply discount before tax")
+GREEN: Update calculateTotal to apply discount first
+```
 
 **Debrief Questions**:
 
-- Did anyone feel tempted to change the tests?
-- Did the tests guide your implementation?
-- Were there moments of "oh, I see what this rule means now"?
+- How did writing the test first change how you thought about the API?
+- Did anyone discover edge cases while writing tests that they wouldn't have considered otherwise?
+- How did the test help clarify what "reject invalid code" actually means?
 
-### 4.3 Exercise 2: Add a Requirement (25 minutes)
+### 4.4 Exercise 3: Refactor with Confidence (15 minutes)
 
-**New Requirement**: "Discount codes should expire after a certain date"
+**Goal**: Restructure the implementation while keeping tests green.
 
-Teams must:
+**Challenge**: Your code works, but the team lead wants you to refactor it. Choose one:
 
-1. **Write a failing test first** (RED)
-2. Run tests — observe the new test failing
-3. **Implement minimum code to pass** (GREEN)
-4. Run tests — all pass
-
-**Debrief Questions**:
-
-- Who wrote the test first vs code first?
-- How did writing the test first clarify the requirement?
-- What edge cases did you discover while writing the test?
-
-### 4.4 Exercise 3: Refactor Without Breaking (20 minutes)
-
-**Challenge**: Refactor your implementation to use a different approach.
-
-Suggestions:
-
-- Extract a discount strategy pattern
-- Change from imperative to functional style
-- Reorganize the code structure
+- Extract discount logic into a strategy pattern
+- Change from imperative style to functional pipeline
+- Reorganize into separate modules
 
 **Rules**:
 
-- Tests must NOT change
-- Tests must remain green throughout
+- Tests must NOT change (they test behavior, not implementation)
+- Tests must stay GREEN throughout (run after each change)
 - Implementation can change completely
 
-**Debrief Questions**:
+**The Point**: If your tests break when you refactor, they were testing implementation, not behavior. Good behavioral tests give you freedom to change HOW without changing WHAT.
 
-- Did your tests break during refactoring?
-- If they broke, what does that tell you?
-- How confident did you feel making changes?
+### 4.5 Debrief: Why TDD? (10 minutes)
+
+Facilitated discussion connecting their experience to principles:
+
+**Questions**:
+
+1. "How did it feel to write the test before the code?"
+2. "Did anyone try to write code first and then go back? What happened?"
+3. "How confident did you feel during refactoring?"
+4. "What would have been different if you'd written tests after the code?"
+
+**Key Takeaways to Reinforce**:
+
+| What They Experienced                  | The Principle                                   |
+| -------------------------------------- | ----------------------------------------------- |
+| Test told them what API to create      | Test-first shapes design                        |
+| Tests passed after refactoring         | Behavioral tests survive implementation changes |
+| Edge cases emerged while writing tests | TDD surfaces requirements gaps early            |
+| Small cycles felt manageable           | RED-GREEN-REFACTOR keeps progress incremental   |
 
 ---
 
@@ -1497,19 +1666,118 @@ export function cancelBooking(booking: Booking, now: Date): CancelResult {
 
 ---
 
-## Appendix B: Exercise Starter — Shopping Cart
+## Appendix B: Exercise Materials — Shopping Cart
 
-### Test File (Given to Teams)
+### Requirements Document (Given to Teams)
+
+```markdown
+# Shopping Cart — TDD Exercise
+
+## Your Task
+
+Build a shopping cart using Test-Driven Development. For each requirement:
+
+1. Write a failing test (RED)
+2. Write minimum code to pass (GREEN)
+3. Refactor if needed
+4. Move to the next requirement
+
+## Requirements
+
+### Part 1: Basic Cart (Exercise 1)
+
+1. **Create an empty cart**
+   - A new cart should have no items
+
+2. **Add items to cart**
+   - Each item has: id, name, price, quantity
+   - Adding an item increases the cart's item count
+
+3. **Calculate subtotal**
+   - Subtotal = sum of (price × quantity) for all items
+
+4. **Handle duplicate items**
+   - Adding an item with the same id should increase quantity, not add a duplicate
+
+### Part 2: Discounts (Exercise 2)
+
+5. **Apply discount codes**
+   - "SAVE10" = 10% off subtotal
+   - "SAVE20" = 20% off subtotal
+
+6. **Reject invalid discount codes**
+   - Unknown codes should return an error
+
+7. **Calculate total with tax**
+   - Tax rate is 20%
+   - Discount is applied before tax
+   - Formula: (subtotal - discount) × 1.2
+
+### Edge Cases (if time permits)
+
+8. **Reject invalid quantities**
+   - Quantity must be positive (> 0)
+
+9. **Total cannot be negative**
+   - Even with large discounts, total should be at least 0
+```
+
+### Starter Files (Given to Teams)
+
+**types.ts** (provided):
 
 ```typescript
-// shopping-cart.test.ts
+export type CartItem = {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+};
+
+export type Cart = {
+  items: CartItem[];
+  discountCode?: string;
+  taxRate: number;
+};
+
+export type CartTotal = {
+  subtotal: number;
+  discount: number;
+  tax: number;
+  total: number;
+};
+
+export type DiscountResult =
+  | { success: true; cart: Cart }
+  | { success: false; error: string };
+```
+
+**shopping-cart.ts** (empty — teams build this):
+
+```typescript
+// Teams implement this file using TDD
+```
+
+**shopping-cart.test.ts** (empty — teams write tests first):
+
+```typescript
+// Teams write tests here BEFORE implementation
+```
+
+### Example Solution (Facilitator Reference Only)
+
+This is what a completed implementation might look like. **Do not share with teams** — they should arrive at their own design through TDD.
+
+**Example tests** (one possible approach):
+
+```typescript
 import {
   createCart,
   addItem,
+  calculateSubtotal,
   applyDiscount,
   calculateTotal,
 } from "./shopping-cart";
-import type { Cart, CartItem, DiscountCode } from "./types";
 
 describe("Shopping Cart", () => {
   const createItem = (overrides?: Partial<CartItem>): CartItem => ({
@@ -1520,8 +1788,13 @@ describe("Shopping Cart", () => {
     ...overrides,
   });
 
-  describe("adding items", () => {
-    it("should add item to empty cart", () => {
+  describe("basic cart operations", () => {
+    it("should create an empty cart", () => {
+      const cart = createCart();
+      expect(cart.items).toHaveLength(0);
+    });
+
+    it("should add an item to the cart", () => {
       const cart = createCart();
       const item = createItem();
 
@@ -1531,44 +1804,20 @@ describe("Shopping Cart", () => {
       expect(result.items[0].name).toBe("Test Product");
     });
 
-    it("should increase quantity when adding existing item", () => {
-      const cart = createCart();
-      const item = createItem({ id: "item-1", quantity: 1 });
-
-      let result = addItem(cart, item);
-      result = addItem(result, createItem({ id: "item-1", quantity: 2 }));
-
-      expect(result.items).toHaveLength(1);
-      expect(result.items[0].quantity).toBe(3);
-    });
-
-    it("should reject negative quantity", () => {
-      const cart = createCart();
-      const item = createItem({ quantity: -1 });
-
-      expect(() => addItem(cart, item)).toThrow("quantity");
-    });
-  });
-
-  describe("calculating subtotal", () => {
-    it("should calculate subtotal for single item", () => {
-      const cart = createCart();
-      const item = createItem({ price: 50, quantity: 2 });
-      const cartWithItem = addItem(cart, item);
-
-      const subtotal = calculateTotal(cartWithItem).subtotal;
-
-      expect(subtotal).toBe(100);
-    });
-
-    it("should calculate subtotal for multiple items", () => {
+    it("should calculate subtotal for items", () => {
       let cart = createCart();
-      cart = addItem(cart, createItem({ id: "1", price: 100, quantity: 1 }));
-      cart = addItem(cart, createItem({ id: "2", price: 50, quantity: 2 }));
+      cart = addItem(cart, createItem({ price: 50, quantity: 2 }));
 
-      const subtotal = calculateTotal(cart).subtotal;
+      expect(calculateSubtotal(cart)).toBe(100);
+    });
 
-      expect(subtotal).toBe(200);
+    it("should increase quantity when adding duplicate item", () => {
+      let cart = createCart();
+      cart = addItem(cart, createItem({ id: "item-1", quantity: 1 }));
+      cart = addItem(cart, createItem({ id: "item-1", quantity: 2 }));
+
+      expect(cart.items).toHaveLength(1);
+      expect(cart.items[0].quantity).toBe(3);
     });
   });
 
@@ -1580,21 +1829,6 @@ describe("Shopping Cart", () => {
       const result = applyDiscount(cart, "SAVE10");
 
       expect(result.success).toBe(true);
-      if (result.success) {
-        expect(calculateTotal(result.cart).discount).toBe(10);
-      }
-    });
-
-    it("should apply SAVE20 for 20% discount", () => {
-      let cart = createCart();
-      cart = addItem(cart, createItem({ price: 100, quantity: 1 }));
-
-      const result = applyDiscount(cart, "SAVE20");
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(calculateTotal(result.cart).discount).toBe(20);
-      }
     });
 
     it("should reject invalid discount code", () => {
@@ -1605,64 +1839,43 @@ describe("Shopping Cart", () => {
 
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.error).toContain("Invalid discount code");
-      }
-    });
-
-    it("should not allow discount to reduce total below zero", () => {
-      let cart = createCart();
-      cart = addItem(cart, createItem({ price: 5, quantity: 1 }));
-
-      const result = applyDiscount(cart, "SAVE20");
-
-      expect(result.success).toBe(true);
-      if (result.success) {
-        const total = calculateTotal(result.cart);
-        expect(total.total).toBeGreaterThanOrEqual(0);
+        expect(result.error).toContain("Invalid");
       }
     });
   });
 
-  describe("calculating total with tax", () => {
-    it("should calculate total with default tax rate", () => {
+  describe("total calculation", () => {
+    it("should calculate total with tax", () => {
       let cart = createCart();
       cart = addItem(cart, createItem({ price: 100, quantity: 1 }));
 
-      const result = calculateTotal(cart);
+      const total = calculateTotal(cart);
 
-      // Default tax rate is 20%
-      expect(result.tax).toBe(20);
-      expect(result.total).toBe(120);
-    });
-
-    it("should calculate total with custom tax rate", () => {
-      let cart = createCart({ taxRate: 0.1 }); // 10%
-      cart = addItem(cart, createItem({ price: 100, quantity: 1 }));
-
-      const result = calculateTotal(cart);
-
-      expect(result.tax).toBe(10);
-      expect(result.total).toBe(110);
+      expect(total.subtotal).toBe(100);
+      expect(total.tax).toBe(20);
+      expect(total.total).toBe(120);
     });
 
     it("should apply discount before tax", () => {
-      let cart = createCart({ taxRate: 0.2 }); // 20%
+      let cart = createCart();
       cart = addItem(cart, createItem({ price: 100, quantity: 1 }));
       const discountResult = applyDiscount(cart, "SAVE10");
 
       if (discountResult.success) {
-        const result = calculateTotal(discountResult.cart);
+        const total = calculateTotal(discountResult.cart);
 
         // 100 - 10% = 90, then + 20% tax = 108
-        expect(result.subtotal).toBe(100);
-        expect(result.discount).toBe(10);
-        expect(result.tax).toBe(18);
-        expect(result.total).toBe(108);
+        expect(total.subtotal).toBe(100);
+        expect(total.discount).toBe(10);
+        expect(total.tax).toBe(18);
+        expect(total.total).toBe(108);
       }
     });
   });
 });
 ```
+
+**Note**: Teams' solutions will vary — that's expected and good. The tests they write will shape different (but equally valid) APIs.
 
 ---
 

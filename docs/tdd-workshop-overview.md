@@ -37,7 +37,7 @@ We name what they just witnessed:
 
 - Test behavior, not implementation
 - Tests are executable specifications
-- Achieve coverage through business behaviors
+- Write the test first (RED-GREEN-REFACTOR)
 - Mock at boundaries, not internals
 
 ### Phase 3: Patterns (45 min)
@@ -46,7 +46,7 @@ Concrete examples showing the mechanics — factory patterns, implementation ind
 
 ### Phase 4: Practice (90 min)
 
-Hands-on exercises. Teams implement code to make pre-written tests pass, then add new features test-first.
+Hands-on TDD from scratch. Teams receive requirements in plain English and build a shopping cart using the RED-GREEN-REFACTOR cycle — write a failing test, make it pass, refactor, repeat. No pre-written tests; they experience the full TDD workflow.
 
 ### Phase 5: Application (20 min)
 
@@ -58,14 +58,15 @@ Domain-specific patterns (frontend, backend) and adoption strategies for real wo
 
 These are the key ideas the workshop teaches:
 
-| Principle                             | What It Means                                                    |
-| ------------------------------------- | ---------------------------------------------------------------- |
-| **Test behavior, not implementation** | If you refactor without changing behavior, tests shouldn't break |
-| **Tests are specifications**          | Test names should read like business requirements                |
-| **Coverage through behavior**         | Test all business rules, not all lines of code                   |
-| **Mock at boundaries**                | Mock HTTP, databases, time — not your own functions              |
-| **Isolated test state**               | Each test creates its own data; no shared mutable state          |
-| **Implementation independence**       | Same tests should pass for different implementations             |
+| Principle                             | What It Means                                                      |
+| ------------------------------------- | ------------------------------------------------------------------ |
+| **Test behavior, not implementation** | If you refactor without changing behavior, tests shouldn't break   |
+| **Tests are specifications**          | Test names should read like business requirements                  |
+| **Test-first (RED-GREEN-REFACTOR)**   | Write a failing test, then minimum code to pass, then refactor     |
+| **Test-first beats test-last**        | Writing tests first shapes better APIs and catches ambiguity early |
+| **Mock at boundaries**                | Mock HTTP, databases, time — not your own functions                |
+| **Isolated test state**               | Each test creates its own data; no shared mutable state            |
+| **Implementation independence**       | Same tests should pass for different implementations               |
 
 ---
 
@@ -121,10 +122,11 @@ Each example teaches specific concepts. TypeScript and C# implementations are pa
 After the workshop, developers will:
 
 1. Recognize the difference between behavioral and implementation-coupled tests
-2. Write tests that describe business rules, not code structure
-3. Use factory patterns for isolated test data
-4. Mock at system boundaries (HTTP, database, time)
-5. Feel confident refactoring code with good test coverage
+2. Practice the RED-GREEN-REFACTOR cycle and understand why test-first matters
+3. Write tests that describe business rules, not code structure
+4. Use factory patterns for isolated test data
+5. Mock at system boundaries (HTTP, database, time)
+6. Feel confident refactoring code with good test coverage
 
 ---
 
