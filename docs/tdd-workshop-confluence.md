@@ -134,9 +134,194 @@ Engineers choose their preferred language. Tags keep everyone synchronized.
 
 ---
 
-## Pre/Post Workshop Questions
+## Pre/Post Workshop Feedback
 
-_TBD — we want to measure where engineers see TDD currently at NewDay, and whether opinions shift after the workshop. Questions to be finalised._
+We'll gather feedback before and after the workshop to understand where engineers are starting from and whether the session shifted their thinking.
+
+---
+
+### Pre-Workshop Survey
+
+_Completed before the session begins. Should take ~3 minutes._
+
+#### Section 1: Current Practice
+
+**Q1. How often do you write tests before writing implementation code?**
+
+| Never | Rarely | Sometimes | Often | Always |
+| :---: | :----: | :-------: | :---: | :----: |
+|   ○   |   ○    |     ○     |   ○   |   ○    |
+
+**Q2. How would you describe your current understanding of TDD?**
+
+| I'm not sure what TDD is | I've heard of it but haven't practiced it | I have some experience with TDD | I practice TDD regularly | I'm confident teaching TDD to others |
+| :----------------------: | :---------------------------------------: | :-----------------------------: | :----------------------: | :----------------------------------: |
+|            ○             |                     ○                     |                ○                |            ○             |                  ○                   |
+
+#### Section 2: Confidence & Safety
+
+**Q3. How confident are you making changes to your codebase without introducing bugs?**
+
+| 1 - Not at all confident |  2  |  3  |  4  | 5 - Very confident |
+| :----------------------: | :-: | :-: | :-: | :----------------: |
+|            ○             |  ○  |  ○  |  ○  |         ○          |
+
+**Q4. When you refactor code, how often do your tests help you do so safely?**
+
+| Never | Rarely | Sometimes | Often | Always |
+| :---: | :----: | :-------: | :---: | :----: |
+|   ○   |   ○    |     ○     |   ○   |   ○    |
+
+**Q5. How confident are you that your current tests would catch a real bug?**
+
+| 1 - Not at all confident |  2  |  3  |  4  | 5 - Very confident |
+| :----------------------: | :-: | :-: | :-: | :----------------: |
+|            ○             |  ○  |  ○  |  ○  |         ○          |
+
+#### Section 3: Perceived Value & Tradeoffs
+
+**Q6. How often do you skip or delay writing tests due to time pressure?**
+
+| Never | Rarely | Sometimes | Often | Always |
+| :---: | :----: | :-------: | :---: | :----: |
+|   ○   |   ○    |     ○     |   ○   |   ○    |
+
+**Q7. To what extent do you agree: "Writing tests slows down my development"**
+
+| Strongly Disagree | Disagree | Neutral | Agree | Strongly Agree |
+| :---------------: | :------: | :-----: | :---: | :------------: |
+|         ○         |    ○     |    ○    |   ○   |       ○        |
+
+**Q8. To what extent do you agree: "Tests are valuable for documenting how the system should behave"**
+
+| Strongly Disagree | Disagree | Neutral | Agree | Strongly Agree |
+| :---------------: | :------: | :-----: | :---: | :------------: |
+|         ○         |    ○     |    ○    |   ○   |       ○        |
+
+#### Section 4: Tech Debt & Maintenance
+
+**Q9. How often do you feel confident tackling technical debt in your codebase?**
+
+| Never | Rarely | Sometimes | Often | Always |
+| :---: | :----: | :-------: | :---: | :----: |
+|   ○   |   ○    |     ○     |   ○   |   ○    |
+
+**Q10. When tests break after refactoring (without changing behavior), how do you typically feel?**
+
+| Frustrated — the tests are getting in the way | Unsure — not clear if I broke something or the tests are wrong | Confident — I know how to investigate and fix it |
+| :-------------------------------------------: | :------------------------------------------------------------: | :----------------------------------------------: |
+|                       ○                       |                               ○                                |                        ○                         |
+
+#### Section 5: Open Response
+
+**Q11. In one sentence, what do you hope to get out of this workshop?**
+
+_[Free text]_
+
+---
+
+### Post-Workshop Survey
+
+_Completed at the end of the session. Should take ~4 minutes._
+
+#### Section 1: Repeat Measures (Comparison)
+
+_These questions are repeated from the pre-workshop survey to measure any shift._
+
+**Q1. After today, how would you describe your understanding of TDD?**
+
+| I'm still not sure what TDD is | I understand the concepts but need practice | I feel I have a solid grasp of TDD | I'm confident I can apply TDD | I'm confident teaching TDD to others |
+| :----------------------------: | :-----------------------------------------: | :--------------------------------: | :---------------------------: | :----------------------------------: |
+|               ○                |                      ○                      |                 ○                  |               ○               |                  ○                   |
+
+**Q2. After today, how confident are you that you could make changes to your codebase without introducing bugs?**
+
+| 1 - Not at all confident |  2  |  3  |  4  | 5 - Very confident |
+| :----------------------: | :-: | :-: | :-: | :----------------: |
+|            ○             |  ○  |  ○  |  ○  |         ○          |
+
+**Q3. After today, to what extent do you agree: "Writing tests slows down my development"**
+
+| Strongly Disagree | Disagree | Neutral | Agree | Strongly Agree |
+| :---------------: | :------: | :-----: | :---: | :------------: |
+|         ○         |    ○     |    ○    |   ○   |       ○        |
+
+**Q4. After today, to what extent do you agree: "Tests are valuable for documenting how the system should behave"**
+
+| Strongly Disagree | Disagree | Neutral | Agree | Strongly Agree |
+| :---------------: | :------: | :-----: | :---: | :------------: |
+|         ○         |    ○     |    ○    |   ○   |       ○        |
+
+**Q5. After today, how confident are you that you could write tests that catch real bugs?**
+
+| 1 - Not at all confident |  2  |  3  |  4  | 5 - Very confident |
+| :----------------------: | :-: | :-: | :-: | :----------------: |
+|            ○             |  ○  |  ○  |  ○  |         ○          |
+
+#### Section 2: Impact & Intentions
+
+**Q6. What (if anything) will you do differently as a result of this workshop?**
+
+_Select all that apply:_
+
+- [ ] Write tests before implementation more often
+- [ ] Focus on testing behavior rather than implementation
+- [ ] Change how I name my tests
+- [ ] Be more intentional about what I mock
+- [ ] Use tests to support refactoring
+- [ ] Feel more confident tackling technical debt
+- [ ] Nothing — I'll continue as before
+- [ ] Other: ******\_\_\_******
+
+**Q7. Which part of the workshop was most valuable to you?**
+
+_Select one:_
+
+- ( ) Opening presentation
+- ( ) Demo (good tests vs bad tests)
+- ( ) Principles discussion
+- ( ) Requirements gathering exercise (Lab 0)
+- ( ) Hands-on coding labs
+- ( ) AI demo
+- ( ) Other: ******\_\_\_******
+
+**Q8. How likely are you to recommend this workshop to a colleague?**
+
+| 1 - Not at all likely |  2  |  3  |  4  | 5 - Very likely |
+| :-------------------: | :-: | :-: | :-: | :-------------: |
+|           ○           |  ○  |  ○  |  ○  |        ○        |
+
+#### Section 3: Open Feedback
+
+**Q9. What was your biggest "aha moment" or takeaway from today?**
+
+_[Free text]_
+
+**Q10. What would have made this workshop more valuable for you?**
+
+_[Free text]_
+
+**Q11. Any other feedback or comments?**
+
+_[Free text]_
+
+---
+
+### Metrics We'll Track
+
+| Metric                      | Pre Q# | Post Q# | What Shift Indicates                                 |
+| --------------------------- | ------ | ------- | ---------------------------------------------------- |
+| TDD Understanding           | Q2     | Q1      | Increased clarity on what TDD actually is            |
+| Confidence in codebase      | Q3     | Q2      | Feel safer making changes                            |
+| "Tests slow me down"        | Q7     | Q3      | Shift in perception of testing as investment vs cost |
+| Tests as documentation      | Q8     | Q4      | Increased appreciation of tests as specifications    |
+| Confidence tests catch bugs | Q5     | Q5      | Trust in test quality                                |
+
+Additional insights from:
+
+- **Q6 (post)**: Concrete behavior changes intended
+- **Q7 (post)**: Which sections resonated most (informs future workshops)
+- **Q9-11 (post)**: Qualitative feedback for continuous improvement
 
 ---
 
