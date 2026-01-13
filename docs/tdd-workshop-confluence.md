@@ -10,6 +10,12 @@
 
 ---
 
+> ⚠️ **Work in Progress**: This document outlines the current thinking for the TDD workshop. Ideas and structure may change as we make progress and gather feedback. Nothing here is set in stone.
+
+> 📅 **Next Update**: Paul Hammond will present progress at the next L&D session in two weeks, including a preview of the new repository being created for the workshop.
+
+---
+
 ## Overview
 
 A hands-on workshop teaching Test-Driven Development through the lens of behavioral testing. Engineers will spend the majority of the session building a credit card validator from scratch, learning to write tests as executable specifications rather than implementation verification.
