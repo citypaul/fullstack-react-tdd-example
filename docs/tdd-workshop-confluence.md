@@ -271,7 +271,7 @@ _Select all that apply:_
 - [ ] Use tests to support refactoring
 - [ ] Feel more confident tackling technical debt
 - [ ] Nothing — I'll continue as before
-- [ ] Other: ******\_\_\_******
+- [ ] Other: **\*\***\_\_\_**\*\***
 
 **Q7. Which part of the workshop was most valuable to you?**
 
@@ -283,7 +283,7 @@ _Select one:_
 - ( ) Requirements gathering exercise (Lab 0)
 - ( ) Hands-on coding labs
 - ( ) AI demo
-- ( ) Other: ******\_\_\_******
+- ( ) Other: **\*\***\_\_\_**\*\***
 
 **Q8. How likely are you to recommend this workshop to a colleague?**
 
@@ -307,21 +307,11 @@ _[Free text]_
 
 ---
 
-### Metrics We'll Track
+## Feedback Welcome
 
-| Metric                      | Pre Q# | Post Q# | What Shift Indicates                                 |
-| --------------------------- | ------ | ------- | ---------------------------------------------------- |
-| TDD Understanding           | Q2     | Q1      | Increased clarity on what TDD actually is            |
-| Confidence in codebase      | Q3     | Q2      | Feel safer making changes                            |
-| "Tests slow me down"        | Q7     | Q3      | Shift in perception of testing as investment vs cost |
-| Tests as documentation      | Q8     | Q4      | Increased appreciation of tests as specifications    |
-| Confidence tests catch bugs | Q5     | Q5      | Trust in test quality                                |
+This plan is a work in progress. If you have thoughts on any aspect — the structure, timing, lab content, survey questions, or anything else — please reach out to Paul Hammond directly or add comments to this document.
 
-Additional insights from:
-
-- **Q6 (post)**: Concrete behavior changes intended
-- **Q7 (post)**: Which sections resonated most (informs future workshops)
-- **Q9-11 (post)**: Qualitative feedback for continuous improvement
+We want this workshop to be genuinely useful, and your input will help shape it.
 
 ---
 
