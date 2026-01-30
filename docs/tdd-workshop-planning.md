@@ -949,8 +949,6 @@ tdd-workshop/
 - [ ] Create booking system demo (TypeScript)
 - [ ] Create good tests and bad tests versions
 - [ ] Draft presentation slides
-- [ ] Dry run with small group
-- [ ] Refine timing based on feedback
 - [ ] Test AI demo with actual specifications
 
 ### When Ready

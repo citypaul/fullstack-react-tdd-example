@@ -364,7 +364,7 @@ After the workshop, developers will:
 | ---------- | -------------------------------------------------------------------------- | ----- |
 | **Week 1** | Complete TypeScript card validator at each tag                             | Paul, Chi Ho, Matheus |
 | **Week 2** | Parallel implementations in Swift, Kotlin, Java, C#                        | Juan, Tanveer, Deko, Michele |
-| **Week 3** | Create booking system demo (TypeScript), presentation slides, dry run      | Paul |
+| **Week 3** | Create booking system demo (TypeScript), presentation slides               | Paul |
 
 Interactive rebase to align tags happens once all implementations are complete.
 
