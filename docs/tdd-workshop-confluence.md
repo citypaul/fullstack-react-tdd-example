@@ -362,10 +362,11 @@ After the workshop, developers will:
 
 | Week       | Tasks                                                                      | Owner |
 | ---------- | -------------------------------------------------------------------------- | ----- |
-| **Week 1** | Create booking system demo (TypeScript), set up lab starters               | Paul, Chi Ho, Matheus |
-| **Week 2** | Complete TypeScript card validator at each tag                             | Paul, Chi Ho, Matheus |
-| **Week 3** | Parallel implementations in Swift, Kotlin, Java, C#                        | Juan, Tanveer, Deko, Michele |
-| **Week 4** | Interactive rebase to align tags, presentation slides, dry run             | Paul |
+| **Week 1** | Complete TypeScript card validator at each tag                             | Paul, Chi Ho, Matheus |
+| **Week 2** | Parallel implementations in Swift, Kotlin, Java, C#                        | Juan, Tanveer, Deko, Michele |
+| **Week 3** | Create booking system demo (TypeScript), presentation slides, dry run      | Paul |
+
+Interactive rebase to align tags happens once all implementations are complete.
 
 ---
 

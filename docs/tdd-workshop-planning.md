@@ -933,26 +933,29 @@ tdd-workshop/
 
 ### Week 1
 
-- [ ] Create booking system demo (TypeScript)
-- [ ] Create good tests and bad tests versions
+- [ ] Complete TypeScript card validator at each tag
 - [ ] Set up lab starter projects (all languages)
 
 ### Week 2
 
-- [ ] Create card validator solution at each tag (TypeScript)
-- [ ] Java team creates parallel implementations
-- [ ] C# team creates parallel implementations
+- [ ] Swift implementation (Juan)
+- [ ] Kotlin implementation (Tanveer)
+- [ ] Java implementation (Deko)
+- [ ] C# implementation (Michele)
 - [ ] Verify all tags are in sync across languages
 
 ### Week 3
 
+- [ ] Create booking system demo (TypeScript)
+- [ ] Create good tests and bad tests versions
 - [ ] Draft presentation slides
 - [ ] Dry run with small group
 - [ ] Refine timing based on feedback
 - [ ] Test AI demo with actual specifications
 
-### Week 4
+### When Ready
 
+- [ ] Interactive rebase to align tags across languages
 - [ ] Final polish
 - [ ] Prepare facilitator materials
 - [ ] Confirm logistics
