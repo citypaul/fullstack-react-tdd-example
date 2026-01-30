@@ -327,18 +327,16 @@ We want this workshop to be genuinely useful, and your input will help shape it.
 ```
 tdd-workshop/                    # github.com/NewDayTechnology/tdd-workshop
 ├── typescript/
-│   ├── card-validator/         # Labs 0-4
-│   └── demo-booking-system/    # Opening demo
+│   ├── card-validator/         # Labs 0-4 (hands-on exercise)
+│   └── demo-booking-system/    # Opening demo (Paul demos this)
 ├── swift/
 │   └── card-validator/         # Labs 0-4
 ├── kotlin/
 │   └── card-validator/         # Labs 0-4
 ├── java/
-│   ├── card-validator/         # Labs 0-4 (backend)
-│   └── demo-booking-system/
+│   └── card-validator/         # Labs 0-4 (backend)
 ├── csharp/
-│   ├── CardValidator/          # Labs 0-4 (backend)
-│   └── DemoBookingSystem/
+│   └── CardValidator/          # Labs 0-4 (backend)
 ├── slides/
 └── facilitator/
     ├── requirements-cheatsheet.md

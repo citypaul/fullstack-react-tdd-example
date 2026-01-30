@@ -771,7 +771,6 @@ lab-2-provider-detection # Provider detection working
 lab-3-frontend         # Frontend integration (TypeScript only)
 lab-3-backend          # Backend integration (alternative to lab-3-frontend)
 lab-4-provider-rules   # Provider-specific rules working
-lab-5-fullstack        # Full-stack integration (optional, time permitting)
 ```
 
 **Branch structure per language:**
@@ -784,8 +783,7 @@ typescript/
 ├── lab-2-provider-detection
 ├── lab-3-frontend     # ⭐ "Lightbulb moment"
 ├── lab-3-backend      # Alternative path
-├── lab-4-provider-rules
-└── lab-5-fullstack    # (Optional) Full-stack integration
+└── lab-4-provider-rules
 
 swift/
 ├── main
@@ -899,23 +897,27 @@ Open discussion. Common questions:
 ```
 tdd-workshop/
 ├── typescript/
-│   ├── card-validator/
+│   ├── card-validator/             # Labs 0-4 (hands-on exercise)
 │   │   ├── src/
 │   │   ├── tests/
 │   │   └── package.json
-│   └── demo-booking-system/        # For opening demo only
+│   └── demo-booking-system/        # Opening demo (Paul demos this)
+│
+├── swift/
+│   └── card-validator/             # Labs 0-4
+│
+├── kotlin/
+│   └── card-validator/             # Labs 0-4
 │
 ├── java/
-│   ├── card-validator/
-│   │   ├── src/
-│   │   └── pom.xml
-│   └── demo-booking-system/
+│   └── card-validator/             # Labs 0-4 (backend)
+│       ├── src/
+│       └── pom.xml
 │
 ├── csharp/
-│   ├── CardValidator/
-│   │   ├── src/
-│   │   └── CardValidator.csproj
-│   └── DemoBookingSystem/
+│   └── CardValidator/              # Labs 0-4 (backend)
+│       ├── src/
+│       └── CardValidator.csproj
 │
 ├── slides/
 │   └── workshop-presentation.pptx
