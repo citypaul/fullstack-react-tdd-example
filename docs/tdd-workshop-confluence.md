@@ -375,7 +375,6 @@ Interactive rebase to align tags happens once all implementations are complete.
 - [x] ~~Confirm Java and C# team representatives for preparation~~ — See team allocations above
 - [x] ~~Internal repo or external?~~ — NewDayTechnology GitHub org
 - [ ] Which AI tool for the demo? (Claude, GPT-4, Copilot)
-- [ ] Team formation: mixed language or language-specific groups?
 - [ ] Confirm Deko for Java implementation
 
 ---
