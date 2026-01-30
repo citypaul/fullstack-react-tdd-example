@@ -4,7 +4,7 @@
 
 **Duration**: Half-day (4 hours including breaks)
 **Format**: Presentation, Demo, Hands-On Labs (majority of time)
-**Audience**: Senior developers across TypeScript, Java, and C# teams
+**Audience**: Senior developers across TypeScript, Swift, Kotlin, Java, and C# teams
 **Preparation Time**: 1 month
 
 ---
@@ -87,18 +87,18 @@ Before we begin, let's be clear about BDD (Behavior-Driven Development):
 │                                                                         │
 │                              ↓                                          │
 │                                                                         │
-│  LAB 3: Provider-Specific Rules (25 min)                                │
-│  ─────────────────────────────────────────                              │
-│  Different lengths, CVV rules per provider                              │
-│  TAG: lab-3-provider-rules                                              │
-│                                                                         │
-│                              ↓                                          │
-│                                                                         │
-│  LAB 4: Integration (25 min) — CHOOSE ONE                               │
+│  LAB 3: Integration (25 min) — CHOOSE ONE ⭐ "Lightbulb moment"          │
 │  ──────────────────────────────────────────────────────                 │
 │  Option A: Frontend (form validation, user messaging)                   │
 │  Option B: Backend (API endpoint protection)                            │
-│  TAG: lab-4-frontend OR lab-4-backend                                   │
+│  TAG: lab-3-frontend OR lab-3-backend                                   │
+│                                                                         │
+│                              ↓                                          │
+│                                                                         │
+│  LAB 4: Provider-Specific Rules (25 min)                                │
+│  ─────────────────────────────────────────                              │
+│  Different lengths, CVV rules per provider                              │
+│  TAG: lab-4-provider-rules                                              │
 │                                                                         │
 │  ═══════════════════════════════════════════════════════════════════    │
 │  CLOSING (20 min)                                                       │
@@ -131,8 +131,8 @@ Before we begin, let's be clear about BDD (Behavior-Driven Development):
 | **Lab 1**      | Basic validation                  | 25 min   | 1:45       |
 | **Lab 2**      | Provider detection                | 25 min   | 2:10       |
 | _Break_        |                                   | 10 min   | 2:20       |
-| **Lab 3**      | Provider-specific rules           | 25 min   | 2:45       |
-| **Lab 4**      | Integration (frontend OR backend) | 25 min   | 3:10       |
+| **Lab 3**      | Integration (frontend OR backend) ⭐ | 25 min | 2:45       |
+| **Lab 4**      | Provider-specific rules           | 25 min   | 3:10       |
 | _Break_        |                                   | 10 min   | 3:20       |
 | **AI Demo**    | Regenerate from specs             | 10 min   | 3:30       |
 | **Wrap-Up**    | Brownfield, resources, Q&A        | 10 min   | 3:40       |
@@ -535,77 +535,15 @@ describe("Card Provider Detection", () => {
 
 ---
 
-### Lab 3: Provider-Specific Rules (30 min)
+### Lab 3: Integration (30 min) — CHOOSE ONE ⭐ "Lightbulb moment"
 
-**TAG: `lab-3-provider-rules`**
-
-**Goal**: Apply different validation rules per provider
-
-**Specifications to implement:**
-
-```typescript
-describe("Provider-Specific Validation", () => {
-  describe("Visa", () => {
-    it("should accept 16-digit Visa cards", () => {
-      const result = validateCard("4111111111111111");
-      expect(result.valid).toBe(true);
-      expect(result.provider).toBe("visa");
-    });
-
-    it("should reject 15-digit Visa cards", () => {
-      const result = validateCard("411111111111111");
-      expect(result.valid).toBe(false);
-      expect(result.error).toBe("Visa cards must be 16 digits");
-    });
-  });
-
-  describe("Amex", () => {
-    it("should accept 15-digit Amex cards", () => {
-      const result = validateCard("341111111111111");
-      expect(result.valid).toBe(true);
-      expect(result.provider).toBe("amex");
-    });
-
-    it("should reject 16-digit Amex cards", () => {
-      const result = validateCard("3411111111111111");
-      expect(result.valid).toBe(false);
-      expect(result.error).toBe("American Express cards must be 15 digits");
-    });
-  });
-
-  describe("CVV", () => {
-    it("should accept 3-digit CVV for Visa", () => {
-      const result = validateCVV("123", "visa");
-      expect(result.valid).toBe(true);
-    });
-
-    it("should reject 4-digit CVV for Visa", () => {
-      const result = validateCVV("1234", "visa");
-      expect(result.valid).toBe(false);
-      expect(result.error).toBe("CVV must be 3 digits");
-    });
-
-    it("should accept 4-digit CVV for Amex", () => {
-      const result = validateCVV("1234", "amex");
-      expect(result.valid).toBe(true);
-    });
-
-    it("should reject 3-digit CVV for Amex", () => {
-      const result = validateCVV("123", "amex");
-      expect(result.valid).toBe(false);
-      expect(result.error).toBe("American Express CVV must be 4 digits");
-    });
-  });
-});
-```
-
-**Checkpoint**: Full validation logic complete. Tag and sync.
+This lab is where teams experience the power of TDD for real-world integration. Choose frontend OR backend based on your team's focus.
 
 ---
 
-### Lab 4: Frontend Integration (30 min)
+#### Lab 3 Option A: Frontend Integration
 
-**TAG: `lab-4-frontend`**
+**TAG: `lab-3-frontend`**
 
 **Goal**: Create a payment form with real-time validation and user-friendly messaging
 
@@ -684,9 +622,9 @@ describe("Payment Form", () => {
 
 ---
 
-### Lab 5: Backend Integration (30 min)
+#### Lab 3 Option B: Backend Integration
 
-**TAG: `lab-5-backend`**
+**TAG: `lab-3-backend`**
 
 **Goal**: Protect API endpoints with validation middleware
 
@@ -750,7 +688,75 @@ describe("Payment API", () => {
 
 **Discussion**: Same validation logic, different presentation. Frontend shows user-friendly messages; API returns structured errors for programmatic handling.
 
-**Checkpoint**: Full-stack validation complete. Tag and sync.
+**Checkpoint**: Backend API complete. Tag and sync.
+
+---
+
+### Lab 4: Provider-Specific Rules (30 min)
+
+**TAG: `lab-4-provider-rules`**
+
+**Goal**: Apply different validation rules per provider
+
+**Specifications to implement:**
+
+```typescript
+describe("Provider-Specific Validation", () => {
+  describe("Visa", () => {
+    it("should accept 16-digit Visa cards", () => {
+      const result = validateCard("4111111111111111");
+      expect(result.valid).toBe(true);
+      expect(result.provider).toBe("visa");
+    });
+
+    it("should reject 15-digit Visa cards", () => {
+      const result = validateCard("411111111111111");
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe("Visa cards must be 16 digits");
+    });
+  });
+
+  describe("Amex", () => {
+    it("should accept 15-digit Amex cards", () => {
+      const result = validateCard("341111111111111");
+      expect(result.valid).toBe(true);
+      expect(result.provider).toBe("amex");
+    });
+
+    it("should reject 16-digit Amex cards", () => {
+      const result = validateCard("3411111111111111");
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe("American Express cards must be 15 digits");
+    });
+  });
+
+  describe("CVV", () => {
+    it("should accept 3-digit CVV for Visa", () => {
+      const result = validateCVV("123", "visa");
+      expect(result.valid).toBe(true);
+    });
+
+    it("should reject 4-digit CVV for Visa", () => {
+      const result = validateCVV("1234", "visa");
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe("CVV must be 3 digits");
+    });
+
+    it("should accept 4-digit CVV for Amex", () => {
+      const result = validateCVV("1234", "amex");
+      expect(result.valid).toBe(true);
+    });
+
+    it("should reject 3-digit CVV for Amex", () => {
+      const result = validateCVV("123", "amex");
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe("American Express CVV must be 4 digits");
+    });
+  });
+});
+```
+
+**Checkpoint**: Full validation logic complete. Tag and sync.
 
 ---
 
@@ -762,9 +768,10 @@ Each tag represents a checkpoint where all language implementations are synchron
 lab-0-requirements     # Discovered requirements (specs only, no implementation)
 lab-1-basic-validation # Basic validation working
 lab-2-provider-detection # Provider detection working
-lab-3-provider-rules   # Provider-specific rules working
-lab-4-frontend         # Frontend form complete
-lab-5-backend          # Backend API complete
+lab-3-frontend         # Frontend integration (TypeScript only)
+lab-3-backend          # Backend integration (alternative to lab-3-frontend)
+lab-4-provider-rules   # Provider-specific rules working
+lab-5-fullstack        # Full-stack integration (optional, time permitting)
 ```
 
 **Branch structure per language:**
@@ -775,25 +782,60 @@ typescript/
 ├── lab-0-requirements # Specs written, no implementation
 ├── lab-1-basic-validation
 ├── lab-2-provider-detection
-├── lab-3-provider-rules
-├── lab-4-frontend
-└── lab-5-backend
+├── lab-3-frontend     # ⭐ "Lightbulb moment"
+├── lab-3-backend      # Alternative path
+├── lab-4-provider-rules
+└── lab-5-fullstack    # (Optional) Full-stack integration
+
+swift/
+├── main
+├── lab-0-requirements
+├── lab-1-basic-validation
+├── lab-2-provider-detection
+├── lab-3-backend      # (No frontend in Swift for this workshop)
+└── lab-4-provider-rules
+
+kotlin/
+├── main
+├── lab-0-requirements
+├── lab-1-basic-validation
+├── lab-2-provider-detection
+├── lab-3-backend      # (No frontend in Kotlin for this workshop)
+└── lab-4-provider-rules
 
 java/
 ├── main
 ├── lab-0-requirements
 ├── lab-1-basic-validation
 ├── lab-2-provider-detection
-├── lab-3-provider-rules
-└── lab-5-backend      # (No frontend in Java)
+├── lab-3-backend
+└── lab-4-provider-rules
 
 csharp/
 ├── main
 ├── lab-0-requirements
 ├── lab-1-basic-validation
 ├── lab-2-provider-detection
-├── lab-3-provider-rules
-└── lab-5-backend      # (No frontend in C#)
+├── lab-3-backend
+└── lab-4-provider-rules
+```
+
+**Repository**: [github.com/NewDayTechnology/tdd-workshop](https://github.com/NewDayTechnology/tdd-workshop)
+
+**Implementation Workflow**:
+1. Paul Hammond will work with Chi Ho and Matheus next week to complete the TypeScript implementation first, with correct tags per lab
+2. Engineers listed below will then create implementations in their respective languages, tagging their code in the same way
+3. Once all implementations are complete, Paul will use interactive git rebasing to create a unified git history where all tags line up accurately across languages
+
+**Team Allocations**:
+
+| Language       | Owner        | Notes                        |
+| -------------- | ------------ | ---------------------------- |
+| **TypeScript** | Paul Hammond | With Chi Ho and Matheus      |
+| **Swift**      | Juan         | iOS                          |
+| **Kotlin**     | Tanveer      | Android                      |
+| **Java**       | Deko (TBC)   | Spring Boot                  |
+| **C#**         | Michele      | .NET                         |
 ```
 
 **Facilitator use**: If a team falls behind, they can checkout the tag and continue from there.

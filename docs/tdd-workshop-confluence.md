@@ -5,7 +5,7 @@
 | **Status**      | 🟡 DRAFT - Work in Progress              |
 | **Owner**       | Paul Hammond                             |
 | **Duration**    | Half-day (4 hours)                       |
-| **Audience**    | Senior developers (TypeScript, Java, C#) |
+| **Audience**    | Senior developers (TypeScript, Swift, Kotlin, Java, C#) |
 | **Target Date** | TBD                                      |
 
 ---
@@ -54,8 +54,8 @@ Engineers build a credit card validator using TDD. Each lab has a tagged checkpo
 | **Lab 0** | Requirements gathering — teams discover specs through conversation           | `lab-0-requirements`               | 25 min   |
 | **Lab 1** | Basic validation — length, format, Luhn checksum                             | `lab-1-basic-validation`           | 25 min   |
 | **Lab 2** | Provider detection — identify Visa, Mastercard, Amex                         | `lab-2-provider-detection`         | 25 min   |
-| **Lab 3** | Provider-specific rules — different lengths, CVV rules                       | `lab-3-provider-rules`             | 25 min   |
-| **Lab 4** | Integration (choose one): Frontend form validation OR Backend API protection | `lab-4-frontend` / `lab-4-backend` | 25 min   |
+| **Lab 3** | Integration (choose one): Frontend form validation OR Backend API protection | `lab-3-frontend` / `lab-3-backend` | 25 min   |
+| **Lab 4** | Provider-specific rules — different lengths, CVV rules                       | `lab-4-provider-rules`             | 25 min   |
 
 ### Closing (20 min)
 
@@ -107,13 +107,13 @@ Lab 1: Basic Validation
 Lab 2: Provider Detection
     │   Visa (4), Mastercard (51-55), Amex (34/37)
     ▼
-Lab 3: Provider-Specific Rules
-    │   Visa: 16 digits, 3-digit CVV
-    │   Amex: 15 digits, 4-digit CVV
+Lab 3: Integration (choose one) ⭐ "Lightbulb moment"
+    │   Frontend: Real-time form validation, provider icons, user-friendly errors
+    │   Backend: API endpoint protection, validation middleware
     ▼
-Lab 4: Integration (choose one)
-        Frontend: Real-time form validation, provider icons, user-friendly errors
-        Backend: API endpoint protection, validation middleware
+Lab 4: Provider-Specific Rules
+        Visa: 16 digits, 3-digit CVV
+        Amex: 15 digits, 4-digit CVV
 ```
 
 ---
@@ -122,15 +122,22 @@ Lab 4: Integration (choose one)
 
 All labs have identical implementations at each tag:
 
-| Language       | Coverage                   | Notes                        |
-| -------------- | -------------------------- | ---------------------------- |
-| **TypeScript** | Labs 0-4 (all)             | Node.js + React for frontend |
-| **Java**       | Labs 0-3, 4 (backend only) | Spring Boot                  |
-| **C#**         | Labs 0-3, 4 (backend only) | .NET                         |
+| Language       | Coverage                   | Owner    | Notes                        |
+| -------------- | -------------------------- | -------- | ---------------------------- |
+| **TypeScript** | Labs 0-4 (all)             | Paul Hammond | Node.js + React for frontend |
+| **Swift**      | Labs 0-4                   | Juan     | iOS                          |
+| **Kotlin**     | Labs 0-4                   | Tanveer  | Android                      |
+| **Java**       | Labs 0-4 (backend only)    | Deko (TBC) | Spring Boot                |
+| **C#**         | Labs 0-4 (backend only)    | Michele  | .NET                         |
 
 Engineers choose their preferred language. Tags keep everyone synchronized.
 
-> 📝 **Note**: Java and C# examples will be produced by the L&D team, based on the same git tags as the TypeScript implementation. This ensures all languages stay synchronized and teams can keep on track during the day regardless of language choice.
+> 📝 **Implementation Workflow**:
+> 1. Paul Hammond will work with Chi Ho and Matheus next week to complete the TypeScript implementation first, with correct tags per lab
+> 2. Engineers listed above will then create implementations in their respective languages, tagging their code in the same way
+> 3. Once all implementations are complete, Paul will use interactive git rebasing to create a unified git history where all tags line up accurately across languages
+
+> 📦 **Repository**: Code will be hosted at [github.com/NewDayTechnology/tdd-workshop](https://github.com/NewDayTechnology/tdd-workshop)
 
 ---
 
@@ -318,15 +325,19 @@ We want this workshop to be genuinely useful, and your input will help shape it.
 ## Repository Structure
 
 ```
-tdd-workshop/
+tdd-workshop/                    # github.com/NewDayTechnology/tdd-workshop
 ├── typescript/
 │   ├── card-validator/         # Labs 0-4
 │   └── demo-booking-system/    # Opening demo
+├── swift/
+│   └── card-validator/         # Labs 0-4
+├── kotlin/
+│   └── card-validator/         # Labs 0-4
 ├── java/
-│   ├── card-validator/         # Labs 0-3, 4-backend
+│   ├── card-validator/         # Labs 0-4 (backend)
 │   └── demo-booking-system/
 ├── csharp/
-│   ├── CardValidator/          # Labs 0-3, 4-backend
+│   ├── CardValidator/          # Labs 0-4 (backend)
 │   └── DemoBookingSystem/
 ├── slides/
 └── facilitator/
@@ -353,25 +364,26 @@ After the workshop, developers will:
 
 | Week       | Tasks                                                                      | Owner |
 | ---------- | -------------------------------------------------------------------------- | ----- |
-| **Week 1** | Create booking system demo (TypeScript), set up lab starters               | TBD   |
-| **Week 2** | Card validator solution at each tag (TS), Java/C# parallel implementations | TBD   |
-| **Week 3** | Presentation slides, dry run with small group                              | TBD   |
-| **Week 4** | Final polish, facilitator materials, logistics                             | TBD   |
+| **Week 1** | Create booking system demo (TypeScript), set up lab starters               | Paul, Chi Ho, Matheus |
+| **Week 2** | Complete TypeScript card validator at each tag                             | Paul, Chi Ho, Matheus |
+| **Week 3** | Parallel implementations in Swift, Kotlin, Java, C#                        | Juan, Tanveer, Deko, Michele |
+| **Week 4** | Interactive rebase to align tags, presentation slides, dry run             | Paul |
 
 ---
 
 ## Open Questions
 
-- [ ] Confirm Java and C# team representatives for preparation
+- [x] ~~Confirm Java and C# team representatives for preparation~~ — See team allocations above
+- [x] ~~Internal repo or external?~~ — NewDayTechnology GitHub org
 - [ ] Which AI tool for the demo? (Claude, GPT-4, Copilot)
-- [ ] Internal repo or external?
 - [ ] Team formation: mixed language or language-specific groups?
+- [ ] Confirm Deko for Java implementation
 
 ---
 
 ## Resources
 
-- Repository: _TBD_
+- Repository: [github.com/NewDayTechnology/tdd-workshop](https://github.com/NewDayTechnology/tdd-workshop)
 - Slides: _TBD_
 - Reference: "Working Effectively with Legacy Code" by Michael Feathers
 
